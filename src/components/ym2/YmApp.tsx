@@ -38,8 +38,12 @@ export default function YmApp() {
     z: 10,
     minimized: false,
     w: SIGNIN_W,
-    h: typeof window === "undefined" ? 624 : SIGNIN_H(),
+    /* deterministic SSR value; snapped to the real viewport after mount */
+    h: 624,
   }));
+  useEffect(() => {
+    setSignin((w) => ({ ...w, h: SIGNIN_H() }));
+  }, []);
   const [morphing, setMorphing] = useState(false);
   const morph = () => {
     setMorphing(true);
@@ -164,31 +168,20 @@ export default function YmApp() {
 
   return (
     <div className="relative w-full h-full overflow-hidden" onClick={() => setDeskSel(null)}>
-      {/* Wallpaper — CSS Bliss: blue sky, drifting clouds, green hill */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #2565c8 0%, #3a7bd5 30%, #5d9ad9 55%, #8db8dd 66%)" }}>
-        {/* rolling green hill */}
-        <div
-          className="absolute left-[-30%] right-[-30%] bottom-0 h-[46%]"
-          style={{
-            background: "linear-gradient(180deg, #86c440 0%, #5da32c 35%, #3f7d1e 100%)",
-            borderRadius: "50% 50% 0 0 / 90% 90% 0 0",
-          }}
-        />
-        <div
-          className="absolute left-[-10%] right-[20%] bottom-0 h-[30%] opacity-80"
-          style={{
-            background: "linear-gradient(180deg, #9ad14e 0%, #6cb234 100%)",
-            borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
-          }}
-        />
-        {/* drifting clouds */}
-        <div
-          className="absolute -left-[15%] top-[8%] w-[42%] h-[26%] rounded-full opacity-70 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%)", animation: "cloud-drift 130s linear infinite" }}
-        />
-        <div
-          className="absolute top-[22%] w-[30%] h-[18%] rounded-full opacity-60 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%)", animation: "cloud-drift 190s linear infinite", animationDelay: "-60s" }}
+      {/* Wallpaper — the REAL Windows XP "Bliss" photograph (Sonoma Valley,
+          Charles O'Rear), served locally; gradient underlay while it loads */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(180deg, #2565c8 0%, #3a7bd5 30%, #5d9ad9 55%, #8db8dd 66%)",
+        }}
+      >
+        <img
+          src="/assets/wallpaper/bliss-1920.jpg"
+          alt=""
+          draggable={false}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "center bottom" }}
         />
       </div>
 

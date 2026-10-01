@@ -109,12 +109,12 @@ export default function WindowFrame({
       className={`ym-window absolute ${shaking ? "animate-buzz" : ""} ${focused ? "" : "opacity-[0.98]"}`}
       style={
         maximized
-          ? { left: 0, top: 0, width: "100%", height: "calc(100% - 34px)", zIndex: z }
+          ? { left: "0px", top: "0px", width: "100%", height: "calc(100% - 34px)", zIndex: z }
           : {
-              left: x,
-              top: y,
-              width,
-              height,
+              left: `${x}px`,
+              top: `${y}px`,
+              width: `${width}px`,
+              height: `${height}px`,
               zIndex: z,
               transition: smooth ? "width 0.38s cubic-bezier(0.4,0,0.2,1), height 0.38s cubic-bezier(0.4,0,0.2,1)" : undefined,
             }

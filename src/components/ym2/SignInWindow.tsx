@@ -2,9 +2,29 @@
 
 import { useRef, useState } from "react";
 import WindowFrame, { MenuDef } from "./WindowFrame";
-import { SignInFace, YahooSmiley } from "./icons";
+import { SignInLogo, YahooSmiley } from "./icons";
 import { ME } from "./data";
 import { playLoginOriginal } from "./sounds";
+
+/* languages shown in the original sign-in window, English (U.S.) default */
+const LANGUAGES = [
+  "Deutsch (Deutschland)",
+  "English (U.K.)",
+  "English (U.S.)",
+  "español (Argentina)",
+  "español (España)",
+  "español (México)",
+  "español (Estados Unidos)",
+  "français (France)",
+  "Bahasa Indonesia (Indonesia)",
+  "italiano (Italia)",
+  "Korean (South Korea)",
+  "português (Brasil)",
+  "Thai (Thailand)",
+  "Vietnamese (Vietnam)",
+  "Chinese (Hong Kong)",
+  "Chinese (Taiwan)",
+];
 
 interface Props {
   x: number;
@@ -25,6 +45,7 @@ interface Props {
 export default function SignInWindow(p: Props) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [lang, setLang] = useState("English (U.S.)");
   const [remember, setRemember] = useState(true);
   const [auto, setAuto] = useState(true);
   const [invisible, setInvisible] = useState(false);
@@ -56,8 +77,7 @@ export default function SignInWindow(p: Props) {
     if (signing) return;
     setSigning(true);
     void playLoginOriginal(); // warm & play the original "yahoo_online" sound on this user gesture
-    /* let the wake-up animation play out before entering the desktop */
-    timer.current = window.setTimeout(p.onSignIn, 2700);
+    timer.current = window.setTimeout(p.onSignIn, 2100);
   };
 
   const cancelSignIn = () => {
@@ -67,14 +87,14 @@ export default function SignInWindow(p: Props) {
 
   return (
     <WindowFrame
-      title="Yahoo! Messenger with Voice (BETA)"
+      title="Yahoo! Messenger"
       icon={<YahooSmiley size={16} />}
       x={p.x}
       y={p.y}
       width={p.width}
       height={p.height}
       minW={280}
-      minH={470}
+      minH={500}
       smooth={p.smooth}
       z={p.z}
       focused={p.focused}
@@ -84,14 +104,26 @@ export default function SignInWindow(p: Props) {
       onClose={p.onClose}
       onMinimize={p.onMinimize}
     >
-      <div className="bg-[#f1f0e3] flex-1 min-h-0 px-6 py-6 flex flex-col items-center justify-center text-center">
-        <div className={`mb-5 ${signing ? "animate-wake" : ""}`}>
-          <SignInFace awake={signing} size={148} />
+      <div className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-4 pb-3 overflow-y-auto ym-scroll">
+        {/* ---- the real YM9 branding: purple serif Y! + chrome smiley marble ---- */}
+        <div className={`relative ${signing ? "animate-wake" : ""}`}>
+          {signing && (
+            <div
+              className="signin-glow absolute rounded-full"
+              style={{
+                inset: "-14px",
+                background: "radial-gradient(closest-side, rgba(150,110,230,0.35), transparent)",
+              }}
+            />
+          )}
+          <div className="relative">
+            <SignInLogo width={180} signing={signing} />
+          </div>
         </div>
 
         {signing ? (
           /* centred "signing in" state, like the original client */
-          <div className="flex flex-col items-center gap-2 mt-2">
+          <div className="flex flex-col items-center gap-2 mt-6">
             <div className="text-[12.5px] font-bold text-[#222]">Signing in as</div>
             <div className="text-[13px] text-[#333]">{ME.name}</div>
             <div className="text-[11px] text-[#777]">
@@ -102,10 +134,10 @@ export default function SignInWindow(p: Props) {
             </button>
           </div>
         ) : (
-          <div className="w-full max-w-[198px] flex flex-col items-center">
-            <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px]">Yahoo! ID:</div>
+          <div className="w-full max-w-[200px] flex flex-col flex-1">
+            <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px] mt-2">Yahoo! ID:</div>
             <input
-              className="ym-input w-full h-[21px] px-1.5 mb-3 text-[12px]"
+              className="ym-input w-full h-[21px] px-1.5 mb-2.5 text-[12px]"
               value={id}
               onChange={(e) => setId(e.target.value)}
               autoFocus
@@ -114,17 +146,13 @@ export default function SignInWindow(p: Props) {
             <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px]">Password:</div>
             <input
               type="password"
-              className="ym-input w-full h-[21px] px-1.5 mb-4 text-[12px]"
+              className="ym-input w-full h-[21px] px-1.5 mb-3 text-[12px]"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && doSignIn()}
             />
 
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-[#2244cc] text-[11.5px] hover:underline mb-4">
-              Get a new Yahoo! ID...
-            </a>
-
-            <div className="flex flex-col items-start gap-[6px] w-full mb-5 text-left">
+            <div className="flex flex-col items-start gap-[6px] w-full mb-3 text-left">
               <label className="flex items-center gap-[6px] text-[11.5px] cursor-pointer leading-none">
                 <input type="checkbox" className="ym-check" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
                 Remember my ID &amp; password
@@ -139,13 +167,33 @@ export default function SignInWindow(p: Props) {
               </label>
             </div>
 
-            <button className="ym-send h-[24px] px-6 text-[11.5px] text-[#4a4a4a]" onClick={doSignIn}>
+            <button className="ym-send h-[25px] w-[112px] mx-auto text-[12px] text-[#3c3c3c]" onClick={doSignIn}>
               Sign In
             </button>
 
-            <a href="#" onClick={(e) => e.preventDefault()} className="mt-7 text-[#2244cc] text-[11.5px] hover:underline">
-              Forgot your password?
-            </a>
+            <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px] mt-2.5">Idioma:</div>
+            <select
+              className="w-full h-[21px] text-[12px] bg-white border border-[#8e8b7a] rounded-[2px] px-0.5 outline-none"
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+            >
+              {LANGUAGES.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </select>
+
+            <div className="flex-1" />
+
+            <div className="flex flex-col items-center gap-1 pt-2.5 pb-0.5">
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#2244cc] text-[11.5px] hover:underline">
+                Get a new Yahoo! ID...
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#2244cc] text-[11.5px] hover:underline">
+                Forgot your password?
+              </a>
+            </div>
           </div>
         )}
       </div>

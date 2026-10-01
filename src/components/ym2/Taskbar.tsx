@@ -102,7 +102,9 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onSignOut, 
           <path d="M5 7 l1.5 1.5 L9.5 5" stroke="#9f9" strokeWidth="1.3" fill="none" strokeLinecap="round" />
         </svg>
         <StatusDot status="available" />
-        <span className="pl-1 border-l border-white/30">{time}</span>
+        <span className="pl-1 border-l border-white/30" suppressHydrationWarning>
+          {time}
+        </span>
       </div>
     </div>
   );

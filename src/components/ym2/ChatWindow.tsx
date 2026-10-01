@@ -3,11 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import WindowFrame, { MenuDef } from "./WindowFrame";
 import {
-  BigKiss,
   Emoticon,
   EMO_PALETTE,
-  GlossyHeart,
-  HeartGlyph,
   IconBubble,
   IconBuzz,
   IconChevron,
@@ -20,7 +17,6 @@ import {
   IconPhotos,
   IconSmileySmall,
   IconVideoCam,
-  LeafGlyph,
   StatusDot,
   WhiteFace,
   emojify,
@@ -28,6 +24,7 @@ import {
 } from "./icons";
 import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
 import { playBuzz, playKiss, playMessage, playSent, playWind } from "./sounds";
+import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
 
 interface Props {
   contact: Contact;
@@ -55,6 +52,8 @@ const SIZES = [8, 10, 12, 14, 18, 24, 36];
 const SIZE_PX: Record<number, number> = { 8: 11, 10: 13, 12: 15, 14: 17, 18: 22, 24: 28, 36: 40 };
 const DEFAULT_FONT = "Arial";
 const DEFAULT_SIZE = 10;
+/* the emoticon popup shows a fixed paged grid like the original client */
+const EMO_PER_PAGE = 40;
 
 export default function ChatWindow(p: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>(p.seed);
@@ -66,10 +65,13 @@ export default function ChatWindow(p: Props) {
   const [audibleCat, setAudibleCat] = useState(AUDIBLE_CATEGORIES[0].id);
   const [catMenuOpen, setCatMenuOpen] = useState(false);
   const [selAudible, setSelAudible] = useState<string | null>(null);
-  const [imv, setImv] = useState<"none" | "luv" | "autumn">("none");
+  const [emoPage, setEmoPage] = useState(0);
+  const [imv, setImv] = useState<ImvId>("none");
   const [imvMenu, setImvMenu] = useState(false);
   const [gust, setGust] = useState(0);
   const [kisses, setKisses] = useState<number[]>([]);
+  const [burst, setBurst] = useState(0);
+  const [flurry, setFlurry] = useState(0);
   const [shake, setShake] = useState(false);
   const [font, setFont] = useState("Arial");
   const [fsize, setFsize] = useState(10);
@@ -104,6 +106,19 @@ export default function ChatWindow(p: Props) {
     }
     if (imv === "autumn") {
       setGust((g) => g + 1);
+      playWind();
+      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+      return;
+    }
+    if (imv === "fireworks") {
+      /* the buzz becomes a grand golden salute over the skyline */
+      setBurst((b) => b + 1);
+      playBuzz();
+      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+      return;
+    }
+    if (imv === "winter") {
+      setFlurry((f) => f + 1);
       playWind();
       setMessages((prev) => [...prev, { from: "me", buzz: true }]);
       return;
@@ -286,13 +301,7 @@ export default function ChatWindow(p: Props) {
           </div>
           {imvMenu && (
             <div className="animate-pop absolute right-0 top-full mt-[2px] w-[168px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
-              {(
-                [
-                  { id: "none", label: "None", icon: null },
-                  { id: "luv", label: "Luv", icon: <HeartGlyph size={13} /> },
-                  { id: "autumn", label: "Autumn", icon: <LeafGlyph size={13} /> },
-                ] as const
-              ).map((o) => (
+              {IMV_LIST.map((o) => (
                 <button
                   key={o.id}
                   className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
@@ -327,102 +336,12 @@ export default function ChatWindow(p: Props) {
         <div
           className="relative flex-1 min-h-0 border border-[#a9a595]"
           style={{
-            background:
-              imv === "luv"
-                ? "linear-gradient(180deg, #ffdce7 0%, #ffcbdb 55%, #ffc2d4 100%)"
-                : imv === "autumn"
-                  ? "linear-gradient(180deg, #fdf7ea 0%, #f8ecd2 55%, #f5e3bd 100%)"
-                  : "#fff",
+            background: IMV_BG[imv],
             boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.08)",
           }}
         >
           {/* IMVironment ambience — lives BEHIND the message text */}
-          {imv !== "none" && (
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              {imv === "luv" && (
-                <>
-                  {/* glossy watermark heart, gently breathing */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="imv-heartbeat">
-                      <GlossyHeart size={Math.min(230, 200)} />
-                    </div>
-                  </div>
-                  {/* drifting little hearts */}
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <span
-                      key={i}
-                      className="imv-float absolute"
-                      style={{
-                        left: `${(i * 41 + 6) % 90}%`,
-                        animationDelay: `${-(i * 2.3) % 14}s`,
-                        animationDuration: `${11 + (i % 4) * 3}s`,
-                      }}
-                    >
-                      <span className="imv-sway block" style={{ animationDuration: `${3.2 + (i % 3) * 1.1}s`, opacity: 0.5 }}>
-                        <HeartGlyph size={9 + (i % 3) * 5} />
-                      </span>
-                    </span>
-                  ))}
-                  {/* kiss stamps from buzzing */}
-                  {kisses.map((id, i) => (
-                    <div
-                      key={id}
-                      className="imv-kiss absolute"
-                      style={{ left: `${14 + ((i * 29) % 46)}%`, top: `${16 + ((i * 37) % 42)}%` }}
-                    >
-                      <BigKiss size={250} />
-                    </div>
-                  ))}
-                </>
-              )}
-
-              {imv === "autumn" && (
-                <>
-                  {/* warm vignette */}
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: "radial-gradient(120% 90% at 50% 0%, rgba(255,214,140,0.25), transparent 60%)" }}
-                  />
-                  {/* gently tumbling leaves */}
-                  {Array.from({ length: 13 }).map((_, i) => (
-                    <span
-                      key={i}
-                      className="imv-fall absolute"
-                      style={{
-                        left: `${(i * 31 + 4) % 96}%`,
-                        animationDelay: `${-(i * 1.9) % 12}s`,
-                        animationDuration: `${8 + (i % 5) * 1.6}s`,
-                      }}
-                    >
-                      <span className="imv-sway2 block" style={{ animationDuration: `${2.6 + (i % 4) * 0.9}s`, opacity: 0.8 }}>
-                        <LeafGlyph size={11 + (i % 3) * 4} hue={[18, 32, 44, 10][i % 4]} />
-                      </span>
-                    </span>
-                  ))}
-                  {/* the gust storm */}
-                  {gust > 0 && (
-                    <div key={gust} className="absolute inset-0">
-                      <div className="imv-streak" style={{ top: "24%" }} />
-                      <div className="imv-streak" style={{ top: "58%", animationDelay: "0.12s" }} />
-                      {Array.from({ length: 18 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className="imv-gustleaf absolute"
-                          style={{
-                            top: `${(i * 19 + 4) % 92}%`,
-                            animationDelay: `${(i % 7) * 0.06}s`,
-                            animationDuration: `${0.95 + (i % 5) * 0.14}s`,
-                          }}
-                        >
-                          <LeafGlyph size={10 + (i % 3) * 5} hue={[20, 36, 12, 46][i % 4]} />
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+          <ImvScene imv={imv} kisses={kisses} gust={gust} burst={burst} flurry={flurry} />
 
           {/* message text, above the ambience */}
           <div
@@ -667,7 +586,7 @@ export default function ChatWindow(p: Props) {
         >
           T
         </button>
-        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="IMVironments">
+        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="IMVironments" onClick={() => setImvMenu((v) => !v)}>
           <IconGearFlower />
         </button>
         <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Attach a file">
@@ -687,11 +606,36 @@ export default function ChatWindow(p: Props) {
 
         {pickerOpen && (
           <div className="animate-pop absolute left-1 bottom-full mb-1 bg-[#efeee1] border border-[#8663cf] shadow-[3px_3px_10px_rgba(20,5,50,0.35)] p-1 z-40 w-[272px]">
-            <div className="ym-scroll ym-scroll-thin max-h-[204px] w-[270px] overflow-y-auto overflow-x-hidden">
+            {/* pager header, like the original paged palette */}
+            <div className="flex items-center justify-between px-0.5 pb-0.5 mb-[2px] border-b border-[#d5cfbe]">
+              <span className="text-[10.5px] font-bold text-[#6a5a9a]">Emoticons</span>
+              <div className="flex items-center gap-1">
+                <button
+                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+                  title="Previous page"
+                  disabled={emoPage === 0}
+                  onClick={() => setEmoPage((pg) => Math.max(0, pg - 1))}
+                >
+                  ◀
+                </button>
+                <span className="text-[10px] text-[#777] tabular-nums">
+                  {emoPage + 1} / {Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE)}
+                </span>
+                <button
+                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+                  title="Next page"
+                  disabled={emoPage >= Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1}
+                  onClick={() => setEmoPage((pg) => Math.min(Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1, pg + 1))}
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+            <div className="w-[270px]">
               {/* official Yahoo palette order — one slot per emoticon, each GIF at
                   its native 1:1 pixel size (wide GIFs grow their own cell) */}
               <div className="flex flex-wrap items-center content-start gap-[2px] w-[268px]">
-                {EMO_PALETTE.map((e) => (
+                {EMO_PALETTE.slice(emoPage * EMO_PER_PAGE, emoPage * EMO_PER_PAGE + EMO_PER_PAGE).map((e) => (
                   <button
                     key={e.code}
                     className="min-w-[24px] min-h-[24px] px-[2px] py-[1px] shrink-0 hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"

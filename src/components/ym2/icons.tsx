@@ -603,119 +603,63 @@ export const WhiteFace = ({ size = 96 }: { size?: number }) => (
 
 /* ---------- Sign-in sleeper: big Y! mark with the round buddy nestled at its
    lower right (like the Voice coin in the original), grey asleep → yellow awake ---------- */
-export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: number }) => (
-  <svg width={size} height={size * (132 / 172)} viewBox="0 0 172 132" className="block overflow-visible">
+/* ---------- Faithful YM9 sign-in logo: purple serif Y! + chrome smiley marble.
+   This is the real branding from the 2008 sign-in window — no cartoon face. ---------- */
+export const SignInLogo = ({ width = 186, signing = false }: { width?: number; signing?: boolean }) => (
+  <svg width={width} height={width * (124 / 200)} viewBox="0 0 200 124" className="block overflow-visible">
     <defs>
-      <radialGradient id="faceGrey" cx="0.36" cy="0.28" r="0.95">
-        <stop offset="0" stopColor="#fdfdfd" />
-        <stop offset="0.45" stopColor="#d4d4d4" />
-        <stop offset="0.8" stopColor="#a4a4a4" />
-        <stop offset="1" stopColor="#808080" />
+      <radialGradient id="lgMarble" cx="0.34" cy="0.26" r="1.05">
+        <stop offset="0" stopColor="#ffffff" />
+        <stop offset="0.28" stopColor="#eceff1" />
+        <stop offset="0.55" stopColor="#c6ccd2" />
+        <stop offset="0.8" stopColor="#9aa1a8" />
+        <stop offset="1" stopColor="#707880" />
       </radialGradient>
-      <radialGradient id="faceYellow" cx="0.36" cy="0.28" r="0.95">
-        <stop offset="0" stopColor="#fffbd6" />
-        <stop offset="0.38" stopColor="#ffe14d" />
-        <stop offset="0.78" stopColor="#f6bb00" />
-        <stop offset="1" stopColor="#d99a00" />
+      <radialGradient id="lgMarbleShade" cx="0.5" cy="1.12" r="0.95">
+        <stop offset="0.5" stopColor="rgba(40,50,60,0)" />
+        <stop offset="1" stopColor="rgba(40,50,60,0.32)" />
       </radialGradient>
-      <radialGradient id="yOval" cx="0.4" cy="0.3" r="1">
-        <stop offset="0" stopColor="#9a55e0" />
-        <stop offset="0.6" stopColor="#7b2fbd" />
-        <stop offset="1" stopColor="#5f1f9e" />
-      </radialGradient>
+      <linearGradient id="lgY" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#8a3fd6" />
+        <stop offset="1" stopColor="#6d21ad" />
+      </linearGradient>
+      <clipPath id="lgMarbleClip">
+        <circle cx="142" cy="93" r="30" />
+      </clipPath>
     </defs>
 
-    {/* ground shadow under the buddy */}
-    <ellipse
-      className="face-shadow"
-      cx="118"
-      cy="126"
-      rx="30"
-      ry="4.5"
-      fill={awake ? "rgba(170,120,0,0.3)" : "rgba(0,0,0,0.16)"}
-    />
-    <defs>
-      <radialGradient id="faceShade" cx="0.5" cy="1.05" r="0.9">
-        <stop offset="0.55" stopColor="rgba(0,0,0,0)" />
-        <stop offset="1" stopColor="rgba(0,0,0,0.22)" />
-      </radialGradient>
-    </defs>
+    {/* ground shadow */}
+    <ellipse cx="142" cy="121" rx="27" ry="4.2" fill="rgba(60,40,90,0.18)" />
 
-    {/* Y! mark — oval + fully visible bang, just like the original */}
-    <g>
-      <ellipse cx="58" cy="58" rx="42" ry="36" fill="url(#yOval)" transform="rotate(-8 58 58)" />
-      <ellipse cx="44" cy="42" rx="13" ry="7" fill="#fff" opacity="0.18" transform="rotate(-18 44 42)" />
-      <text x="58" y="76" textAnchor="middle" fontFamily="'Bitter', Georgia, serif" fontWeight="800" fontSize="52" fill="#fff">
-        Y
-      </text>
-      <text x="100" y="82" fontFamily="'Bitter', Georgia, serif" fontWeight="800" fontSize="64" fill="#7b2fbd" transform="rotate(7 100 82)">
+    {/* the purple serif Y! — bang fully visible, marble kisses its tip */}
+    <text x="50" y="94" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="112" fill="url(#lgY)" stroke="#5c1a96" strokeWidth="1.4">
+      Y
+    </text>
+    <g transform="rotate(8 108 58)">
+      <text x="108" y="90" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="84" fill="url(#lgY)" stroke="#5c1a96" strokeWidth="1.2">
         !
       </text>
     </g>
 
-    {/* the round buddy, nestled over the lower-right of the mark */}
-    <g className={awake ? "animate-wake-lift" : "animate-breathe"}>
-      <g transform="translate(118 93) scale(1.14) translate(-118 -93)">
-        {/* base sphere */}
-        <circle cx="118" cy="92" r="30" fill="url(#faceGrey)" />
-        <circle
-          cx="118"
-          cy="92"
-          r="30"
-          fill="url(#faceYellow)"
-          className="face-layer"
-          style={{ opacity: awake ? 1 : 0, transition: "opacity 1s ease 0.15s" }}
-        />
-        {/* 3D shading: bottom inner shadow, rim light, specular */}
-        <circle cx="118" cy="92" r="30" fill="url(#faceShade)" />
-        <path d="M139 108 a27 27 0 0 0 8 -16" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.4" strokeLinecap="round" />
-        <ellipse cx="107" cy="78" rx="11" ry="7" fill="#fff" opacity="0.65" transform="rotate(-18 107 78)" />
-        <ellipse cx="104" cy="75" rx="4" ry="2.4" fill="#fff" opacity="0.8" transform="rotate(-18 104 75)" />
-
-        {/* sleeping features */}
-        <g style={{ opacity: awake ? 0 : 1, transition: "opacity 0.4s ease" }}>
-          <path d="M103 89 q5 4 10 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-          <path d="M123 89 q5 4 10 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-          <path d="M111 104 q7 -2 14 0" stroke="#6a6a6a" strokeWidth="2" fill="none" strokeLinecap="round" />
-        </g>
-
-        {/* awake features: happy squint + big Yahoo laugh */}
-        <g className={awake ? "animate-blink-once" : ""} style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 0.4s ease 0.75s" : "opacity 0.25s ease" }}>
-          <path d="M102 88 q6 -7 12 0" stroke="#6e4300" strokeWidth="2.8" fill="none" strokeLinecap="round" />
-          <path d="M122 88 q6 -7 12 0" stroke="#6e4300" strokeWidth="2.8" fill="none" strokeLinecap="round" />
-        </g>
-        {/* clean open Yahoo grin */}
-        <g
-          style={{
-            opacity: awake ? 1 : 0,
-            transform: awake ? "scale(1)" : "scale(0.35)",
-            transformOrigin: "50% 0%",
-            transformBox: "fill-box",
-            transition: awake
-              ? "opacity 0.3s ease 0.95s, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.95s"
-              : "none",
-          }}
-        >
-          <path d="M104 97 Q118 121 132 97 Z" fill="#7a2a10" />
-          <path d="M106.5 97.5 Q118 102 129.5 97.5 L129 100 Q118 104.5 107 100 Z" fill="#fff" />
-          <ellipse cx="118" cy="110" rx="6.6" ry="4" fill="#ef8598" />
-          <path d="M103 97 Q118 102 133 97" fill="none" stroke="#7a4a00" strokeWidth="2.2" strokeLinecap="round" />
-        </g>
-        <ellipse cx="99" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.6s ease 1.4s" }} />
-        <ellipse cx="137" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.6s ease 1.4s" }} />
+    {/* chrome smiley marble, overlapping the lower-right of the bang */}
+    <g>
+      <circle cx="142" cy="93" r="30" fill="url(#lgMarble)" />
+      {/* embossed dot-eyes + smile — tone-on-tone, like the metal badge */}
+      <circle cx="130" cy="85" r="2.7" fill="#878e94" />
+      <circle cx="154" cy="85" r="2.7" fill="#878e94" />
+      <circle cx="130" cy="86.1" r="2.7" fill="#c8ced3" opacity="0.7" transform="translate(0 1.1)" />
+      <circle cx="154" cy="86.1" r="2.7" fill="#c8ced3" opacity="0.7" transform="translate(0 1.1)" />
+      <path d="M130 100 q12 10.5 24 0" fill="none" stroke="#878e94" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M130 101.4 q12 10.5 24 0" fill="none" stroke="#c8ced3" strokeWidth="1.6" strokeLinecap="round" opacity="0.75" />
+      <circle cx="142" cy="93" r="30" fill="url(#lgMarbleShade)" />
+      {/* specular highlights */}
+      <ellipse cx="129" cy="76" rx="11.5" ry="7" fill="#fff" opacity="0.78" transform="rotate(-24 129 76)" />
+      <ellipse cx="126.4" cy="73.6" rx="4.4" ry="2.5" fill="#fff" opacity="0.95" transform="rotate(-24 126.4 73.6)" />
+      <path d="M167 71 a30 30 0 0 1 5 18.5" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.2" strokeLinecap="round" />
+      {/* slow sheen sweep, clipped to the marble */}
+      <g clipPath="url(#lgMarbleClip)">
+        <rect className="marble-sheen" x="96" y="46" width="15" height="94" fill="#fff" opacity="0.26" />
       </g>
-    </g>
-
-    {/* floating Zzz */}
-    <g
-      style={{ opacity: awake ? 0 : 1, transition: "opacity 0.45s ease" }}
-      fontFamily="'Trebuchet MS', Tahoma, sans-serif"
-      fontWeight="bold"
-      fill="#9a9a9a"
-    >
-      <text className="zzz" x="136" y="56" fontSize="17" transform="rotate(-8 136 56)">z</text>
-      <text className="zzz zzz-2" x="146" y="43" fontSize="23" transform="rotate(6 146 43)">z</text>
-      <text className="zzz zzz-3" x="157" y="28" fontSize="30" transform="rotate(-5 157 28)">Z</text>
     </g>
   </svg>
 );
