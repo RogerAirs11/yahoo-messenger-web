@@ -1,21 +1,27 @@
+# Worklog
+
 ---
 Task ID: 1
-Agent: Super Z (main agent)
-Task: Recreate Yahoo Messenger (user's screenshots = YM 9.0, 2008 purple era) as an interactive web app, faithful to the original UI/UX.
+Agent: Super Z (main)
+Task: Rebuild Yahoo Messenger 9/10 web app with pixel-faithful UI, real assets, GitHub source-of-truth
 
 Work Log:
-- Confirmed receipt of 10 user reference images (5 webp originals + 5 png pastes); identified them as Yahoo! Messenger 9.0 (2008, Windows XP era)
-- Web-searched for YM 6/7 & YM 9 facts (image-search service was down, 400 errors)
-- Initialized fullstack Next.js 16 environment via init script
-- Built src/lib/ym/emoticons.tsx — 26 classic Yahoo emoticons hand-drawn as inline SVGs with codes + text-to-emoticon renderer
-- Built src/lib/ym/sounds.ts — Web Audio synthesis: receive ding, send pop, THE buzz, door open/close, sign-in chime, audible blips
-- Built src/lib/ym/data.tsx — buddy roster from screenshots (Michael Muchmore, Sarah Bacon, etc.), procedural cartoon avatar SVGs, status menu, ads/news rotation, audibles, bot reply engine, fake Yahoo! Search results
-- Built src/lib/ym/store.ts — Zustand: window manager (drag/focus/z-order/minimize), sign-in flow, conversations, typing indicators, unread badges, liveness scheduling
-- Built components: YmWindow (purple gradient chrome + MenuBar), LoginWindow + SignInSplash, BuddyList (header/status/search/groups/add contact/plug-ins/web search footer/ad banner), ImWindow (toolbar, audibles bar, emoticon picker, formatting, BUZZ shake, AD/NEWS ticker), Desktop (Bliss wallpaper, XP taskbar, tray icon, clock, liveness engine)
-- Fixed: stale CSS chunk (Turbopack), JSX in .ts rename, hook order bug, setState-in-effect lint, me.name not set, window viewport clamping, dark avatar blobs, audible thumbs
-- Verified with agent-browser: login → splash → buddy list → auto-IM → send/receive with emoticon render → audibles → BUZZ (red text + bot reaction) → random incoming IMs → status dropdown → search filter → Yahoo! Search bot → sign out. Zero console errors, lint clean.
+- Verified sandbox state: dev server running (port 3000), all 11 reference images present in upload/, .zscripts intact
+- Analyzed 6 NEW high-res pasted reference images (buddy list w/ Sarah Bacon header, IM windows w/ audibles strip, Michael Muchmore list w/ offline contacts)
+- Created GitHub repo RogerAirs11/yahoo-messenger-web, pushed baseline (token scrubbed from scripts after push-protection block)
+- Asset hunt: found alexpreli/yahoo-emoticons-discord repo -> downloaded 118 ORIGINAL Yahoo emoticon GIFs + official code mapping from bundled xlsx + 114 ORIGINAL audible MP4s (13 categories, 43MB) to public/assets/
+- Downloaded 72 real profile photos (randomuser.me) + AI-generated 6 Yahoo-Avatar-style cartoon avatars (z-ai image CLI)
+- Full code rebuild:
+  - src/lib/ym/data.tsx — real roster from refs (Sarah Bacon, Michael Muchmore, "I'm mobile", "Stepped Out", "Eric Burke ate my inbox", now-playing "The Choir"), real audible catalog, era ads (DISH Network, DealTime), news headlines
+  - src/lib/ym/emoticons.tsx — 118 emoticons w/ canonical YM codes incl. hidden ones, greedy text parser rendering real GIFs inline
+  - src/lib/ym/store.ts — real audible sends (catIdx/clipIdx), demo-host protection, status logic
+  - src/components/ym/ — Window.tsx (draggable XP chrome + shake), MenuBar.tsx (functional dropdowns+submenus), icons.tsx (SVG status/toolbar/brand icons), LoginWindow.tsx (Y!+orb logo, language dropdown), BuddyList.tsx (purple header, status dropdown, tabs, search, WEB SEARCH bar), ImWindow.tsx (call toolbar, audibles strip w/ real MP4 thumbs, B/I/U+font/size/color bars, BUZZ bell, ad+news bars), Popups.tsx (emoticon/color pickers), Desktop.tsx (XP taskbar, signing dialog, ambient life)
+  - globals.css — full YM9 purple design system (Tahoma 11px, XP scrollbars/sunken fields)
+- Browser-verified: login -> signing -> buddy list -> auto-IM from Michael ("How's it going?"), sent msg w/ emoticon GIFs, BUZZ!!! red text + shake, audible video bubbles both directions, emoticon picker popup, multi-window z-order, taskbar buttons; lint clean, zero dev.log errors
 
 Stage Summary:
-- Deliverable: runnable Next.js app at src/app/page.tsx rendering the YM desktop
-- All core YM 9 UI/UX elements recreated and browser-verified
-- Known dev-mode artifacts only (Next.js dev overlay badge, hot-reload state resets)
+- App is pixel-faithful to the 11 reference screenshots with 100% real Yahoo assets (emoticons + audibles)
+- GitHub repo is source of truth: https://github.com/RogerAirs11/yahoo-messenger-web
+- IMPORTANT for next turns: run `git pull origin main` BEFORE any work; commit+push after every turn
+- GH_TOKEN available from user (classic ghp_... token); repo remote already configured with it
+- Known minor items: IMVironments button is alert-only stub, video/voice calls are alert stubs (era-appropriate), "Sign in automatically" checkbox non-functional by design
