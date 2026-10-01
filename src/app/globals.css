@@ -394,6 +394,54 @@ body {
   animation: blink-slow 1.1s steps(2) infinite;
 }
 
+/* ---------- Sign-in sleeper face (the beloved one) ---------- */
+@keyframes sif-breathe {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.045) translateY(-1px); }
+}
+.sif-breathe {
+  animation: sif-breathe 3s ease-in-out infinite;
+  transform-origin: 50% 92%;
+}
+@keyframes sif-zfloat {
+  0% { opacity: 0; transform: translate(0, 4px) rotate(0deg) scale(0.55); }
+  18% { opacity: 0.95; }
+  55% { opacity: 0.75; transform: translate(5px, -9px) rotate(8deg) scale(0.95); }
+  78% { opacity: 0; }
+  100% { opacity: 0; transform: translate(9px, -16px) rotate(-6deg) scale(1.15); }
+}
+.sif-zzz {
+  animation: sif-zfloat 2.6s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.sif-zzz2 { animation-delay: 0.85s; }
+.sif-zzz3 { animation-delay: 1.7s; }
+/* gentle "waking stretch": the character lifts, tilts and settles */
+@keyframes sif-wake-lift {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  22% { transform: translateY(-4px) rotate(-3deg) scale(1.03, 0.98); }
+  45% { transform: translateY(-6px) rotate(2.5deg) scale(0.98, 1.04); }
+  68% { transform: translateY(-2px) rotate(-1.2deg) scale(1.015, 0.99); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+.sif-wake-lift {
+  animation: sif-wake-lift 1.5s cubic-bezier(0.36, 0.9, 0.32, 1) both;
+  transform-origin: 50% 90%;
+}
+/* single blink right after the eyes open */
+@keyframes sif-eye-blink {
+  0%, 86%, 100% { transform: scaleY(1); }
+  92% { transform: scaleY(0.08); }
+}
+.sif-blink {
+  animation: sif-eye-blink 3.4s ease-in-out 1.6s both;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.sif-layer { transition: opacity 0.55s ease; }
+.sif-shadow { transition: fill 0.6s ease, opacity 0.6s ease; }
+
 /* ---------- Sign-in logo (faithful Y! + silver marble) ---------- */
 @keyframes wakepop {
   0% { transform: scale(1); }
@@ -966,6 +1014,201 @@ body {
 }
 .imv-menu-preview:hover {
   transform: scale(1.12);
+}
+
+/* ---- IMVironments v3 — new art layers ---- */
+/* Aquarium: drifting light caustics on the reef floor */
+@keyframes imv-causticx {
+  0% { transform: translateX(0); opacity: 0.55; }
+  50% { opacity: 0.95; }
+  100% { transform: translateX(-46px); opacity: 0.55; }
+}
+.imv-caustic {
+  background:
+    radial-gradient(26px 12px at 40px 30px, rgba(255,255,255,0.5), transparent 70%),
+    radial-gradient(34px 14px at 110px 44px, rgba(255,255,255,0.4), transparent 70%),
+    radial-gradient(24px 10px at 180px 26px, rgba(255,255,255,0.45), transparent 70%),
+    radial-gradient(30px 12px at 250px 40px, rgba(255,255,255,0.38), transparent 70%),
+    radial-gradient(22px 9px at 320px 30px, rgba(255,255,255,0.42), transparent 70%);
+  background-size: 360px 80px;
+  animation: imv-causticx 7.5s ease-in-out infinite alternate;
+}
+/* Aquarium + Beach: the crab patrols sideways, flipping at each turn */
+@keyframes imv-crabwalkx {
+  0%, 46% { transform: translateX(0) scaleX(1); }
+  50%, 96% { transform: translateX(58px) scaleX(1); }
+  100% { transform: translateX(58px) scaleX(-1); }
+}
+.imv-crabwalk {
+  animation: imv-crabwalkx 8s ease-in-out infinite alternate;
+  animation-timing-function: linear;
+}
+/* Doodle: chimney smoke puffs rising */
+@keyframes imv-smokex {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  22% { opacity: 0.75; }
+  100% { transform: translate(-9px, -26px) scale(1.5); opacity: 0; }
+}
+.imv-smoke {
+  animation: imv-smokex 3.3s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Doodle: the bee patrols a wide loop, bobbing and buzzing */
+@keyframes imv-beex {
+  0% { transform: translate(0, 0); }
+  30% { transform: translate(130px, 26px); }
+  62% { transform: translate(40px, 64px); }
+  100% { transform: translate(0, 0); }
+}
+.imv-bee { animation: imv-beex 13s ease-in-out infinite; }
+@keyframes imv-beebob {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-6px) rotate(8deg); }
+}
+.imv-beebob { animation: imv-beebob 0.5s ease-in-out infinite; }
+@keyframes imv-wing {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.45); }
+}
+.imv-wing {
+  animation: imv-wing 0.16s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Beach: the sailboat rides gentle swells */
+@keyframes imv-boatx {
+  0%, 100% { transform: translateY(0) rotate(-1.6deg); }
+  50% { transform: translateY(4px) rotate(1.8deg); }
+}
+.imv-boat { animation: imv-boatx 3.8s ease-in-out infinite; }
+/* Beach: the sun's glitter road shimmering */
+@keyframes imv-glitterx {
+  0% { background-position: 0 0; opacity: 0.75; }
+  50% { opacity: 1; }
+  100% { background-position: 0 34px; opacity: 0.75; }
+}
+.imv-glitter {
+  background-image:
+    linear-gradient(180deg, transparent, rgba(255,250,220,0.85) 8%, transparent 14%),
+    linear-gradient(180deg, transparent, rgba(255,250,220,0.6) 24%, transparent 30%),
+    linear-gradient(180deg, transparent, rgba(255,250,220,0.8) 44%, transparent 50%),
+    linear-gradient(180deg, transparent, rgba(255,250,220,0.55) 62%, transparent 68%),
+    linear-gradient(180deg, transparent, rgba(255,250,220,0.75) 82%, transparent 88%);
+  background-size: 100% 34px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,1));
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,1));
+  animation: imv-glitterx 2.6s linear infinite;
+  filter: blur(0.6px);
+}
+/* Fireworks: shooting star streak */
+@keyframes imv-shootx {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  3% { opacity: 1; }
+  10% { transform: translate(180px, 60px) scale(1); opacity: 0.9; }
+  14%, 100% { transform: translate(240px, 80px) scale(1); opacity: 0; }
+}
+.imv-shoot { animation: imv-shootx 7.2s ease-in infinite; }
+/* Fireworks: sky lanterns rising, swaying */
+@keyframes imv-lanternx {
+  0% { transform: translateY(0); opacity: 0; }
+  6% { opacity: 0.95; }
+  88% { opacity: 0.85; }
+  100% { transform: translateY(-52vh); opacity: 0; }
+}
+.imv-lantern {
+  animation: imv-lanternx 34s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(255,180,80,0.75));
+}
+/* Fireworks: antenna beacon blinking */
+@keyframes imv-beaconx {
+  0%, 62%, 100% { opacity: 0.15; }
+  68%, 76% { opacity: 1; }
+}
+.imv-beacon { animation: imv-beaconx 2.8s linear infinite; }
+/* Fireworks buzz: the skyline windows blaze */
+@keyframes imv-blazex {
+  0% { opacity: 0; }
+  18% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+.imv-blaze {
+  background: linear-gradient(180deg, transparent, rgba(255,224,140,0.34) 40%, rgba(255,210,120,0.5) 100%);
+  animation: imv-blazex 1.9s ease-out forwards;
+}
+/* Hearts: soft bokeh drifting */
+@keyframes imv-bokehx {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(16px, -20px) scale(1.12); }
+}
+.imv-bokeh { animation: imv-bokehx ease-in-out infinite; }
+/* Hearts: Cupid sweeps across with his bow */
+@keyframes imv-cupidx {
+  0% { transform: translateX(-16%) translateY(0); opacity: 0; }
+  5% { opacity: 1; }
+  46% { transform: translateX(52%) translateY(-12px); }
+  92% { transform: translateX(112%) translateY(4px); opacity: 1; }
+  100% { transform: translateX(114%); opacity: 0; }
+}
+.imv-cupid { animation: imv-cupidx 17s ease-in-out infinite; }
+/* Hearts buzz: a rose flash blooms over everything */
+@keyframes imv-roseflashx {
+  0% { opacity: 0; }
+  14% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+.imv-roseflash {
+  background: radial-gradient(90% 70% at 50% 40%, rgba(255,120,170,0.55), transparent 78%);
+  animation: imv-roseflashx 1.5s ease-out forwards;
+}
+/* Autumn: the oak canopy sways */
+@keyframes imv-canopyx {
+  0%, 100% { transform: rotate(-1.1deg); }
+  50% { transform: rotate(1.3deg); }
+}
+.imv-canopy {
+  animation: imv-canopyx 5.8s ease-in-out infinite;
+}
+/* Autumn: a V-flock of birds crossing */
+@keyframes imv-birdsx {
+  0% { transform: translateX(-14%); }
+  100% { transform: translateX(112%); }
+}
+.imv-birds { animation: imv-birdsx 44s linear infinite; }
+/* Autumn buzz: the leaf litter erupts upward, flips, settles */
+@keyframes imv-leafburstx {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  55% { transform: translateY(-120px) rotate(300deg); opacity: 1; }
+  100% { transform: translateY(10px) rotate(560deg); opacity: 0; }
+}
+.imv-leafburst {
+  animation: imv-leafburstx 1.5s cubic-bezier(0.25, 0.6, 0.4, 1) forwards;
+}
+/* Winter buzz: the aurora flares brilliant */
+@keyframes imv-auroraflashx {
+  0% { opacity: 0; }
+  18% { opacity: 0.65; }
+  100% { opacity: 0; }
+}
+.imv-auroraflash {
+  background:
+    linear-gradient(100deg, transparent 10%, rgba(120,240,190,0.34) 34%, rgba(160,200,255,0.3) 58%, transparent 88%),
+    linear-gradient(76deg, transparent 16%, rgba(200,150,255,0.26) 46%, transparent 80%);
+  filter: blur(6px);
+  animation: imv-auroraflashx 1.7s ease-out forwards;
+}
+/* Doodle buzz: paint splats */
+@keyframes imv-splatx {
+  0% { transform: scale(0.1) rotate(-18deg); opacity: 0; }
+  46% { transform: scale(1.18) rotate(6deg); opacity: 1; }
+  62% { transform: scale(0.94) rotate(-3deg); }
+  78% { transform: scale(1.04) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 0; }
+}
+.imv-splat {
+  animation: imv-splatx 1.9s cubic-bezier(0.3, 0.9, 0.4, 1.1) forwards;
+  filter: drop-shadow(0 2px 3px rgba(120, 60, 20, 0.2));
 }
 
 /* ==================================================================

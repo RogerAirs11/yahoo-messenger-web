@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import WindowFrame, { MenuDef } from "./WindowFrame";
-import { SignInLogo, YahooSmiley } from "./icons";
+import { SignInFace, YahooSmiley } from "./icons";
 import { ME } from "./data";
 import { playLoginOriginal } from "./sounds";
 
@@ -50,30 +50,7 @@ export default function SignInWindow(p: Props) {
   const [auto, setAuto] = useState(true);
   const [invisible, setInvisible] = useState(false);
   const [signing, setSigning] = useState(false);
-  const [gaze, setGaze] = useState({ ex: 0, ey: 0 });
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef(0);
   const timer = useRef<number | null>(null);
-
-  /* the marble's eyes follow the cursor around the window */
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const el = bodyRef.current;
-      if (!el) return;
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect();
-        const ex = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 1.4)));
-        const ey = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 1.4)));
-        setGaze({ ex, ey });
-      });
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
 
   const menus: MenuDef[] = [
     {
@@ -100,7 +77,8 @@ export default function SignInWindow(p: Props) {
     if (signing) return;
     setSigning(true);
     void playLoginOriginal(); // warm & play the original "yahoo_online" sound on this user gesture
-    timer.current = window.setTimeout(p.onSignIn, 2100);
+    /* let the wake-up animation play out before entering the desktop */
+    timer.current = window.setTimeout(p.onSignIn, 2600);
   };
 
   const cancelSignIn = () => {
@@ -127,9 +105,10 @@ export default function SignInWindow(p: Props) {
       onClose={p.onClose}
       onMinimize={p.onMinimize}
     >
-      <div ref={bodyRef} className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-4 pb-3 overflow-y-auto ym-scroll">
-        {/* ---- the YM9 branding, alive: Y! + a 3D chrome smiley that watches you ---- */}
-        <div className={`relative ${signing ? "animate-wake" : ""}`}>
+      <div className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-5 pb-3 overflow-y-auto ym-scroll">
+        {/* ---- the beloved sleeper: big Y! mark with the round buddy, asleep
+             with floating Zzz until you hit Sign In — then it wakes up ---- */}
+        <div className={`relative mb-2 ${signing ? "animate-wake" : ""}`}>
           {signing && (
             <div
               className="signin-glow absolute rounded-full"
@@ -140,7 +119,7 @@ export default function SignInWindow(p: Props) {
             />
           )}
           <div className="relative">
-            <SignInLogo width={180} signing={signing} ex={gaze.ex} ey={gaze.ey} />
+            <SignInFace awake={signing} size={158} />
           </div>
         </div>
 
@@ -194,7 +173,7 @@ export default function SignInWindow(p: Props) {
               Sign In
             </button>
 
-            <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px] mt-2.5">Idioma:</div>
+            <div className="w-full text-left text-[11.5px] text-[#222] mb-[3px] mt-2.5">Language:</div>
             <select
               className="w-full h-[21px] text-[12px] bg-white border border-[#8e8b7a] rounded-[2px] px-0.5 outline-none"
               value={lang}
