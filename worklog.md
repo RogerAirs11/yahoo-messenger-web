@@ -74,3 +74,23 @@ Stage Summary:
 - App now matches the reference implementation's look AND keeps our advantages: 100% local assets (no CDN/proxy flakiness), 114 vs 35 audibles, 118 vs ~80 emoticons, genuine original WAV sounds served locally
 - Known good commit to follow; reference/other-agent/ kept for provenance
 - Tailwind v4 gotcha for future turns: postcss plugins MUST use object form under Turbopack in this sandbox
+
+---
+Task ID: 4
+Agent: Super Z (main)
+Task: Fix emoticon picker order + 1:1 display (user feedback)
+
+Work Log:
+- Pulled origin/main (up to date at 6ac357a)
+- Root-caused both complaints: (a) picker iterated EMO — the length-sorted text-matching array — so palette order was scrambled and alias codes created duplicate slots (surprise x3, love-struck x2); (b) Tailwind v4 preflight img{max-width:100%;height:auto} downscaled wide GIFs (>:D< 25w, transformer 37w) inside minmax(0,1fr) grid tracks
+- icons.tsx: added EMO_PALETTE (RAW order = official Yahoo palette order, de-duped by file, canonical codes[0] per slot); EMO kept longest-first for matching only; Emoticon img now sets inline maxWidth/width/height "auto" (beats preflight); emojifyHtml img templates got style="max-width:none;width:auto;height:auto"
+- ChatWindow.tsx picker: grid grid-cols-9 -> flex flex-wrap min-w/h-[24px] cells that grow for wide GIFs, EMO_PALETTE, left-aligned like real YM
+- Verified palette files: 119 RAW entries -> 118 unique GIFs, 0 missing on disk
+- Browser-verified via eval: first slots = happy :) | sad :( | winking ;) | big grin :D | batting eyelashes ;;) | big hug >:D< | confused :-/ | love struck :x | blushing :"> | tongue :P | kiss :-* | broken heart =(( | surprise :-O (exact official order); 0 duplicate slots; 0 non-1:1 images in picker AND messages (only intentional off-size = 14px taskbar happy icon)
+- Screenshots: scripts/emo_order_check.png (picker), scripts/emo_final_check.png (message pane with wide GIFs native)
+- Committed + pushed f072678
+
+Stage Summary:
+- Picker now renders the authentic Yahoo palette order, one slot per emoticon, every GIF at native 1:1 pixels in both picker and message pane
+- Audio provenance (user asked): buzz/message/login/alert/ring WAVs are the GENUINE originals from the YM install Media folder, archived by wink.messengergeek.com (2009 pack), served from public/assets/sounds; sent-tick/kiss/wind are Web Audio synth recreations (no original WAV exists for those)
+- Pre-existing dev-only SSR hydration-attribute warning (live clock) still present; benign, not user-visible
