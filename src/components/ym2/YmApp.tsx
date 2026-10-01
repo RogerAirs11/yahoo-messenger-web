@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type React from "react";
 import { playAlertOriginal, playXpStartup, playXpLogoff, playXpShutdown, playXpBalloon, playXpRecycle, stopImvAmbient } from "./sounds";
 import { BootScreen, WelcomeScreen } from "./XpBoot";
 import SignInWindow from "./SignInWindow";
@@ -102,8 +103,13 @@ export default function YmApp() {
   const handleSignIn = () => {
     morph();
     setStage("in");
-    setContacts({ x: signin.x, y: signin.y, z: nextZ(), minimized: false, open: true, w: CONTACT_W, h: CONTACT_H() });
+    /* the buddy list opens IN the login window's exact frame, then grows
+       into its real size — the window morphs in place like the real client */
+    setContacts({ x: signin.x, y: signin.y, z: nextZ(), minimized: false, open: true, w: SIGNIN_W, h: signin.h });
     setFocusedId("contacts");
+    window.setTimeout(() => {
+      setContacts((w) => (w ? { ...w, w: CONTACT_W, h: CONTACT_H() } : w));
+    }, 80);
     /* XP-style tray balloon the first time we land on the desktop */
     if (!balloonShown.current) {
       balloonShown.current = true;
@@ -202,6 +208,27 @@ export default function YmApp() {
     setFocusedId("mypc");
   };
 
+  /* ---------- My Computer: drag by the Luna titlebar ---------- */
+  const mypcDrag = useRef<{ dx: number; dy: number } | null>(null);
+  const mypcTitleDown = (e: React.PointerEvent) => {
+    if (!mypc || mypc.maximized) return;
+    e.stopPropagation();
+    setMypc((w) => (w ? { ...w, z: nextZ(), minimized: false } : w));
+    setFocusedId("mypc");
+    mypcDrag.current = { dx: e.clientX - mypc.x, dy: e.clientY - mypc.y };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const mypcTitleMove = (e: React.PointerEvent) => {
+    if (!mypcDrag.current || !mypc) return;
+    const wW = mypc.w ?? PC_W;
+    const nx = Math.min(Math.max(e.clientX - mypcDrag.current.dx, -(wW - 120)), window.innerWidth - 60);
+    const ny = Math.min(Math.max(e.clientY - mypcDrag.current.dy, 0), window.innerHeight - 70);
+    setMypc((w) => (w ? { ...w, x: nx, y: ny } : w));
+  };
+  const mypcTitleUp = () => {
+    mypcDrag.current = null;
+  };
+
   const buzzAll = (c: Contact) => {
     openChat(c);
     setBuzzReq((prev) => ({ ...prev, [c.id]: (prev[c.id] || 0) + 1 }));
@@ -256,7 +283,7 @@ export default function YmApp() {
           48px "Medium Icons" size, in the authentic XP order (My Documents,
           My Network Places, My Computer, Internet Explorer, Recycle Bin) */}
       {desktopStage && (
-        <div className="absolute left-3 top-3 flex flex-col gap-3.5 z-[1]">
+        <div className="absolute left-1 top-1 flex flex-col gap-1 z-[1]">
           {[
             { id: "docs", label: "My Documents", img: "my-docs" },
             { id: "net", label: "My Network Places", img: "network" },
@@ -266,8 +293,8 @@ export default function YmApp() {
           ].map((d) => (
             <button
               key={d.id}
-              className="flex flex-col items-center gap-0.5 w-[80px] py-1 rounded"
-              style={{ background: deskSel === d.id ? "rgba(60,90,200,0.45)" : "transparent", outline: deskSel === d.id ? "1px dotted rgba(255,255,255,0.7)" : "none" }}
+              className="flex flex-col items-center w-[86px] py-0.5 rounded-[2px]"
+              style={{ background: deskSel === d.id ? "rgba(49,106,197,0.4)" : "transparent", outline: deskSel === d.id ? "1px dotted rgba(255,255,255,0.8)" : "none", outlineOffset: "-1px" }}
               onClick={(e) => {
                 e.stopPropagation();
                 setDeskSel(d.id);
@@ -277,8 +304,8 @@ export default function YmApp() {
                 if (d.id === "bin") playXpRecycle();
               }}
             >
-              <img src={ICO(d.img, 48)} alt="" className="w-[48px] h-[48px]" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.55))" }} draggable={false} />
-              <span className="text-[11px] leading-[13px] text-white text-center" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}>
+              <img src={ICO(d.img, 48)} alt="" className="w-[48px] h-[48px]" draggable={false} />
+              <span className="text-[11px] leading-[13px] text-white text-center px-[1px]" style={{ textShadow: "1px 1px 1px rgba(0,0,0,0.85), 0 0 3px rgba(0,0,0,0.6)" }}>
                 {d.label}
               </span>
             </button>
@@ -303,16 +330,22 @@ export default function YmApp() {
             setFocusedId("mypc");
           }}
         >
-          <div className="h-[28px] flex items-center px-2 gap-1.5" style={{ background: "linear-gradient(180deg, #0997ff 0%, #0053ee 12%, #0050ee 40%, #06f 88%, #003dd7 100%)" }}>
-            <img src={ICO("my-computer", 48)} alt="" className="w-[16px] h-[16px]" />
+          <div
+            className="h-[28px] flex items-center px-2 gap-1.5 cursor-default select-none"
+            style={{ background: "linear-gradient(180deg, #0997ff 0%, #0053ee 12%, #0050ee 40%, #06f 88%, #003dd7 100%)" }}
+            onPointerDown={mypcTitleDown}
+            onPointerMove={mypcTitleMove}
+            onPointerUp={mypcTitleUp}
+          >
+            <img src={ICO("my-computer", 48)} alt="" className="w-[16px] h-[16px]" draggable={false} />
             <span className="text-white text-[12px] font-bold flex-1" style={{ textShadow: "0 1px 2px rgba(0,10,60,0.7)" }}>My Computer</span>
-            <button className="xp-cap-btn" onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))}>
+            <button className="xp-cap-btn" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))}>
               <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5 h6" stroke="#fff" strokeWidth="1.6" /></svg>
             </button>
-            <button className="xp-cap-btn">
+            <button className="xp-cap-btn" onPointerDown={(e) => e.stopPropagation()}>
               <svg width="10" height="10" viewBox="0 0 10 10"><rect x="2" y="2" width="6" height="6" fill="none" stroke="#fff" strokeWidth="1.3" /><path d="M3.8 2 V0.9 H9.1 V6.2 H8" fill="none" stroke="#fff" strokeWidth="1" /></svg>
             </button>
-            <button className="xp-cap-btn close" onClick={() => setMypc(null)}>
+            <button className="xp-cap-btn close" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc(null)}>
               <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2.2 2.2 l5.6 5.6 M7.8 2.2 l-5.6 5.6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
             </button>
           </div>

@@ -28,3 +28,22 @@ Stage Summary:
 - The IMVironment set is now grounded in PRIMARY visual evidence: the actual Yahoo IMVironment artwork recovered from Yahoo's still-live CDN + the archived official gallery, with official Yahoo behavior descriptions driving idle + BUZZ animations; old artistic set kept under Classic (Legacy)
 - Chat text is readable everywhere: real scenes are light (dark text like the original client) and dark legacy scenes get a white glow/border around text
 - The XP shell now uses the GENUINE Luna icons end-to-end (desktop, start menu, quick launch, explorer drives, tray) at the real sizes/order
+
+---
+Task ID: 11
+Agent: Super Z (main)
+Task: User feedback — IMVironments still not right; start logo wrong; icons size/presentation; XP windows not draggable from titlebar; friend list must open IN the login window's frame. Pull at start, push at end.
+
+Work Log:
+- Pulled origin/main (up to date at 71f1f8a, clean tree)
+- EVIDENCE: fetched the GENUINE Windows XP start button bitmap (106x34, waving 4-color flag + italic "start") from ShizukuIchi/winXP (src/assets/windowsIcons/start.png) → public/assets/xp/start-button.png; Taskbar now renders the REAL bitmap 1:1 (taskbar is exactly 34px), XpFlag SVG removed from the button
+- GENUINE IMV SPRITES: wrote scripts/extract_imv_sprites.py — semantic color-rule masks (red maples / stippled khaki canopy / tan hill / saturated+dark fish / pale-blue-white flakes / snowman region / glossy red hearts / giant pale heart / purple-dark trees+leaves / white clouds) extract the ACTUAL Yahoo artwork elements from imv_leaves.gif, imv_fish.gif, imv_snow.gif, imv_hearts.gif, purpleleaves_gallery.jpg → 24 transparent RGBA sprites in public/assets/imv/sprites/ + manifest.json with exact %-positions from the 154x94 art
+- ImvReal.tsx REBUILT around the real sprites: AutumnLeaves = Yahoo's dappled canopy + tan hill + 4 genuine maples at true coordinates + idle genuine-leaf fall + BUZZ wind sweep of genuine leaves; Fishtank = the REAL silver-red drummer / yellow tang / clownfish (+ golden schoolmate) drifting at their genuine coordinates over sampled water gradient, kelp + bubbles, BUZZ startle + bubble burst; Snowflake = 6 GENUINE snowflakes at true positions + GENUINE snowman w/ "Y!" bubble + sampled sky gradient + cloud/snow bands, BUZZ snowball fight; FallingHearts = GENUINE giant pale heart + 3 glossy hearts at true positions + gentle floaters, BUZZ kiss stamp + heart burst; PurpleLeaves = GENUINE purple trees-on-hill cluster + genuine purple maple + genuine white clouds, BUZZ lavender gust
+- globals.css: +imv-drift (fish idle drift) and +imv-twinkle (flake twinkle) keyframes; IMV_BG gradients re-sampled per-y from the genuine art (fishtank water column, snowflake sky)
+- YmApp.tsx: My Computer window is now DRAGGABLE from its Luna titlebar (pointer capture drag, same physics as WindowFrame; cap buttons stopPropagation); handleSignIn opens the buddy list IN the login window's exact frame (x,y,w,h copied) then grows it into contact-list size via the smooth 0.38s morph — verified live: opens at login frame, top-left pinned, grows in place; desktop icons: removed the muddy extra drop-shadow (icons carry their own baked shadow), tighter XP cell spacing, crisper 1px label shadow, selection = XP blue wash + dotted outline
+- VERIFIED live (agent-browser, real CDP mouse): My Computer drag moved (170,90)→(320,210) ✓; contact-list morph frame = login frame ✓; start bitmap 106x34 ✓; all 5 real IMVs screenshot-verified against the genuine art; BUZZ wind + text-glow on dark legacy scenes intact; tsc clean for src
+- NOTE: console showed a stale mid-HMR parse error for Imvironments.tsx from an intermediate edit state; current file parses clean (tsc + live reload verified)
+
+Stage Summary:
+- The IMVironments are no longer hand-drawn approximations: they are composed from the actual Yahoo artwork (sprites extracted pixel-for-pixel from Yahoo's own CDN art) at the original coordinates with the original palette — plus the official BUZZ behaviors
+- The XP shell now uses the GENUINE Luna start button bitmap; My Computer drags like a real window; the buddy list morphs in place from the login window's frame

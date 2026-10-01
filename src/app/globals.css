@@ -755,6 +755,22 @@ body {
   animation: imv-fishbob ease-in-out infinite;
 }
 
+/* gentle horizontal drift for the genuine fish residents */
+@keyframes imv-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(5%); }
+}
+
+/* soft twinkle for the genuine snowflakes */
+@keyframes imv-twinkle {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+.imv-twinkle {
+  transform-origin: 50% 50%;
+  animation: imv-twinkle ease-in-out infinite;
+}
+
 /* Aquarium: bubbles rising with a wobble */
 @keyframes imv-bubble {
   0% { transform: translateY(0) translateX(0); opacity: 0; }

@@ -1,0 +1,196 @@
+{
+ "leaves": [
+  {
+   "name": "leaves-leaf1",
+   "x": 34.42,
+   "y": 0.0,
+   "w": 16.88,
+   "h": 19.15,
+   "note": "genuine maple leaf"
+  },
+  {
+   "name": "leaves-leaf4",
+   "x": 81.82,
+   "y": 17.02,
+   "w": 18.18,
+   "h": 37.23,
+   "note": "genuine maple leaf"
+  },
+  {
+   "name": "leaves-leaf7",
+   "x": 0.0,
+   "y": 65.96,
+   "w": 16.88,
+   "h": 34.04,
+   "note": "genuine maple leaf"
+  },
+  {
+   "name": "leaves-leaf8",
+   "x": 55.19,
+   "y": 69.15,
+   "w": 14.94,
+   "h": 30.85,
+   "note": "genuine maple leaf"
+  },
+  {
+   "name": "leaves-tree",
+   "x": 39.61,
+   "y": 4.26,
+   "w": 54.55,
+   "h": 68.09,
+   "note": "dappled canopy"
+  },
+  {
+   "name": "leaves-hill",
+   "x": 6.49,
+   "y": 62.77,
+   "w": 93.51,
+   "h": 37.23,
+   "note": "tan ground"
+  }
+ ],
+ "fish": [
+  {
+   "name": "fish1",
+   "x": 64.29,
+   "y": 21.28,
+   "w": 20.13,
+   "h": 13.83,
+   "note": "genuine fish"
+  },
+  {
+   "name": "fish2",
+   "x": 53.9,
+   "y": 46.81,
+   "w": 19.48,
+   "h": 24.47,
+   "note": "genuine fish"
+  },
+  {
+   "name": "fish3",
+   "x": 28.57,
+   "y": 59.57,
+   "w": 18.83,
+   "h": 21.28,
+   "note": "genuine fish"
+  }
+ ],
+ "snow": [
+  {
+   "name": "snow-flake1",
+   "x": 2.6,
+   "y": 28.72,
+   "w": 8.44,
+   "h": 23.4,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-flake2",
+   "x": 9.74,
+   "y": 32.98,
+   "w": 5.84,
+   "h": 14.89,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-flake3",
+   "x": 3.9,
+   "y": 40.43,
+   "w": 4.55,
+   "h": 8.51,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-flake4",
+   "x": 25.97,
+   "y": 45.74,
+   "w": 7.79,
+   "h": 11.7,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-flake5",
+   "x": 22.08,
+   "y": 65.96,
+   "w": 8.44,
+   "h": 11.7,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-flake6",
+   "x": 8.44,
+   "y": 74.47,
+   "w": 5.84,
+   "h": 8.51,
+   "note": "genuine snowflake"
+  },
+  {
+   "name": "snow-snowman",
+   "x": 58.44,
+   "y": 50.0,
+   "w": 41.56,
+   "h": 50.0,
+   "note": "snowman + Y! bubble"
+  }
+ ],
+ "hearts": [
+  {
+   "name": "hearts-heart1",
+   "x": 66.88,
+   "y": 19.15,
+   "w": 11.69,
+   "h": 15.96,
+   "note": "glossy red heart"
+  },
+  {
+   "name": "hearts-heart2",
+   "x": 36.36,
+   "y": 32.98,
+   "w": 11.69,
+   "h": 15.96,
+   "note": "glossy red heart"
+  },
+  {
+   "name": "hearts-heart3",
+   "x": 25.32,
+   "y": 47.87,
+   "w": 11.69,
+   "h": 15.96,
+   "note": "glossy red heart"
+  },
+  {
+   "name": "hearts-big",
+   "x": 9.74,
+   "y": 0.0,
+   "w": 81.17,
+   "h": 100.0,
+   "note": "giant pale heart"
+  }
+ ],
+ "purple": [
+  {
+   "name": "purple-leaf1",
+   "x": 66.67,
+   "y": 9.52,
+   "w": 9.62,
+   "h": 21.43,
+   "note": "purple maple"
+  },
+  {
+   "name": "purple-trees",
+   "x": 63.46,
+   "y": 39.29,
+   "w": 36.54,
+   "h": 60.71,
+   "note": "purple trees + hill"
+  },
+  {
+   "name": "purple-cloud1",
+   "x": 42.31,
+   "y": 60.71,
+   "w": 23.72,
+   "h": 15.48,
+   "note": "white cloud"
+  }
+ ]
+}

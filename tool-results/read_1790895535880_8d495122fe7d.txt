@@ -1,0 +1,642 @@
+     1→"use client";
+     2→
+     3→/* ==================================================================
+     4→   REAL Yahoo! Messenger IMVironment recreations.
+     5→   Rebuilt from PRIMARY visual evidence recovered from the live
+     6→   l.yimg.com CDN + the archived messenger.yahoo.com/imvironments
+     7→   gallery (Oct/Nov 2011 wayback captures):
+     8→
+     9→     • Autumn Leaves  — imv_leaves.gif   (#ffefad cream, faint tree
+    10→       sketch right, flat red maples; official text: "Watch autumn
+    11→       leaves fall ... make them blow with the wind when you Buzz")
+    12→     • Fishtank       — imv_fish.gif     (pale #b3d8fc water, sage
+    13→       seaweed silhouettes, small colourful fish, bubbles)
+    14→     • Snowflake      — imv_snow.gif     (#b3d8fc sky, white clouds,
+    15→       white snowflakes, snowman with a "Y!" bubble; official text:
+    16→       "hit buzz and watch the snowballs fly!")
+    17→     • Falling Hearts — imv_hearts.gif   (#ffcccc border, #fdbec1
+    18→       rounded inner panel, flat red hearts; official text: "use the
+    19→       buzz feature to give your loved one a virtual kiss")
+    20→     • Purple Leaves  — purpleleaves_gallery.jpg (#e7cfe7 lavender,
+    21→       white bottom clouds, deep-purple tree silhouettes; "gently
+    22→       falling purple leaves flutter in the breeze")
+    23→
+    24→   Design language of the REAL scenes (verified from the artwork):
+    25→   flat vector shapes, LIGHT backgrounds so the dark chat text stays
+    26→   readable, art hugging the edges/corners, gentle idle motion.
+    27→   ================================================================== */
+    28→
+    29→import React from "react";
+    30→
+    31→/* deterministic PRNG so layouts are stable across re-renders / SSR */
+    32→function seeded(seed: number) {
+    33→  let s = seed >>> 0;
+    34→  return () => {
+    35→    s = (s * 1664525 + 1013904223) >>> 0;
+    36→    return s / 4294967296;
+    37→  };
+    38→}
+    39→
+    40→/* ---------- shared flat shapes (vector, like the originals) ---------- */
+    41→
+    42→export const MapleLeaf = ({ size = 14, color = "#d4381e", style }: { size?: number; color?: string; style?: React.CSSProperties }) => (
+    43→  <svg width={size} height={size} viewBox="0 0 24 24" style={style}>
+    44→    <path
+    45→      d="M12 1.6 C12.9 4.2 13.7 5.4 15.5 6 L19.2 4.8 L17.5 8.3 C18.9 9.3 20.5 9.8 22.2 10 L19.3 12.4 L20.8 15.7 L16.9 15.1 C16.5 17.1 16.9 18.8 18.1 20.6 L13.8 19.5 L12 22.6 L10.2 19.5 L5.9 20.6 C7.1 18.8 7.5 17.1 7.1 15.1 L3.2 15.7 L4.7 12.4 L1.8 10 C3.5 9.8 5.1 9.3 6.5 8.3 L4.8 4.8 L8.5 6 C10.3 5.4 11.1 4.2 12 1.6 Z"
+    46→      fill={color}
+    47→    />
+    48→    <path d="M12 13 L12 20.5" stroke={color} strokeWidth="1.2" strokeLinecap="round" />
+    49→  </svg>
+    50→);
+    51→
+    52→export const HeartShape = ({ size = 14, color = "#e8336d", style }: { size?: number; color?: string; style?: React.CSSProperties }) => (
+    53→  <svg width={size} height={size} viewBox="0 0 24 24" style={style}>
+    54→    <path
+    55→      d="M12 21 C6.4 16.3 2.6 12.7 2.6 8.7 C2.6 5.7 5 3.6 7.7 3.6 C9.5 3.6 11 4.5 12 6.1 C13 4.5 14.5 3.6 16.3 3.6 C19 3.6 21.4 5.7 21.4 8.7 C21.4 12.7 17.6 16.3 12 21 Z"
+    56→      fill={color}
+    57→    />
+    58→  </svg>
+    59→);
+    60→
+    61→const SnowflakeShape = ({ size = 12, opacity = 0.9, style }: { size?: number; opacity?: number; style?: React.CSSProperties }) => (
+    62→  <svg width={size} height={size} viewBox="0 0 24 24" style={style} opacity={opacity}>
+    63→    <g stroke="#ffffff" strokeWidth="2" strokeLinecap="round">
+    64→      {[0, 60, 120].map((a) => (
+    65→        <g key={a} transform={`rotate(${a} 12 12)`}>
+    66→          <line x1="12" y1="1.5" x2="12" y2="22.5" />
+    67→          <path d="M12 5.5 L9 3.4 M12 5.5 L15 3.4 M12 18.5 L9 20.6 M12 18.5 L15 20.6" strokeWidth="1.6" fill="none" />
+    68→        </g>
+    69→      ))}
+    70→    </g>
+    71→  </svg>
+    72→);
+    73→
+    74→/* ==================================================================
+    75→   AUTUMN LEAVES — flat cream field (#ffefad), tan ground band
+    76→   (#e7d69c), faint sketched tree on the right, flat red maples in
+    77→   the corners. IDLE: leaves fall slowly. BUZZ: a strong wind blows
+    78→   every leaf around (exactly what Yahoo's official text promises).
+    79→   ================================================================== */
+    80→
+    81→const SketchTree = ({ buzz }: { buzz: number }) => (
+    82→  /* faint pencil-sketch tree, right side — like the original thumb */
+    83→  <svg
+    84→    className={`absolute top-[2%] right-[3%] h-[86%] w-auto opacity-[0.42] ${buzz ? "imv-branch-shake" : ""}`}
+    85→    viewBox="0 0 120 210"
+    86→  >
+    87→    <g fill="none" stroke="#a3a084" strokeLinecap="round">
+    88→      {/* trunk + branches */}
+    89→      <path d="M60 208 C58 170 56 140 58 112 C59 96 62 84 60 70" strokeWidth="5" />
+    90→      <path d="M59 150 C48 138 38 130 26 124 M59 132 C70 122 82 114 94 108 M58 112 C50 104 42 98 34 96 M60 96 C68 88 78 82 88 78 M60 78 C54 68 48 62 40 58 M60 74 C68 64 78 58 86 54" strokeWidth="2.6" />
+    91→      {/* sketchy foliage clumps */}
+    92→      <circle cx="60" cy="52" r="30" strokeWidth="2.2" />
+    93→      <circle cx="30" cy="72" r="21" strokeWidth="2" />
+    94→      <circle cx="92" cy="70" r="23" strokeWidth="2" />
+    95→      <circle cx="44" cy="34" r="16" strokeWidth="1.8" />
+    96→      <circle cx="80" cy="34" r="17" strokeWidth="1.8" />
+    97→      {/* little sketch strokes inside the canopy */}
+    98→      <path d="M50 46 q6 -6 12 -2 M70 40 q6 4 4 10 M36 74 q8 -2 10 4 M88 62 q8 0 10 6" strokeWidth="1.4" />
+    99→    </g>
+   100→    {/* leaves hanging in the sketch canopy */}
+   101→    <MapleLeaf size={9} color="#c85a3a" style={{ position: "absolute", left: "38%", top: "18%" }} />
+   102→    <MapleLeaf size={8} color="#d4381e" style={{ position: "absolute", left: "60%", top: "10%" }} />
+   103→    <MapleLeaf size={8} color="#c85a3a" style={{ position: "absolute", left: "70%", top: "28%" }} />
+   104→  </svg>
+   105→);
+   106→
+   107→export function AutumnLeaves({ buzz }: { buzz: number }) {
+   108→  /* static corner leaves, straight from the original composition */
+   109→  const corner = [
+   110→    { x: "2%", y: "6%", s: 20, r: -18 },
+   111→    { x: "9%", y: "15%", s: 13, r: 24 },
+   112→    { x: "44%", y: "4%", s: 12, r: 10 },
+   113→    { x: "24%", y: "82%", s: 14, r: 40 },
+   114→    { x: "88%", y: "78%", s: 18, r: -30 },
+   115→    { x: "74%", y: "87%", s: 12, r: 70 },
+   116→  ];
+   117→  /* slow idle fall — two depths (user: "in non buzz leaves should be slowly falling") */
+   118→  const rnd = seeded(7);
+   119→  const back = Array.from({ length: 6 }).map((_, i) => ({
+   120→    x: 6 + i * 16 + rnd() * 8,
+   121→    dur: 24 + rnd() * 12,
+   122→    sw: 5 + rnd() * 3,
+   123→    size: 9 + rnd() * 4,
+   124→    del: -rnd() * 26,
+   125→    op: 0.4,
+   126→  }));
+   127→  const front = Array.from({ length: 9 }).map((_, i) => ({
+   128→    x: 3 + i * 11 + rnd() * 7,
+   129→    dur: 15 + rnd() * 10,
+   130→    sw: 4.5 + rnd() * 3,
+   131→    size: 12 + rnd() * 7,
+   132→    del: -rnd() * 20,
+   133→    op: 0.72,
+   134→  }));
+   135→  /* buzz gust — leaves seized by the wind and swept across the pane */
+   136→  const g = seeded(buzz * 13 + 3);
+   137→  const gust = Array.from({ length: 16 }).map((_, i) => ({
+   138→    y: 4 + ((i * 61) % 88),
+   139→    dur: 0.85 + g() * 0.5,
+   140→    spin: 0.55 + g() * 0.4,
+   141→    size: 10 + g() * 10,
+   142→    del: g() * 0.5,
+   143→  }));
+   144→  const litter = Array.from({ length: 7 }).map((_, i) => ({
+   145→    x: 8 + ((i * 137) % 78),
+   146→    y: 82 + ((i * 29) % 12),
+   147→    s: 11 + ((i * 7) % 8),
+   148→    del: i * 0.06,
+   149→  }));
+   150→
+   151→  return (
+   152→    <>
+   153→      {/* faint treeline wash behind everything (very low, like paper grain) */}
+   154→      <div className="absolute inset-x-0 bottom-[12%] h-[30%] opacity-[0.12]" style={{ background: "linear-gradient(180deg, transparent, #d8d5ad 60%, #c9c69a)" }} />
+   155→      <SketchTree buzz={buzz} />
+   156→
+   157→      {/* tan ground band with a soft irregular top edge, like the original */}
+   158→      <svg className="absolute bottom-0 left-0 w-full h-[15%]" viewBox="0 0 400 60" preserveAspectRatio="none">
+   159→        <path d="M0 22 Q50 12 100 20 T200 18 T300 22 T400 16 L400 60 L0 60 z" fill="#e7d69c" />
+   160→        <path d="M0 30 Q60 22 130 28 T260 26 T400 24 L400 60 L0 60 z" fill="#e0cd8e" opacity="0.55" />
+   161→      </svg>
+   162→
+   163→      {/* static corner maples */}
+   164→      {corner.map((c, i) => (
+   165→        <div key={i} className="absolute" style={{ left: c.x, top: c.y, transform: `rotate(${c.r}deg)`, opacity: 0.9 }}>
+   166→          <MapleLeaf size={c.s} />
+   167→        </div>
+   168→      ))}
+   169→
+   170→      {/* IDLE: slow gentle leaf-fall */}
+   171→      {back.map((l, i) => (
+   172→        <div key={`b${i}`} className="imv-fall absolute w-px" style={{ left: `${l.x}%`, animationDuration: `${l.dur}s`, animationDelay: `${l.del}s` }}>
+   173→          <div className="imv-sway3" style={{ animationDuration: `${l.sw}s`, opacity: l.op }}>
+   174→            <MapleLeaf size={l.size} color="#c8785a" />
+   175→          </div>
+   176→        </div>
+   177→      ))}
+   178→      {front.map((l, i) => (
+   179→        <div key={`f${i}`} className="imv-fall absolute w-px" style={{ left: `${l.x}%`, animationDuration: `${l.dur}s`, animationDelay: `${l.del}s` }}>
+   180→          <div className="imv-sway3" style={{ animationDuration: `${l.sw}s`, opacity: l.op }}>
+   181→            <MapleLeaf size={l.size} />
+   182→          </div>
+   183→        </div>
+   184→      ))}
+   185→
+   186→      {/* BUZZ: STRONG WIND — bands + full-pane leaf sweep + litter liftoff */}
+   187→      {buzz > 0 && (
+   188→        <div key={buzz} className="absolute inset-0">
+   189→          <div className="absolute inset-0 imv-warmflash" style={{ animationDelay: "0.05s" }} />
+   190→          {[0, 1, 2, 3, 4].map((i) => (
+   191→            <div
+   192→              key={`band${i}`}
+   193→              className="imv-windband absolute"
+   194→              style={{ top: `${8 + i * 19}%`, animationDelay: `${i * 0.09}s`, animationDuration: "0.95s" }}
+   195→            />
+   196→          ))}
+   197→          {gust.map((l, i) => (
+   198→            <div key={`g${i}`} className="imv-windleaf absolute left-0 w-full" style={{ top: `${l.y}%`, animationDuration: `${l.dur}s`, animationDelay: `${l.del}s` }}>
+   199→              <div className="imv-windspin" style={{ animationDuration: `${l.spin}s`, width: "fit-content" }}>
+   200→                <MapleLeaf size={l.size} color={i % 3 ? "#d4381e" : "#b8422e"} />
+   201→              </div>
+   202→            </div>
+   203→          ))}
+   204→          {litter.map((l, i) => (
+   205→            <div key={`lit${i}`} className="imv-liftoff absolute" style={{ left: l.x, top: `${l.y}%`, animationDelay: `${l.del}s` }}>
+   206→              <MapleLeaf size={l.s} color="#c05236" />
+   207→            </div>
+   208→          ))}
+   209→          {[0, 1, 2].map((i) => (
+   210→            <div key={`s${i}`} className="imv-streak" style={{ top: `${22 + i * 26}%`, animationDelay: `${0.12 + i * 0.14}s` }} />
+   211→          ))}
+   212→        </div>
+   213→      )}
+   214→    </>
+   215→  );
+   216→}
+   217→
+   218→/* ==================================================================
+   219→   FISHTANK — pale blue water, sage seaweed silhouettes from the
+   220→   bottom, small colourful fish cruising, tiny bubbles. BUZZ: the
+   221→   fish startle and dart away in a burst of bubbles.
+   222→   ================================================================== */
+   223→
+   224→const Fish = ({ body = "#f2cf46", belly, stripe, flip = false, size = 26 }: { body?: string; belly?: string; stripe?: string; flip?: boolean; size?: number }) => (
+   225→  <svg width={size} height={size * 0.62} viewBox="0 0 40 25" style={{ transform: flip ? "scaleX(-1)" : undefined }}>
+   226→    <path d="M33 12.5 L39 7 L38 12.5 L39 18 z" fill={body} stroke="rgba(70,50,10,0.35)" strokeWidth="0.7" />
+   227→    <path d="M4 12.5 Q14 3 26 8.5 Q30 10.5 30 12.5 Q30 14.5 26 16.5 Q14 22 4 12.5 z" fill={body} stroke="rgba(70,50,10,0.35)" strokeWidth="0.7" />
+   228→    {belly && <path d="M8 14.5 Q16 19 26 15.5 Q22 19.5 14 18.5 Q10.5 17.5 8 14.5 z" fill={belly} opacity="0.85" />}
+   229→    {stripe && <path d="M17 6.2 Q21 12 17.6 18.4" stroke={stripe} strokeWidth="3.4" fill="none" strokeLinecap="round" opacity="0.9" />}
+   230→    <path d="M14 8.5 L18 4.5 L20 9 z" fill={body} stroke="rgba(70,50,10,0.3)" strokeWidth="0.6" />
+   231→    <circle cx="7.4" cy="11.4" r="1.15" fill="#222" />
+   232→  </svg>
+   233→);
+   234→
+   235→const Weed = ({ x, h, w = 14, color = "#9db9a4", delay = 0, dur = 5 }: { x: string; h: number; w?: number; color?: string; delay?: number; dur?: number }) => (
+   236→  <div className="imv-weed absolute" style={{ left: x, bottom: "-2px", animationDelay: `${delay}s`, animationDuration: `${dur}s`, transformOrigin: "50% 100%" }}>
+   237→    <svg width={w} height={h} viewBox="0 0 20 100" preserveAspectRatio="none">
+   238→      <path d="M10 100 C4 82 14 70 8 52 C3 38 12 26 9 8 C9 4 11 2 12 0 C13 18 8 30 13 46 C18 62 8 78 14 94 C14 97 12 99 10 100 z" fill={color} />
+   239→    </svg>
+   240→  </div>
+   241→);
+   242→
+   243→export function Fishtank({ buzz }: { buzz: number }) {
+   244→  const fish = [
+   245→    { top: "18%", dur: 26, flip: true, delay: 0, kind: "yellow" as const, size: 30 },
+   246→    { top: "34%", dur: 34, flip: false, delay: -12, kind: "clown" as const, size: 26 },
+   247→    { top: "52%", dur: 40, flip: true, delay: -25, kind: "blue" as const, size: 24 },
+   248→    { top: "66%", dur: 30, flip: false, delay: -6, kind: "orange" as const, size: 28 },
+   249→    { top: "27%", dur: 46, flip: false, delay: -33, kind: "small" as const, size: 16 },
+   250→  ];
+   251→  const bubbles = Array.from({ length: 7 }).map((_, i) => ({ x: 6 + i * 13.5, dur: 7 + (i % 4) * 2.4, del: -i * 1.7, s: 3 + (i % 3) * 2 }));
+   252→  const g = seeded(buzz * 5 + 11);
+   253→  const darters = Array.from({ length: 4 }).map((_, i) => ({ top: 16 + g() * 55, flip: i % 2 === 0, del: g() * 0.2, dur: 0.9 + g() * 0.3 }));
+   254→
+   255→  return (
+   256→    <>
+   257→      {/* soft light shafts, faint */}
+   258→      <div className="imv-ray absolute left-[16%] top-0 h-full w-[13%]" style={{ animationDelay: "0s" }} />
+   259→      <div className="imv-ray absolute left-[58%] top-0 h-full w-[9%]" style={{ animationDelay: "3s" }} />
+   260→
+   261→      {/* seaweed — sage silhouettes like the original */}
+   262→      <Weed x="3%" h={150} w={18} color="#9db9a4" dur={6} />
+   263→      <Weed x="8%" h={110} w={13} color="#8fb096" delay={1.4} dur={5.2} />
+   264→      <Weed x="88%" h={170} w={20} color="#9db9a4" delay={0.7} dur={6.4} />
+   265→      <Weed x="94%" h={120} w={14} color="#8fb096" delay={2} dur={5.6} />
+   266→      <Weed x="55%" h={78} w={12} color="#a7c2ab" delay={2.8} dur={4.8} />
+   267→
+   268→      {/* sandy-sage floor */}
+   269→      <div className="absolute bottom-0 left-0 w-full h-[9%]" style={{ background: "linear-gradient(180deg, #b9cfb9, #adc2ba)" }} />
+   270→      <div className="absolute bottom-[8.4%] left-0 w-full h-[2px] bg-[#d7e4d4] opacity-60" />
+   271→
+   272→      {/* cruising fish (behind text, above weeds) */}
+   273→      {fish.map((f, i) => (
+   274→        <div key={i} className="imv-fish absolute" style={{ top: f.top, animationDuration: `${f.dur}s`, animationDelay: `${f.delay}s` }}>
+   275→          <div className="imv-fishbob" style={{ animationDuration: `${2.6 + i * 0.4}s` }}>
+   276→            {f.kind === "yellow" && <Fish body="#f2cf46" belly="#f7e08a" flip={f.flip} size={f.size} />}
+   277→            {f.kind === "clown" && <Fish body="#f08a3c" stripe="#fdf4e8" flip={f.flip} size={f.size} />}
+   278→            {f.kind === "blue" && <Fish body="#5a8fd4" belly="#8fb4e4" flip={f.flip} size={f.size} />}
+   279→            {f.kind === "orange" && <Fish body="#e06a4a" belly="#eda07f" flip={f.flip} size={f.size} />}
+   280→            {f.kind === "small" && <Fish body="#8fae6e" flip={f.flip} size={f.size} />}
+   281→          </div>
+   282→        </div>
+   283→      ))}
+   284→
+   285→      {/* idle bubbles */}
+   286→      {bubbles.map((b, i) => (
+   287→        <div
+   288→          key={i}
+   289→          className="imv-bubble absolute rounded-full"
+   290→          style={{ left: `${b.x}%`, width: b.s, height: b.s, background: "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.25))", border: "1px solid rgba(255,255,255,0.6)", animationDuration: `${b.dur}s`, animationDelay: `${b.del}s` }}
+   291→        />
+   292→      ))}
+   293→
+   294→      {/* BUZZ: fish startle + bubble eruption + sonar ring */}
+   295→      {buzz > 0 && (
+   296→        <div key={buzz} className="absolute inset-0">
+   297→          <div className="absolute left-1/2 top-1/2 imv-ring" />
+   298→          {darters.map((d, i) => (
+   299→            <div key={i} className="imv-dash absolute" style={{ top: `${d.top}%`, animationDelay: `${d.del}s`, animationDuration: `${d.dur}s`, transform: d.flip ? "scaleX(-1)" : undefined }}>
+   300→              <Fish body="#f2cf46" size={22} flip />
+   301→            </div>
+   302→          ))}
+   303→          {Array.from({ length: 10 }).map((_, i) => (
+   304→            <div
+   305→              key={`eb${i}`}
+   306→              className="imv-ebubble absolute rounded-full"
+   307→              style={{
+   308→                left: `${12 + ((i * 79) % 74)}%`,
+   309→                width: 4 + (i % 3) * 3,
+   310→                height: 4 + (i % 3) * 3,
+   311→                background: "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.25))",
+   312→                border: "1px solid rgba(255,255,255,0.6)",
+   313→                animationDelay: `${(i % 5) * 0.09}s`,
+   314→              }}
+   315→            />
+   316→          ))}
+   317→        </div>
+   318→      )}
+   319→    </>
+   320→  );
+   321→}
+   322→
+   323→/* ==================================================================
+   324→   SNOWFLAKE — baby-blue sky, soft clouds on top, white snowflakes
+   325→   drifting, snowman with a "Y!" bubble bottom-right. BUZZ: a
+   326→   snowball fight — "watch the snowballs fly!" (official text).
+   327→   ================================================================== */
+   328→
+   329→const Cloud = ({ x, y, w, op = 0.9, drift = false, dur = 9 }: { x: string; y: string; w: number; op?: number; drift?: boolean; dur?: number }) => (
+   330→  <div className={`absolute ${drift ? "imv-clouddrift" : ""}`} style={{ left: x, top: y, opacity: op, animationDuration: `${dur}s` }}>
+   331→    <svg width={w} height={w * 0.42} viewBox="0 0 120 50">
+   332→      <path d="M14 44 Q2 44 3 34 Q4 24 16 25 Q18 12 32 12 Q44 6 54 14 Q68 6 78 16 Q94 12 98 26 Q112 26 112 36 Q112 44 100 44 z" fill="#f8fbff" />
+   333→    </svg>
+   334→  </div>
+   335→);
+   336→
+   337→const Snowman = () => (
+   338→  <div className="absolute bottom-[4%] right-[3%] w-[92px] h-[110px]">
+   339→    {/* "Y!" speech bubble, like the original thumb */}
+   340→    <div className="absolute left-[-38px] top-[2px] bg-white border border-[#9db8d8] rounded-[6px] px-[6px] py-[1px] shadow-[1px_1px_3px_rgba(40,70,120,0.25)]">
+   341→      <span className="text-[13px] font-black italic text-[#7a2fd0] leading-none">Y!</span>
+   342→      <div className="absolute right-[-5px] top-[6px] w-[8px] h-[8px] bg-white border-r border-b border-[#9db8d8] rotate-[-45deg]" />
+   343→    </div>
+   344→    <svg width="92" height="110" viewBox="0 0 92 110">
+   345→      {/* stick arms */}
+   346→      <path d="M24 66 L6 52 M6 52 L1 45 M6 52 L2 58" stroke="#8a6a48" strokeWidth="2.4" strokeLinecap="round" />
+   347→      <path d="M68 66 L86 54 M86 54 L91 48 M86 54 L90 60" stroke="#8a6a48" strokeWidth="2.4" strokeLinecap="round" />
+   348→      {/* body + head */}
+   349→      <circle cx="46" cy="82" r="26" fill="#ffffff" stroke="#c9dbee" strokeWidth="1.6" />
+   350→      <circle cx="46" cy="44" r="17" fill="#ffffff" stroke="#c9dbee" strokeWidth="1.6" />
+   351→      {/* top hat */}
+   352→      <rect x="30" y="20" width="32" height="4.5" rx="2" fill="#2a2a2a" />
+   353→      <rect x="36" y="6" width="20" height="16" rx="2" fill="#2a2a2a" />
+   354→      <rect x="36" y="17" width="20" height="3.4" fill="#d4381e" />
+   355→      {/* face */}
+   356→      <circle cx="40.5" cy="41" r="1.7" fill="#222" />
+   357→      <circle cx="51.5" cy="41" r="1.7" fill="#222" />
+   358→      <path d="M42 46 L57 44.5 L42.8 49 z" fill="#f09030" />
+   359→      {/* coal buttons */}
+   360→      <circle cx="46" cy="74" r="2.2" fill="#222" />
+   361→      <circle cx="46" cy="83" r="2.2" fill="#222" />
+   362→      <circle cx="46" cy="92" r="2.2" fill="#222" />
+   363→    </svg>
+   364→  </div>
+   365→);
+   366→
+   367→export function Snowflake({ buzz }: { buzz: number }) {
+   368→  const rnd = seeded(21);
+   369→  const flakes = Array.from({ length: 14 }).map((_, i) => ({
+   370→    x: 2 + i * 7 + rnd() * 5,
+   371→    dur: 13 + rnd() * 14,
+   372→    del: -rnd() * 24,
+   373→    s: 6 + rnd() * 10,
+   374→    op: 0.5 + rnd() * 0.45,
+   375→  }));
+   376→  const dots = Array.from({ length: 10 }).map((_, i) => ({ x: rnd() * 98, y: rnd() * 90, s: 2 + rnd() * 2, op: 0.5 + rnd() * 0.4 }));
+   377→
+   378→  const g = seeded(buzz * 17 + 5);
+   379→  const balls = Array.from({ length: 9 }).map((_, i) => ({
+   380→    y: 12 + g() * 62,
+   381→    dur: 0.75 + g() * 0.45,
+   382→    del: g() * 0.55,
+   383→    s: 9 + g() * 7,
+   384→    rtl: i % 2 === 1,
+   385→  }));
+   386→
+   387→  return (
+   388→    <>
+   389→      <Cloud x="4%" y="4%" w={92} drift dur={11} />
+   390→      <Cloud x="40%" y="2%" w={70} op={0.75} drift dur={13} />
+   391→      <Cloud x="74%" y="6%" w={84} op={0.85} drift dur={9} />
+   392→
+   393→      {/* snow ground */}
+   394→      <svg className="absolute bottom-0 left-0 w-full h-[13%]" viewBox="0 0 400 50" preserveAspectRatio="none">
+   395→        <path d="M0 20 Q60 8 140 16 T280 12 T400 18 L400 50 L0 50 z" fill="#f4f9ff" />
+   396→      </svg>
+   397→
+   398→      <Snowman />
+   399→
+   400→      {/* drifting flakes */}
+   401→      {flakes.map((f, i) => (
+   402→        <div key={i} className="imv-snow absolute w-px" style={{ left: `${f.x}%`, animationDuration: `${f.dur}s`, animationDelay: `${f.del}s` }}>
+   403→          <SnowflakeShape size={f.s} opacity={f.op} />
+   404→        </div>
+   405→      ))}
+   406→      {/* static speckles */}
+   407→      {dots.map((d, i) => (
+   408→        <div key={`d${i}`} className="absolute rounded-full bg-white" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, opacity: d.op }} />
+   409→      ))}
+   410→
+   411→      {/* BUZZ: SNOWBALL FIGHT */}
+   412→      {buzz > 0 && (
+   413→        <div key={buzz} className="absolute inset-0">
+   414→          {balls.map((b, i) => (
+   415→            <div
+   416→              key={i}
+   417→              className={b.rtl ? "imv-snowball-rl absolute" : "imv-snowball-lr absolute"}
+   418→              style={{ top: `${b.y}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.del}s` }}
+   419→            >
+   420→              <div
+   421→                className="rounded-full"
+   422→                style={{
+   423→                  width: b.s,
+   424→                  height: b.s,
+   425→                  background: "radial-gradient(circle at 34% 30%, #ffffff, #e8f1fa 62%, #cfdeee)",
+   426→                  boxShadow: "0 1px 3px rgba(60,90,140,0.35)",
+   427→                }}
+   428→              />
+   429→            </div>
+   430→          ))}
+   431→          {/* impact puffs */}
+   432→          {[
+   433→            { x: "30%", y: "34%", d: "0.5s" },
+   434→            { x: "58%", y: "62%", d: "0.72s" },
+   435→            { x: "44%", y: "22%", d: "0.95s" },
+   436→          ].map((p, i) => (
+   437→            <div key={`p${i}`} className="imv-snowpuff absolute" style={{ left: p.x, top: p.y, animationDelay: p.d }}>
+   438→              <svg width="34" height="24" viewBox="0 0 34 24">
+   439→                <circle cx="10" cy="14" r="6" fill="#fff" opacity="0.9" />
+   440→                <circle cx="20" cy="10" r="7.5" fill="#fff" opacity="0.85" />
+   441→                <circle cx="26" cy="16" r="5" fill="#fff" opacity="0.8" />
+   442→              </svg>
+   443→            </div>
+   444→          ))}
+   445→          {/* extra flurry whipped up */}
+   446→          {Array.from({ length: 8 }).map((_, i) => (
+   447→            <div key={`fl${i}`} className="imv-flurry absolute" style={{ top: `${8 + i * 11}%`, animationDuration: `${0.8 + (i % 4) * 0.18}s`, animationDelay: `${i * 0.07}s` }}>
+   448→              <SnowflakeShape size={7} opacity={0.8} />
+   449→            </div>
+   450→          ))}
+   451→        </div>
+   452→      )}
+   453→    </>
+   454→  );
+   455→}
+   456→
+   457→/* ==================================================================
+   458→   FALLING HEARTS — pink #ffcccc frame with the rounded #fdbec1
+   459→   inner panel, flat red hearts. IDLE: hearts fall slowly. BUZZ: a
+   460→   virtual kiss (official: "use the buzz feature to give your loved
+   461→   one a virtual kiss").
+   462→   ================================================================== */
+   463→
+   464→const LipsKiss = ({ size = 110 }: { size?: number }) => (
+   465→  <svg width={size} height={size * 0.62} viewBox="0 0 110 68">
+   466→    {/* lipstick-print kiss */}
+   467→    <g fill="#c2185b">
+   468→      <path d="M55 14 Q47 2 36 6 Q30 8 30 14 Q22 12 18 18 Q15 23 21 27 Q14 31 17 39 Q20 46 30 44 Q28 54 40 53 Q46 52.5 50 47 Q52 44.5 55 44 Q58 44.5 60 47 Q64 52.5 70 53 Q82 54 80 44 Q90 46 93 39 Q96 31 89 27 Q95 23 92 18 Q88 12 80 14 Q80 8 74 6 Q63 2 55 14 z" opacity="0.92" />
+   469→      {/* cupid's bow highlight */}
+   470→      <path d="M48 12 Q55 8 62 12 Q55 15 48 12 z" fill="#e8648f" />
+   471→      <path d="M30 27 Q42 22 55 27 Q68 22 80 27 Q68 34 55 30 Q42 34 30 27 z" fill="#8e0f42" opacity="0.55" />
+   472→    </g>
+   473→  </svg>
+   474→);
+   475→
+   476→export function FallingHearts({ buzz }: { buzz: number }) {
+   477→  /* the flat inner panel from the original thumb */
+   478→  const statics = [
+   479→    { x: "10%", y: "12%", s: 20, r: -14, c: "#e8336d" },
+   480→    { x: "84%", y: "9%", s: 16, r: 18, c: "#d42045" },
+   481→    { x: "78%", y: "78%", s: 22, r: -8, c: "#e8336d" },
+   482→    { x: "12%", y: "80%", s: 14, r: 26, c: "#f2779a" },
+   483→    { x: "47%", y: "88%", s: 12, r: -20, c: "#d42045" },
+   484→  ];
+   485→  const rnd = seeded(31);
+   486→  const falling = Array.from({ length: 10 }).map((_, i) => ({
+   487→    x: 5 + i * 9.5 + rnd() * 6,
+   488→    dur: 12 + rnd() * 11,
+   489→    sw: 4 + rnd() * 3,
+   490→    s: 8 + rnd() * 9,
+   491→    del: -rnd() * 18,
+   492→    op: 0.6 + rnd() * 0.35,
+   493→    c: ["#e8336d", "#d42045", "#f2779a"][i % 3],
+   494→  }));
+   495→  const burst = Array.from({ length: 8 }).map((_, i) => {
+   496→    const ang = (i / 8) * Math.PI * 2 + 0.4;
+   497→    return { mx: Math.cos(ang) * 90, my: Math.sin(ang) * 64, s: 10 + (i % 3) * 5, del: i * 0.05 };
+   498→  });
+   499→
+   500→  return (
+   501→    <>
+   502→      {/* inner rounded panel, exactly like the original two-tone thumb */}
+   503→      <div className="absolute inset-[5.5%] rounded-[14px]" style={{ background: "#fdbec1", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.35)" }} />
+   504→
+   505→      {statics.map((h, i) => (
+   506→        <div key={i} className="absolute" style={{ left: h.x, top: h.y, transform: `rotate(${h.r}deg)` }}>
+   507→          <HeartShape size={h.s} color={h.c} />
+   508→        </div>
+   509→      ))}
+   510→
+   511→      {/* slow falling hearts */}
+   512→      {falling.map((h, i) => (
+   513→        <div key={i} className="imv-fall absolute w-px" style={{ left: `${h.x}%`, animationDuration: `${h.dur}s`, animationDelay: `${h.del}s` }}>
+   514→          <div className="imv-sway2" style={{ animationDuration: `${h.sw}s`, opacity: h.op }}>
+   515→            <HeartShape size={h.s} color={h.c} />
+   516→          </div>
+   517→        </div>
+   518→      ))}
+   519→
+   520→      {/* BUZZ: virtual kiss */}
+   521→      {buzz > 0 && (
+   522→        <div key={buzz} className="absolute inset-0">
+   523→          <div className="absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 imv-kiss">
+   524→            <LipsKiss size={116} />
+   525→          </div>
+   526→          {burst.map((b, i) => (
+   527→            <div key={i} className="imv-heartburst absolute left-1/2 top-[44%]" style={{ animationDelay: `${b.del}s` }}>
+   528→              <div style={{ transform: `translate(${b.mx}px, ${b.my}px)` }}>
+   529→                <HeartShape size={b.s} color={i % 2 ? "#e8336d" : "#f2779a"} />
+   530→              </div>
+   531→            </div>
+   532→          ))}
+   533→          {["18%", "70%", "84%"].map((x, i) => (
+   534→            <div key={`sp${i}`} className="imv-sparkle absolute" style={{ left: x, top: `${18 + i * 22}%`, animationDelay: `${i * 0.5}s` }}>
+   535→              <svg width="16" height="16" viewBox="0 0 16 16">
+   536→                <path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4 z" fill="#fff5b8" />
+   537→              </svg>
+   538→            </div>
+   539→          ))}
+   540→        </div>
+   541→      )}
+   542→    </>
+   543→  );
+   544→}
+   545→
+   546→/* ==================================================================
+   547→   PURPLE LEAVES — lavender sky (#e7cfe7), white cloud band along
+   548→   the bottom, deep-purple tree silhouettes on the right, purple
+   549→   maples "gently falling / fluttering in the breeze". BUZZ: a
+   550→   purple gust sweeps the pane.
+   551→   ================================================================== */
+   552→
+   553→const PurpleTree = ({ x, bottom, h, w, sway = false, dur = 6 }: { x: string; bottom: string; h: number; w: number; sway?: boolean; dur?: number }) => (
+   554→  <svg
+   555→    className={`absolute ${sway ? "imv-treesway" : ""}`}
+   556→    style={{ left: x, bottom, animationDuration: `${dur}s` }}
+   557→    width={w}
+   558→    height={h}
+   559→    viewBox="0 0 80 160"
+   560→  >
+   561→    <g fill="#52205b">
+   562→      <rect x="37" y="70" width="7" height="90" rx="3" />
+   563→      <path d="M40 96 L24 78 L28 76 L42 90 z" />
+   564→      <path d="M41 110 L58 92 L62 95 L44 114 z" />
+   565→      {/* canopies */}
+   566→      <ellipse cx="40" cy="34" rx="30" ry="26" />
+   567→      <ellipse cx="18" cy="52" rx="18" ry="15" />
+   568→      <ellipse cx="63" cy="52" rx="19" ry="15" />
+   569→      <ellipse cx="40" cy="62" rx="24" ry="16" />
+   570→    </g>
+   571→  </svg>
+   572→);
+   573→
+   574→export function PurpleLeaves({ buzz }: { buzz: number }) {
+   575→  const rnd = seeded(51);
+   576→  const leaves = Array.from({ length: 12 }).map((_, i) => ({
+   577→    x: 3 + i * 8.2 + rnd() * 5,
+   578→    dur: 13 + rnd() * 12,
+   579→    sw: 4 + rnd() * 3,
+   580→    s: 9 + rnd() * 8,
+   581→    del: -rnd() * 20,
+   582→    op: 0.55 + rnd() * 0.4,
+   583→    c: ["#8a3d9f", "#6d2a78", "#a45cb0"][i % 3],
+   584→  }));
+   585→  const g = seeded(buzz * 23 + 9);
+   586→  const gust = Array.from({ length: 14 }).map((_, i) => ({
+   587→    y: 5 + ((i * 63) % 86),
+   588→    dur: 0.9 + g() * 0.5,
+   589→    spin: 0.6 + g() * 0.4,
+   590→    size: 9 + g() * 9,
+   591→    del: g() * 0.5,
+   592→  }));
+   593→
+   594→  return (
+   595→    <>
+   596→      {/* soft lighter wash top-centre, like the original gradient sky */}
+   597→      <div className="absolute inset-x-0 top-0 h-[45%]" style={{ background: "linear-gradient(180deg, rgba(250,244,250,0.85), rgba(250,244,250,0) 90%)" }} />
+   598→
+   599→      {/* small tree on the left, tall cluster on the right (original layout) */}
+   600→      <PurpleTree x="7%" bottom="10%" h={92} w={46} />
+   601→      <PurpleTree x="78%" bottom="0%" h={190} w={95} sway dur={6.5} />
+   602→      <PurpleTree x="64%" bottom="0%" h={140} w={70} sway dur={7.4} />
+   603→
+   604→      {/* white cloud band along the bottom */}
+   605→      <svg className="absolute bottom-0 left-0 w-full h-[16%]" viewBox="0 0 400 60" preserveAspectRatio="none">
+   606→        <path d="M0 40 Q30 26 62 36 Q90 22 122 34 Q150 20 185 32 Q215 18 250 30 Q285 20 315 34 Q350 24 400 34 L400 60 L0 60 z" fill="#f8faf7" />
+   607→        <path d="M0 50 Q60 40 120 48 T260 46 T400 48 L400 60 L0 60 z" fill="#ffffff" />
+   608→      </svg>
+   609→      <Cloud x="8%" y="58%" w={64} op={0.9} drift dur={14} />
+   610→      <Cloud x="52%" y="64%" w={52} op={0.7} drift dur={17} />
+   611→
+   612→      {/* gently falling / fluttering purple leaves */}
+   613→      {leaves.map((l, i) => (
+   614→        <div key={i} className="imv-fall absolute w-px" style={{ left: `${l.x}%`, animationDuration: `${l.dur}s`, animationDelay: `${l.del}s` }}>
+   615→          <div className="imv-sway2" style={{ animationDuration: `${l.sw}s`, opacity: l.op }}>
+   616→            <MapleLeaf size={l.s} color={l.c} />
+   617→          </div>
+   618→        </div>
+   619→      ))}
+   620→
+   621→      {/* BUZZ: purple gust */}
+   622→      {buzz > 0 && (
+   623→        <div key={buzz} className="absolute inset-0">
+   624→          {[0, 1, 2, 3].map((i) => (
+   625→            <div key={`b${i}`} className="imv-windband-pl imv-windband absolute" style={{ top: `${10 + i * 22}%`, animationDelay: `${i * 0.1}s`, animationDuration: "0.95s" }} />
+   626→          ))}
+   627→          {gust.map((l, i) => (
+   628→            <div key={`g${i}`} className="imv-windleaf absolute left-0 w-full" style={{ top: `${l.y}%`, animationDuration: `${l.dur}s`, animationDelay: `${l.del}s` }}>
+   629→              <div className="imv-windspin" style={{ animationDuration: `${l.spin}s`, width: "fit-content" }}>
+   630→                <MapleLeaf size={l.size} color={i % 2 ? "#8a3d9f" : "#6d2a78"} />
+   631→              </div>
+   632→            </div>
+   633→          ))}
+   634→          {[0, 1].map((i) => (
+   635→            <div key={`s${i}`} className="imv-streak-pl imv-streak" style={{ top: `${30 + i * 30}%`, animationDelay: `${0.15 + i * 0.2}s` }} />
+   636→          ))}
+   637→        </div>
+   638→      )}
+   639→    </>
+   640→  );
+   641→}
+   642→

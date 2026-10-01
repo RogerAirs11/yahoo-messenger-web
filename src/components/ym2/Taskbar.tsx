@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { XpFlag } from "./XpBoot";
 import { YahooSmiley, StatusDot } from "./icons";
 import { ME } from "./data";
 
@@ -49,18 +48,22 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
 
   return (
     <div className="xp-taskbar absolute bottom-0 left-0 right-0 h-[34px] flex items-stretch z-[9000] text-white select-none">
-      {/* Start button — green pill with the flying flag */}
+      {/* Start button — the GENUINE Luna bitmap (green pill + flying flag +
+          italic "start"), the actual artwork from Windows XP, 106x34 1:1 */}
       <button
-        className="xp-start flex items-end gap-1 pl-2.5 pr-3 pb-[5px] font-bold italic text-[15px] relative"
+        className="relative shrink-0 p-0 border-0 bg-transparent"
         onClick={() => setStartOpen((v) => !v)}
+        title="Click here to begin"
       >
-        <XpFlag size={19} />
-        <span
-          className="text-[15.5px]"
-          style={{ fontFamily: "'Franklin Gothic Medium', 'Trebuchet MS', Tahoma, sans-serif", fontStyle: "italic", fontWeight: 700, textShadow: "0 1px 2px rgba(0,40,0,0.7)" }}
-        >
-          start
-        </span>
+        <img
+          src="/assets/xp/start-button.png"
+          alt="start"
+          width={106}
+          height={34}
+          className="block h-[34px] w-[106px] transition-[filter] duration-100 hover:brightness-110"
+          draggable={false}
+        />
+        {startOpen && <span className="absolute inset-0 bg-white/20" />}
       </button>
 
       {/* Quick Launch — the real XP lineup: IE, Show Desktop, Windows Media Player */}

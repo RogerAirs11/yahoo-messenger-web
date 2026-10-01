@@ -126,10 +126,10 @@ export const IMV_BG: Record<ImvId, string> = {
   none: "#ffffff",
   /* ---- REAL Yahoo scenes: exact colours sampled from the genuine art ---- */
   leaves: "#ffefad", /* imv_leaves.gif butter-cream field */
-  fishtank: "linear-gradient(180deg, #d3e5ee 0%, #c2d9e6 34%, #b7d4e3 66%, #aecfda 100%)", /* pale water */
-  snowflake: "linear-gradient(180deg, #c9e3fd 0%, #b3d8fc 48%, #b3d8fc 80%, #edf5ff 100%)", /* baby-blue sky */
-  hearts: "#ffcccc", /* pink frame (inner panel drawn in-scene) */
-  purpleleaves: "linear-gradient(180deg, #f0e3f0 0%, #e8d1e8 44%, #e7cfe7 100%)", /* lavender */
+  fishtank: "linear-gradient(180deg, #c2dae6 0%, #cce0ea 14%, #bad6e3 30%, #aacbdb 46%, #95b4b2 62%, #9dbbc0 78%, #95b3b6 100%)", /* sampled water column */
+  snowflake: "linear-gradient(180deg, #c7e2fc 0%, #b8dafc 22%, #b3d8fc 58%, #d3e8fc 100%)", /* sampled baby-blue sky */
+  hearts: "#ffcccc", /* pink field (giant pale heart drawn in-scene) */
+  purpleleaves: "linear-gradient(180deg, #eeddf0 0%, #e8d2e9 40%, #e7cfe7 100%)", /* lavender */
   doodle: "#ffffff", /* white paper */
   /* ---- legacy artistic set ---- */
   autumn: "linear-gradient(180deg, #fdf9ee 0%, #faf1da 38%, #f5e7c6 70%, #f0dcb4 100%)",
