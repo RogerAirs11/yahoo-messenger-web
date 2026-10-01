@@ -1,9 +1,10 @@
 'use client';
 
 import { create } from 'zustand';
-import { INITIAL_BUDDIES, Buddy, BuddyStatus, botReply, botBuzzReaction, AUDIBLES } from './data';
+import { INITIAL_BUDDIES, Buddy, BuddyStatus, botReply, botBuzzReaction, AUDIBLE_CATEGORIES, fmtTimestamp, ME_DEFAULT } from './data';
 import { sounds } from './sounds';
 
+export type { Buddy } from './data';
 export type Phase = 'login' | 'signing' | 'online' | 'signout';
 
 export interface ChatMessage {
@@ -11,6 +12,7 @@ export interface ChatMessage {
   from: 'me' | 'buddy' | 'sys';
   text: string;
   ts: number;
+  audible?: { cat: string; file: string; caption: string };
   fmt?: { bold?: boolean; italic?: boolean; underline?: boolean; color?: string; size?: number; font?: string };
 }
 
@@ -30,7 +32,7 @@ export interface ConvState {
 
 interface YMStore {
   phase: Phase;
-  me: { id: string; name: string; status: BuddyStatus; customStatus: string; avatarSeedOffset: number };
+  me: { id: string; name: string; status: BuddyStatus; customStatus: string; avatar: string };
   buddies: Buddy[];
   windows: { login: WinState; buddylist: WinState; im: Record<string, WinState> };
   zTop: number;
@@ -59,7 +61,8 @@ interface YMStore {
   pushMsg: (buddyId: string, msg: ChatMessage) => void;
   sendMyMsg: (buddyId: string, text: string, fmt?: ChatMessage['fmt']) => void;
   sendMyBuzz: (buddyId: string) => void;
-  sendMyAudible: (buddyId: string, idx: number) => void;
+  sendMyAudible: (buddyId: string, catIdx: number, clipIdx: number) => void;
+  buddyAudible: (buddyId: string) => void;
   buddySays: (buddyId: string, texts: string[]) => void;
   buddyBuzz: (buddyId: string) => void;
   setTyping: (buddyId: string, t: boolean) => void;
@@ -76,9 +79,9 @@ const later = (fn: () => void, ms: number) => {
 
 export const useYM = create<YMStore>((set, get) => ({
   phase: 'login',
-  me: { id: '', name: '', status: 'online', customStatus: '', avatarSeedOffset: 0 },
+  me: { id: '', name: '', status: 'online', customStatus: '', avatar: ME_DEFAULT.avatar },
   buddies: INITIAL_BUDDIES.map((b) => ({ ...b })),
-  windows: { login: W(0, 0, 10), buddylist: W(150, 14, 5, false, false), im: {} },
+  windows: { login: W(500, 150, 10), buddylist: W(180, 24, 5, false, false), im: {} },
   zTop: 10,
   conversations: {},
   shakeIm: {},
@@ -126,10 +129,10 @@ export const useYM = create<YMStore>((set, get) => ({
           get().setTyping('mmuchmore', true);
           later(() => {
             get().setTyping('mmuchmore', false);
-            get().buddySays('mmuchmore', ['hey! welcome back :)', 'long time no chat!! :D']);
+            get().buddySays('mmuchmore', ["How's it going?"]);
           }, 1600);
         }, 900);
-      }, 6000);
+      }, 5000);
     }, 2400);
   },
 
@@ -137,7 +140,7 @@ export const useYM = create<YMStore>((set, get) => ({
     set((st) => ({
       phase: 'login',
       conversations: {},
-      windows: { login: W(0, 0, 20, true, true), buddylist: W(150, 14, 5, false, false), im: {} },
+      windows: { login: W(500, 150, 20, true, true), buddylist: W(180, 24, 5, false, false), im: {} },
       zTop: 20,
       me: { ...st.me, customStatus: '' },
     }));
@@ -267,17 +270,23 @@ export const useYM = create<YMStore>((set, get) => ({
     }, 2200);
   },
 
-  sendMyAudible: (buddyId, idx) => {
-    const a = AUDIBLES[idx];
-    if (!a) return;
-    get().pushMsg(buddyId, { kind: 'audible', from: 'me', text: a.text, ts: Date.now() });
-    sounds.audible(a.pitch);
+  sendMyAudible: (buddyId, catIdx, clipIdx) => {
+    const catd = AUDIBLE_CATEGORIES[catIdx];
+    const clip = catd?.clips[clipIdx];
+    if (!catd || !clip) return;
+    get().pushMsg(buddyId, { kind: 'audible', from: 'me', text: clip.caption, ts: Date.now(), audible: { cat: catd.dir, file: clip.file, caption: clip.caption } });
     const buddy = get().buddies.find((b) => b.id === buddyId);
     if (!buddy || buddy.status === 'offline') return;
     later(() => {
-      get().buddySays(buddyId, [`[Audible] ${a.text}`]);
-      sounds.audible(a.pitch * 0.8);
-    }, 1600);
+      get().buddyAudible(buddyId);
+    }, 1800 + Math.random() * 1200);
+  },
+
+  buddyAudible: (buddyId) => {
+    const catd = AUDIBLE_CATEGORIES[Math.floor(Math.random() * 3)];
+    const clip = catd.clips[Math.floor(Math.random() * catd.clips.length)];
+    const buddy = get().buddies.find((b) => b.id === buddyId);
+    get().pushMsg(buddyId, { kind: 'audible', from: 'buddy', text: clip.caption, ts: Date.now(), audible: { cat: catd.dir, file: clip.file, caption: clip.caption } });
   },
 
   buddySays: (buddyId, texts) => {
@@ -293,11 +302,11 @@ export const useYM = create<YMStore>((set, get) => ({
         conversations: { ...st2.conversations, [buddyId]: { ...conv, unread: focused ? 0 : conv.unread + 1 } },
       };
     });
-    // occasionally the buddy signs out after chatting
-    if (Math.random() < 0.12) {
+    // occasionally the buddy signs out after chatting (never the demo host)
+    if (buddyId !== 'mmuchmore' && Math.random() < 0.06) {
       later(() => {
         get().setBuddyStatus(buddyId, 'offline');
-        get().pushMsg(buddyId, { kind: 'system', from: 'sys', text: `${get().buddies.find((b) => b.id === buddyId)?.name} has signed out. (${fmtTs()})`, ts: Date.now() });
+        get().pushMsg(buddyId, { kind: 'system', from: 'sys', text: `${get().buddies.find((b) => b.id === buddyId)?.name} has signed out. (${fmtTimestamp()})`, ts: Date.now() });
       }, 8000 + Math.random() * 6000);
     }
   },
@@ -318,19 +327,14 @@ export const useYM = create<YMStore>((set, get) => ({
     const b = get().buddies.find((x) => x.id === buddyId);
     if (!b || b.status === status) return;
     if (status === 'offline') sounds.doorClose();
-    else if (status !== 'offline' && b.status === 'offline') sounds.doorOpen();
+    else if (b.status === 'offline') sounds.doorOpen();
     set((st) => ({ buddies: st.buddies.map((x) => (x.id === buddyId ? { ...x, status, statusMsg: msg ?? x.statusMsg } : x)) }));
   },
 
   ensureBuddy: (id, name) => {
     if (get().buddies.some((b) => b.id === id)) return;
     set((st) => ({
-      buddies: [...st.buddies, { id, name, group: 'Co-Workers', status: 'online', statusMsg: '', personality: 'work' }],
+      buddies: [...st.buddies, { id, name, status: 'online', statusMsg: '', avatar: '', personality: 'work' }],
     }));
   },
 }));
-
-function fmtTs() {
-  const d = new Date();
-  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
-}

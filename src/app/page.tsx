@@ -1,7 +1,7 @@
 'use client';
 
-import { YMDesktop } from '@/components/ym/Desktop';
+import { Desktop } from '@/components/ym/Desktop';
 
 export default function Home() {
-  return <YMDesktop />;
+  return <Desktop />;
 }

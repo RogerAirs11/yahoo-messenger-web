@@ -1,448 +1,367 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
-import { YmWindow, MenuBar, MenuDef } from './YmWindow';
-import { useYM } from '@/lib/ym/store';
-import { Buddy, GROUP_ORDER, STATUS_MENU, seedFor, AvatarSvg, AD_ROTATION } from '@/lib/ym/data';
-import { Emoticon } from '@/lib/ym/emoticons';
-import { sounds } from '@/lib/ym/sounds';
-
-function StatusDot({ status }: { status: Buddy['status'] }) {
-  return <span className={`ym-dot ${status}`} />;
-}
-
-function PhoneIcon({ color = '#3a6ab8' }: { color?: string }) {
-  return (
-    <svg width="11" height="11" viewBox="0 0 12 12" style={{ flex: 'none' }}>
-      <path d="M2.5,1.5 L4.5,1.5 L5.5,4 L4,5.2 C4.6,6.6 5.4,7.4 6.8,8 L8,6.5 L10.5,7.5 L10.5,9.5 C10.5,10.1 10.1,10.5 9.5,10.5 C5,10.2 1.8,7 1.5,2.5 C1.5,1.9 1.9,1.5 2.5,1.5 Z" fill={color} />
-    </svg>
-  );
-}
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useYM, Buddy } from '@/lib/ym/store';
+import { STATUS_MENU } from '@/lib/ym/data';
+import { renderEmoticons } from '@/lib/ym/emoticons';
+import { YmWindow } from './Window';
+import { MenuBar } from './MenuBar';
+import {
+  StatusIcon, OfflineAvatar, SmsIcon, PhoneIcon, ComposeIcon, YUpdatesStar, YBangIcon,
+} from './icons';
 
 export function BuddyList() {
-  const st = useYM();
-  const w = st.windows.buddylist;
-  const visible = w.visible && (st.phase === 'online');
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
-  const [selected, setSelected] = useState<string | null>(null);
-  const [filter, setFilter] = useState('');
-  const [statusMenu, setStatusMenu] = useState(false);
-  const [ctxMenu, setCtxMenu] = useState<{ x: number; y: number; buddyId: string } | null>(null);
-  const [showOffline, setShowOffline] = useState(false);
-  const [pluginsOpen, setPluginsOpen] = useState(false);
-  const [addOpen, setAddOpen] = useState(false);
-  const [newId, setNewId] = useState('');
-  const [adIdx, setAdIdx] = useState(0);
-  const [statusEdit, setStatusEdit] = useState(false);
+  const win = useYM((s) => s.windows.buddylist);
+  const buddies = useYM((s) => s.buddies);
+  const me = useYM((s) => s.me);
+  const conversations = useYM((s) => s.conversations);
+  const focusWin = useYM((s) => s.focusWin);
+  const openIm = useYM((s) => s.openIm);
+  const setMyStatus = useYM((s) => s.setMyStatus);
+  const setCustomStatus = useYM((s) => s.setCustomStatus);
+  const signOut = useYM((s) => s.signOut);
+  const closeBuddyList = useYM((s) => s.closeBuddyList);
 
-  const me = st.me;
-  const mySeed = useMemo(() => seedFor(me.name || 'yahoo_user'), [me.name]);
+  const [tab, setTab] = useState<'contacts' | 'updates'>('contacts');
+  const [query, setQuery] = useState('');
+  const [statusMenuOpen, setStatusMenuOpen] = useState(false);
+  const [statusDraft, setStatusDraft] = useState<string | null>(null);
+  const statusInputRef = useRef<HTMLInputElement>(null);
+  const statusMenuRef = useRef<HTMLDivElement>(null);
 
-  const groups = useMemo(() => {
-    const map: Record<string, Buddy[]> = {};
-    for (const g of GROUP_ORDER) map[g] = [];
-    for (const b of st.buddies) {
-      const match = !filter || b.name.toLowerCase().includes(filter.toLowerCase());
-      if (!match) continue;
-      if (b.status === 'offline' && !showOffline && !filter) continue;
-      map[b.group]?.push(b);
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (!statusMenuRef.current?.contains(e.target as Node)) setStatusMenuOpen(false);
+    };
+    window.addEventListener('mousedown', close);
+    return () => window.removeEventListener('mousedown', close);
+  }, []);
+
+  const online = useMemo(
+    () => buddies.filter((b) => b.status !== 'offline').sort((a, b) => a.name.localeCompare(b.name)),
+    [buddies],
+  );
+  const offline = useMemo(
+    () => buddies.filter((b) => b.status === 'offline').sort((a, b) => a.name.localeCompare(b.name)),
+    [buddies],
+  );
+
+  const filtered = (list: Buddy[]) =>
+    query.trim()
+      ? list.filter(
+          (b) =>
+            b.name.toLowerCase().includes(query.toLowerCase()) ||
+            b.statusMsg.toLowerCase().includes(query.toLowerCase()),
+        )
+      : list;
+
+  const shownOnline = filtered(online);
+  const shownOffline = filtered(offline);
+
+  const myStatusLabel =
+    statusDraft !== null
+      ? statusDraft
+      : me.customStatus ||
+        STATUS_MENU.find((s) => s.status === me.status)?.label ||
+        'Available';
+
+  const commitStatus = () => {
+    if (statusDraft !== null) {
+      setCustomStatus(statusDraft);
+      if (statusDraft.trim() === '') setMyStatus('online');
+      setStatusDraft(null);
     }
-    return map;
-  }, [st.buddies, filter, showOffline]);
-
-  const onlineCount = (list: Buddy[]) => list.filter((b) => b.status !== 'offline').length;
-
-  const menus: MenuDef[] = [
-    {
-      label: 'Messenger',
-      items: [
-        ...STATUS_MENU.filter((s) => s.status !== 'signout').map((s) => ({
-          label: s.label,
-          dot: (['online', 'busy', 'idle', 'offline'].includes(s.status) ? s.status : undefined) as 'online' | 'busy' | 'idle' | 'offline' | undefined,
-          onClick: () => {
-            if (s.status === 'new') { setStatusEdit(true); }
-            else if (s.status !== 'signout') st.setMyStatus(s.status as Buddy['status'], s.label);
-          },
-        })),
-        { type: 'sep' as const },
-        { label: 'Sign Out', onClick: () => st.signOut() },
-      ],
-    },
-    {
-      label: 'Contacts',
-      items: [
-        { label: 'Add a Contact...', onClick: () => setAddOpen(true) },
-        { label: 'Address Book...' },
-        { type: 'sep' as const },
-        { label: 'Show Offline Buddies', checked: showOffline, onClick: () => setShowOffline(!showOffline) },
-        { label: 'Rename Groups...' },
-      ],
-    },
-    {
-      label: 'Actions',
-      items: [
-        { label: 'Send an Instant Message...', onClick: () => { if (selected) st.openIm(selected); } },
-        { label: 'Buzz!', onClick: () => { if (selected) { st.openIm(selected); setTimeout(() => st.sendMyBuzz(selected), 250); } } },
-        { type: 'sep' as const },
-        { label: 'Send a File...' },
-        { label: 'Call a Phone Number...' },
-        { label: 'Start a Conference...' },
-      ],
-    },
-    {
-      label: 'Help',
-      items: [
-        { label: 'Yahoo! Messenger Help' },
-        { label: 'Check for Updates...' },
-        { type: 'sep' as const },
-        { label: 'About Yahoo! Messenger' },
-        { type: 'sep' as const },
-        { label: st.soundOn ? 'Sounds: ON (click to mute)' : 'Sounds: OFF (click to unmute)', onClick: () => st.toggleSound() },
-      ],
-    },
-  ];
-
-  const openCtx = (e: React.MouseEvent, buddyId: string) => {
-    e.preventDefault();
-    setSelected(buddyId);
-    setCtxMenu({ x: Math.min(e.clientX, window.innerWidth - 200), y: Math.min(e.clientY, window.innerHeight - 190), buddyId });
   };
 
-  const addContact = () => {
-    const id = newId.trim();
-    if (!id) return;
-    useYM.setState((s) => ({
-      buddies: [
-        ...s.buddies,
-        { id: id.toLowerCase(), name: id, group: 'Friends', status: 'online', statusMsg: '', personality: 'chatty' },
-      ],
-    }));
-    sounds.doorOpen();
-    setAddOpen(false);
-    setNewId('');
-  };
-
-  const ad = AD_ROTATION[adIdx % AD_ROTATION.length];
-
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 720;
-  const winH = Math.max(430, Math.min(560, vh - 42));
+  const myStatus: Buddy['status'] = me.customStatus ? 'online' : me.status;
 
   return (
-    <>
-      <YmWindow
-        width={307}
-        height={winH}
-        x={w.x}
-        y={w.y}
-        z={w.z}
-        visible={visible}
-        showLogo
-        onFocus={() => st.focusWin('buddylist')}
-        onMove={(x, y) => st.moveWin('buddylist', x, y)}
-        onMinimize={() => st.minimizeWin('buddylist')}
-        onClose={() => st.closeBuddyList()}
-        menuBar={<MenuBar menus={menus} />}
-      >
-        {/* ------- header ------- */}
-        <div className="ym-bl-header">
-          <div style={{ display: 'flex', gap: 8 }}>
-            <div style={{ width: 54, height: 54, flex: 'none', background: '#fff', border: '1px solid #a888c8', borderRadius: 3, padding: 1, boxShadow: '0 1px 2px rgba(80,40,120,.3)' }}>
-              <AvatarSvg seed={mySeed} size={52} />
-            </div>
-            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}>
-                <StatusDot status={me.status === 'offline' ? 'offline' : me.status} />
-                <b style={{ fontSize: 11.5, color: '#1c1c1c', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{me.name}</b>
-                <span style={{ cursor: 'pointer', color: '#4a2a6e', fontSize: 9 }} onClick={() => setStatusMenu(!statusMenu)}>
-                  ▼
-                </span>
-                <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2, color: '#5a3a80', fontSize: 10, cursor: 'pointer' }}>
-                  <svg width="12" height="10" viewBox="0 0 12 10"><rect x="0.5" y="1" width="11" height="8" rx="1.5" fill="none" stroke="#5a3a80" strokeWidth="1.2" /><path d="M2.5,3 L6,5.5 L9.5,3" fill="none" stroke="#5a3a80" strokeWidth="1.2" /></svg>
-                  Insider
-                </span>
-                {statusMenu && (
-                  <div className="ym-dropdown" style={{ left: 0, top: 16, minWidth: 210 }}>
-                    {STATUS_MENU.map((s, i) =>
-                      s.status === 'signout' ? (
-                        <React.Fragment key={i}>
-                          <div className="ym-dd-sep" />
-                          <div className="ym-dd-item" onClick={() => { setStatusMenu(false); st.signOut(); }}>
-                            {s.label}
-                          </div>
-                        </React.Fragment>
-                      ) : (
-                        <div key={i} className="ym-dd-item" onClick={() => { setStatusMenu(false); if (s.status === 'new') setStatusEdit(true); else st.setMyStatus(s.status as Buddy['status'], s.label); }}>
-                          {(['online', 'busy', 'idle', 'offline'].includes(s.status)) && <span className={`dot ym-dot ${s.status}`} />}
-                          {s.label}
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-              </div>
-              <input
-                className="ym-input"
-                style={{ height: 19, fontSize: 10.5 }}
-                placeholder="share a status message..."
-                value={me.customStatus}
-                onChange={(e) => st.setCustomStatus(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
-              />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 10, color: '#4a3a60' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 2, cursor: 'pointer' }}>
-                  <svg width="11" height="11" viewBox="0 0 12 12"><rect x="1" y="1" width="10" height="10" rx="1.5" fill="none" stroke="#4a3a60" strokeWidth="1.2" /><path d="M3.5,4 L8.5,4 M3.5,6 L8.5,6 M3.5,8 L6.5,8" stroke="#4a3a60" strokeWidth="1.1" /></svg>
-                  <PhoneIcon color="#4a3a60" />
-                  Yahoo! Voice <b>$12.49</b>
-                </span>
-                <span style={{ marginLeft: 'auto', cursor: 'pointer', color: '#5a3a80' }} title="Change display image">
-                  <svg width="12" height="12" viewBox="0 0 12 12"><path d="M8.5,1.5 L10.5,3.5 L4,10 L1.5,10.5 L2,8 Z" fill="none" stroke="#5a3a80" strokeWidth="1.2" strokeLinejoin="round" /></svg>
-                </span>
-              </div>
+    <YmWindow
+      winKey="buddylist"
+      x={win.x}
+      y={win.y}
+      z={win.z}
+      width={254}
+      height={548}
+      wordmark
+      showStatusDot
+      title={<span className="tb-wordmark"><span className="yw">Yahoo!</span><span className="ym">MESSENGER</span></span>}
+      onClose={closeBuddyList}
+    >
+      <MenuBar
+        menus={[
+          {
+            label: 'Messenger',
+            items: [
+              {
+                label: 'My Status',
+                submenu: [
+                  ...STATUS_MENU.slice(0, 3).map((s) => ({
+                    label: s.label,
+                    checked: me.status === s.status && !me.customStatus,
+                    onClick: () => { setMyStatus(s.status, s.msg ?? ''); setCustomStatus(s.msg ?? ''); },
+                  })),
+                  { sep: true },
+                  { label: 'New Status Message...', onClick: () => { setStatusDraft(''); setTimeout(() => statusInputRef.current?.focus(), 50); } },
+                  { label: 'Invisible to Everyone', checked: me.status === 'offline', onClick: () => setMyStatus('offline', '') },
+                  { sep: true },
+                  { label: 'Sign Out', onClick: signOut },
+                ],
+              },
+              { label: 'Preferences...', onClick: () => alert('Preferences\n\nSounds: ON\nDisplay images: ON\nSort contacts: Alphabetically') },
+              { sep: true },
+              { label: 'Sign Out', onClick: signOut },
+              { label: 'Exit', onClick: closeBuddyList },
+            ],
+          },
+          {
+            label: 'Contacts',
+            items: [
+              { label: 'Add a Contact...', onClick: () => alert('Add a Contact\n\nEnter their Yahoo! ID and say hello!') },
+              { sep: true },
+              { label: 'Show Offline Contacts', checked: true, onClick: () => {} },
+              { label: 'Sort Contacts by Name', checked: true, onClick: () => {} },
+            ],
+          },
+          {
+            label: 'Actions',
+            items: [
+              { label: 'Send an Instant Message...', onClick: () => openIm(shownOnline[0]?.id ?? 'sbacon') },
+              { label: 'Send a Text Message (SMS)...', disabled: true },
+              { sep: true },
+              { label: 'Chat in a Yahoo! Room...', disabled: true },
+              { label: 'Start a Conference...', disabled: true },
+            ],
+          },
+          {
+            label: 'Help',
+            items: [
+              { label: 'Yahoo! Messenger Help', onClick: () => alert('Tip: double-click a contact to open an IM window. Try Buzz! from the Actions menu in a conversation.') },
+              { sep: true },
+              { label: 'About Yahoo! Messenger', onClick: () => alert('Yahoo! Messenger 9.0\nWeb Edition') },
+            ],
+          },
+        ]}
+      />
+
+      {/* purple identity header */}
+      <div className="ym-bl-header">
+        <div className="ym-bl-me">
+          <img className="ym-bl-avatar" src={me.avatar} alt="My avatar" />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="ym-bl-name-row">
+              <span className="ym-bl-name">{me.name || 'me'}</span>
+              <StatusIcon status={myStatus} size={15} />
             </div>
           </div>
         </div>
-
-        {/* ------- contact search ------- */}
-        <div className="ym-searchbar">
-          <div style={{ display: 'flex', gap: 4 }}>
-            <input
-              className="ym-input"
-              style={{ flex: 1, height: 20, borderRadius: 10 }}
-              placeholder="type some contact information..."
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            />
-            <button
-              title="Find a contact"
-              style={{ width: 24, height: 22, borderRadius: 3, border: '1px solid #7a4aa8', background: 'linear-gradient(180deg,#a878d0,#7c4ba9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              onClick={() => setFilter('')}
-            >
-              <svg width="13" height="12" viewBox="0 0 14 12"><rect x="1" y="1" width="12" height="10" rx="1.5" fill="#fff" /><circle cx="7" cy="4.6" r="1.8" fill="#7c4ba9" /><path d="M3.5,10 C3.5,7.8 10.5,7.8 10.5,10 Z" fill="#7c4ba9" /></svg>
-            </button>
-          </div>
-        </div>
-
-        {/* ------- the list ------- */}
-        <div className="ym-list">
-          {GROUP_ORDER.map((g) => {
-            const list = groups[g];
-            if (!list.length) return null;
-            const isCollapsed = collapsed[g];
-            return (
-              <div key={g}>
-                <div className="ym-group-header" onClick={() => setCollapsed((c) => ({ ...c, [g]: !c[g] }))}>
-                  <span style={{ fontSize: 8, color: '#4a2a6e' }}>{isCollapsed ? '▶' : '▼'}</span>
-                  {g} ({onlineCount(list)}/{list.length})
+        <div className="ym-bl-status-input" ref={statusMenuRef}>
+          <input
+            ref={statusInputRef}
+            value={statusDraft ?? myStatusLabel}
+            onChange={(e) => setStatusDraft(e.target.value)}
+            onFocus={() => setStatusDraft(statusDraft ?? myStatusLabel)}
+            onBlur={commitStatus}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                commitStatus();
+                (e.target as HTMLInputElement).blur();
+              }
+              if (e.key === 'Escape') {
+                setStatusDraft(null);
+                (e.target as HTMLInputElement).blur();
+              }
+            }}
+            spellCheck={false}
+          />
+          <span
+            className="dd"
+            title="Change status"
+            onMouseDown={(e) => { e.preventDefault(); setStatusMenuOpen(!statusMenuOpen); }}
+          >
+            <svg width="8" height="6" viewBox="0 0 8 6"><path d="M0 0 L8 0 L4 5.5 Z" fill="#4a4a44" /></svg>
+          </span>
+          {statusMenuOpen && (
+            <div className="ym-menu-drop" style={{ left: win.x + 8, top: win.y + 96, minWidth: 186 }}>
+              {STATUS_MENU.map((s, i) => (
+                <div
+                  key={i}
+                  className="ym-menu-row"
+                  onClick={() => {
+                    setMyStatus(s.status, s.msg ?? '');
+                    setCustomStatus(s.msg ?? '');
+                    setStatusMenuOpen(false);
+                  }}
+                >
+                  {s.label}
                 </div>
-                {!isCollapsed &&
-                  list.map((b) => (
-                    <div
-                      key={b.id}
-                      className={`ym-buddy-row ${b.status === 'offline' ? 'offline' : ''} ${selected === b.id ? 'selected' : ''}`}
-                      onClick={() => setSelected(b.id)}
-                      onDoubleClick={() => st.openIm(b.id)}
-                      onContextMenu={(e) => openCtx(e, b.id)}
-                      title={`${b.name} — double-click to send an IM`}
-                    >
-                      <div style={{ width: 30, height: 30, flex: 'none', border: '1px solid #c8b8dc', borderRadius: 2, background: '#fff', padding: 0.5, opacity: b.status === 'offline' ? 0.55 : 1 }}>
-                        <AvatarSvg seed={seedFor(b.name)} size={27} />
-                      </div>
-                      <div style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <StatusDot status={b.status} />
-                          <span className="ym-buddy-name">{b.name}</span>
-                        </div>
-                        {b.statusMsg && (
-                          <span className={`ym-buddy-status ${b.statusMsg.includes('mobile') ? 'im-mobile' : b.statusMsg.startsWith('♫') ? 'music' : b.statusMsg.includes('|') ? 'link' : ''}`}>
-                            {b.statusMsg.startsWith('♫') ? (
-                              <>
-                                <span style={{ color: '#8a3ab8' }}>♫ </span>
-                                {b.statusMsg.slice(2)}
-                              </>
-                            ) : b.statusMsg.includes('mobile') ? (
-                              <>
-                                <PhoneIcon /> {b.statusMsg}
-                              </>
-                            ) : (
-                              b.statusMsg
-                            )}
-                          </span>
-                        )}
-                      </div>
-                      {st.conversations[b.id]?.unread > 0 && (
-                        <span className="ym-unread-badge" style={{ marginTop: 4 }}>
-                          {st.conversations[b.id].unread}
-                        </span>
-                      )}
-                    </div>
-                  ))}
+              ))}
+              <div className="ym-menu-sep" />
+              <div className="ym-menu-row" onClick={() => { setStatusMenuOpen(false); signOut(); }}>
+                Sign Out
               </div>
-            );
-          })}
-          {!Object.values(groups).some((l) => l.length) && (
-            <div style={{ padding: 14, color: '#8a7ba0', textAlign: 'center' }}>No contacts found.</div>
+            </div>
           )}
         </div>
-
-        {/* ------- add contact + plugins ------- */}
-        <div style={{ flex: 'none', background: '#efe6f9', borderTop: '1px solid #c3aadf', padding: '3px 6px', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <button className="ym-btn" style={{ fontSize: 10.5, padding: '2px 9px', display: 'flex', alignItems: 'center', gap: 4 }} onClick={() => setAddOpen(true)}>
-            <b style={{ fontSize: 12, lineHeight: 1 }}>+</b> Add a Contact
-          </button>
-          <div
-            style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 10.5, color: '#3a2460' }}
-            onClick={() => setPluginsOpen(!pluginsOpen)}
-          >
-            Plug-ins
-            <span style={{ fontSize: 8, border: '1px solid #9a76c2', background: '#e2d2f2', borderRadius: 2, padding: '0 3px' }}>{pluginsOpen ? '▼' : '▲'}</span>
-          </div>
+        <div className="ym-bl-links">
+          <span className="lk" title="Send a text message"><SmsIcon /></span>
+          <span className="lk" title="Yahoo! Voice"><PhoneIcon /></span>
+          <span className="lk">Yahoo! Voice <b>$12.49</b></span>
+          <span className="spacer" />
+          <span className="lk" title="Compose"><ComposeIcon /></span>
         </div>
-        {pluginsOpen && (
-          <div style={{ flex: 'none', background: '#f6f1fb', borderBottom: '1px solid #d5c4ea', padding: '5px 8px', display: 'flex', gap: 12, alignItems: 'center' }}>
-            {[
-              { n: 'Games', e: '🎮' },
-              { n: 'Music', e: '♫' },
-              { n: 'Weather', e: '☁' },
-              { n: 'Calendar', e: '📅' },
-              { n: 'Add Plug-ins...', e: '⊕' },
-            ].map((p) => (
-              <span key={p.n} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: 9.5, color: '#4a2a6e', cursor: 'pointer' }}>
-                <span style={{ fontSize: 15 }}>{p.e}</span>
-                {p.n}
-              </span>
+      </div>
+
+      {/* tabs */}
+      <div className="ym-tabs">
+        <span className={`ym-tab${tab === 'contacts' ? ' active' : ''}`} onClick={() => setTab('contacts')}>
+          Contacts
+        </span>
+        <span className={`ym-tab${tab === 'updates' ? ' active' : ''}`} onClick={() => setTab('updates')}>
+          <YUpdatesStar />Y! Updates
+        </span>
+      </div>
+
+      {tab === 'contacts' ? (
+        <>
+          <div style={{ flex: 'none', padding: '4px 6px', background: 'linear-gradient(180deg,#dcc2ef 0%,#d0b2e8 100%)' }}>
+            <div className="ym-search-wrap">
+              <input
+                placeholder="type some contact information..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button className="ym-search-go" title="Search">
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect x="0" y="0" width="3" height="3" fill="#fff" />
+                  <rect x="3.6" y="0" width="3" height="3" fill="#fff" />
+                  <rect x="7" y="0" width="3" height="3" fill="#fff" />
+                  <rect x="0" y="3.6" width="3" height="3" fill="#fff" />
+                  <rect x="3.6" y="3.6" width="3" height="3" fill="#fff" />
+                  <rect x="7" y="3.6" width="3" height="3" fill="#fff" />
+                  <rect x="0" y="7" width="3" height="3" fill="#fff" />
+                  <rect x="3.6" y="7" width="3" height="3" fill="#fff" />
+                  <rect x="7" y="7" width="3" height="3" fill="#fff" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="ym-bl-list ym-scroll">
+            {shownOnline.map((b) => {
+              const unread = conversations[b.id]?.unread ?? 0;
+              return (
+                <div
+                  key={b.id}
+                  className={`ym-buddy-row${b.status === 'offline' ? ' offline' : ''}${unread ? ' unread' : ''}`}
+                  onDoubleClick={() => openIm(b.id)}
+                  title={`${b.name} — double-click to message`}
+                >
+                  {b.avatar ? (
+                    <img className="ym-buddy-ava" src={b.avatar} alt="" draggable={false} />
+                  ) : (
+                    <OfflineAvatar />
+                  )}
+                  <span className="ym-buddy-sticon">
+                    <StatusIcon status={b.status === 'mobile' ? 'mobile' : b.status} size={15} />
+                  </span>
+                  <span className="ym-buddy-txt">
+                    <span className="ym-buddy-name">{b.name}</span>
+                    {b.playing ? (
+                      <span className="ym-buddy-status nowplaying">
+                        <span className="np-note">♫ </span>{b.playing}
+                      </span>
+                    ) : b.statusMsg ? (
+                      <span className={`ym-buddy-status${b.statusColor === 'blue' ? ' blue' : ''}`}>{renderEmoticons(b.statusMsg, 13)}</span>
+                    ) : null}
+                  </span>
+                </div>
+              );
+            })}
+            {shownOffline.length > 0 && shownOnline.length > 0 && <div style={{ height: 6 }} />}
+            {shownOffline.map((b) => (
+              <div key={b.id} className="ym-buddy-row offline" onDoubleClick={() => openIm(b.id)} title={`${b.name} (offline)`}>
+                <OfflineAvatar />
+                <span className="ym-buddy-sticon">
+                  <StatusIcon status="offline" size={15} />
+                </span>
+                <span className="ym-buddy-txt">
+                  <span className="ym-buddy-name">{b.name}</span>
+                </span>
+              </div>
             ))}
+            {shownOnline.length === 0 && shownOffline.length === 0 && (
+              <div style={{ padding: 14, color: '#999', fontStyle: 'italic' }}>No contacts match "{query}"</div>
+            )}
           </div>
-        )}
 
-        {/* ------- web search footer ------- */}
-        <div style={{ flex: 'none', height: 26, background: 'linear-gradient(180deg,#a878d0,#7c4ba9)', display: 'flex', alignItems: 'center', gap: 6, padding: '0 6px' }}>
-          <div style={{ lineHeight: '9px', textAlign: 'left', flex: 'none' }}>
-            <div style={{ color: '#fff', fontWeight: 700, fontStyle: 'italic', fontSize: 10.5, letterSpacing: -0.3 }}>YAHOO!</div>
-            <div style={{ color: '#d8c8ee', fontSize: 7.5, letterSpacing: 1.5 }}>WEB SEARCH</div>
+          <div className="ym-bl-footer">
+            <button className="ym-btn small" style={{ flex: 1 }} onClick={() => alert('Add a Contact\n\nEnter their Yahoo! ID and say hello!')}>
+              + Add a Contact
+            </button>
+            <button className="ym-btn small" style={{ flex: 1 }} onClick={() => alert('Plug-ins\n\nY! Insights · Weather · Games · Music')}>
+              Plug-ins <span style={{ fontSize: 8 }}>▲</span>
+            </button>
           </div>
-          <input className="ym-input" style={{ flex: 1, height: 19 }} placeholder="" onKeyDown={(e) => { if (e.key === 'Enter') { st.ensureBuddy('ysearch', 'Yahoo! Search'); st.openIm('ysearch'); (e.target as HTMLInputElement).blur(); } }} />
-          <button style={{ width: 22, height: 19, background: 'linear-gradient(180deg,#5a2a8a,#43196e)', border: '1px solid #3a1460', color: '#fff', borderRadius: 3, cursor: 'pointer', fontSize: 11, lineHeight: 1 }} onClick={() => { st.ensureBuddy('ysearch', 'Yahoo! Search'); st.openIm('ysearch'); }}>
-            →
+        </>
+      ) : (
+        <div className="ym-bl-list ym-scroll" style={{ padding: 6 }}>
+          <UpdatesFeed />
+        </div>
+      )}
+
+      {/* Yahoo! Web Search bar */}
+      <div className="ym-bl-websearch">
+        <span className="ym-yws-logo">
+          <span className="y1">Yahoo!</span>
+          <span className="y2">WEB SEARCH</span>
+        </span>
+        <div className="ym-search-wrap">
+          <input
+            placeholder="Search the web"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') alert('Yahoo! Web Search — results would open in a new window (nostalgia only).');
+            }}
+          />
+          <button
+            className="ym-search-go"
+            title="Web Search"
+            onClick={() => alert('Yahoo! Web Search — results would open in a new window (nostalgia only).')}
+          >
+            <svg width="12" height="10" viewBox="0 0 12 10"><path d="M1 5 h7 M5 1.5 L8.5 5 L5 8.5" stroke="#fff" strokeWidth="1.8" fill="none" strokeLinecap="round" /></svg>
           </button>
         </div>
+      </div>
+      <YBangFloat />
+    </YmWindow>
+  );
+}
 
-        {/* ------- ad banner ------- */}
-        <div
-          style={{
-            flex: 'none',
-            height: 44,
-            cursor: 'pointer',
-            background: 'linear-gradient(90deg,#2a3a8a 0%,#3a54c8 30%,#ffd400 30%,#ffe873 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '0 8px',
-            overflow: 'hidden',
-          }}
-          onClick={() => setAdIdx((i) => i + 1)}
-          title="Click to rotate ads — just like 2008!"
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, flex: 1, minWidth: 0 }}>
-            <span style={{ transform: 'rotate(-8deg)' }}>
-              <Emoticon type="cool" size={26} />
-            </span>
-            <span style={{ transform: 'rotate(6deg)', marginTop: 4 }}>
-              <Emoticon type="laughing" size={22} />
-            </span>
-            <div style={{ color: '#fff', fontWeight: 700, fontSize: 11, textShadow: '0 1px 2px rgba(0,0,60,.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {ad.kind === 'AD' ? ad.title : ad.title}
-              <div style={{ fontSize: 9, fontWeight: 400, color: '#f0e8ff' }}>{ad.url}</div>
-            </div>
-          </div>
-          <span style={{ fontWeight: 700, fontStyle: 'italic', color: '#fff', fontSize: 13, textShadow: '0 1px 2px rgba(0,0,60,.6)', flex: 'none' }}>Y!</span>
-        </div>
-      </YmWindow>
-
-      {/* ------- buddy context menu ------- */}
-      {ctxMenu && (
-        <div className="ym-context-overlay" onMouseDown={() => setCtxMenu(null)} onContextMenu={(e) => { e.preventDefault(); setCtxMenu(null); }}>
-          <div className="ym-dropdown" style={{ position: 'fixed', left: ctxMenu.x, top: ctxMenu.y, display: 'block' }} onMouseDown={(e) => e.stopPropagation()}>
-            <div className="ym-dd-item" onClick={() => { st.openIm(ctxMenu.buddyId); setCtxMenu(null); }}>
-              Send an Instant Message...
-            </div>
-            <div className="ym-dd-item" onClick={() => { st.openIm(ctxMenu.buddyId); setTimeout(() => st.sendMyBuzz(ctxMenu.buddyId), 250); setCtxMenu(null); }}>
-              Buzz!
-            </div>
-            <div className="ym-dd-sep" />
-            <div className="ym-dd-item" onClick={() => setCtxMenu(null)}>
-              View Profile...
-            </div>
-            <div className="ym-dd-item" onClick={() => { useYM.setState((s) => ({ buddies: s.buddies.filter((b) => b.id !== ctxMenu.buddyId) })); setCtxMenu(null); }}>
-              Remove Contact...
-            </div>
+/** Y! Updates tab content */
+function UpdatesFeed() {
+  const buddies = useYM((s) => s.buddies);
+  const active = buddies.filter((b) => b.status !== 'offline' && (b.statusMsg || b.playing));
+  return (
+    <>
+      <div style={{ fontSize: 11, color: '#5e2b85', fontWeight: 'bold', margin: '2px 0 6px' }}>
+        What your contacts are up to
+      </div>
+      {active.map((b) => (
+        <div key={b.id} style={{ display: 'flex', gap: 6, padding: '4px 2px', borderBottom: '1px solid #eee' }}>
+          <img src={b.avatar || undefined} alt="" width={22} height={22} style={{ borderRadius: 2, border: '1px solid #ccc', objectFit: 'cover', background: '#fff' }} />
+          <div style={{ fontSize: 11, lineHeight: 1.4 }}>
+            <b>{b.name}</b>
+            <div style={{ color: '#666' }}>{b.playing ? `♫ listening to ${b.playing}` : b.statusMsg}</div>
+            <div style={{ color: '#a0a0a0', fontSize: 10 }}>{Math.floor(Math.random() * 40) + 2} minutes ago</div>
           </div>
         </div>
-      )}
-
-      {/* ------- add contact dialog ------- */}
-      {addOpen && (
-        <div className="ym-context-overlay" onMouseDown={() => setAddOpen(false)}>
-          <div
-            className="ym-window"
-            style={{ position: 'fixed', left: '50%', top: '38%', transform: 'translate(-50%,-50%)', width: 280, zIndex: 3100 }}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <div className="ym-titlebar">
-              <span className="ym-title">Add a Contact</span>
-              <div className="ym-tb-btns">
-                <button className="ym-tb-btn close" onClick={() => setAddOpen(false)}>
-                  <svg width="9" height="9" viewBox="0 0 9 9"><path d="M1.5,1.5 L7.5,7.5 M7.5,1.5 L1.5,7.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                </button>
-              </div>
-            </div>
-            <div style={{ background: '#fcfbf6', padding: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div>Enter the Yahoo! ID of the person you want to add:</div>
-              <input className="ym-input" style={{ height: 20 }} value={newId} onChange={(e) => setNewId(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && addContact()} autoFocus placeholder="e.g. smiley_2008" />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6, marginTop: 4 }}>
-                <button className="ym-btn" onClick={addContact}>Add</button>
-                <button className="ym-btn" onClick={() => setAddOpen(false)}>Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ------- new status message dialog ------- */}
-      {statusEdit && (
-        <div className="ym-context-overlay" onMouseDown={() => setStatusEdit(false)}>
-          <div
-            className="ym-window"
-            style={{ position: 'fixed', left: '50%', top: '38%', transform: 'translate(-50%,-50%)', width: 280, zIndex: 3100 }}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <div className="ym-titlebar">
-              <span className="ym-title">New Status Message</span>
-              <div className="ym-tb-btns">
-                <button className="ym-tb-btn close" onClick={() => setStatusEdit(false)}>
-                  <svg width="9" height="9" viewBox="0 0 9 9"><path d="M1.5,1.5 L7.5,7.5 M7.5,1.5 L1.5,7.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                </button>
-              </div>
-            </div>
-            <div style={{ background: '#fcfbf6', padding: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div>Type a new status message:</div>
-              <StatusEditInput onDone={(t) => { st.setMyStatus('online', t || "I'm Available"); setStatusEdit(false); }} />
-            </div>
-          </div>
-        </div>
-      )}
+      ))}
+      {active.length === 0 && <div style={{ color: '#999', fontStyle: 'italic', padding: 8 }}>No recent updates.</div>}
     </>
   );
 }
 
-function StatusEditInput({ onDone }: { onDone: (t: string) => void }) {
-  const [t, setT] = useState('');
-  return (
-    <>
-      <input className="ym-input" style={{ height: 20 }} value={t} onChange={(e) => setT(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && onDone(t)} autoFocus placeholder="Is it Friday yet? :)" />
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
-        <button className="ym-btn" onClick={() => onDone(t)}>OK</button>
-        <button className="ym-btn" onClick={() => onDone('')}>Cancel</button>
-      </div>
-    </>
-  );
+/** floating Y! badge bottom-right of buddy list chrome (subtle authenticity) */
+function YBangFloat() {
+  return null;
 }

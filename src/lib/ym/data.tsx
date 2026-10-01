@@ -1,86 +1,8 @@
 'use client';
 
-import React from 'react';
-
 /* ------------------------------------------------------------------ */
-/* Procedural cartoon avatars in the spirit of Yahoo! Avatars (YM 9).  */
-/* Deterministic per name — every buddy gets a stable little face.     */
-/* ------------------------------------------------------------------ */
-
-const HAIRS = ['#4A2E18', '#6B3E14', '#C8862A', '#4A3A30', '#7A4A20', '#B4552A', '#D8B04A', '#5A5A66'];
-const SKINS = ['#F2C9A0', '#E8B088', '#C98D5E', '#8C5A34', '#F7D7B8', '#A96C40'];
-const SHIRTS = ['#3A7ABF', '#BF3A5A', '#3AA06A', '#7A3ABF', '#BF7A2A', '#3A8ABF', '#C04A3A', '#4A9A48'];
-const STYLES = ['short', 'spiky', 'long', 'bald', 'cap', 'curly'];
-
-export type AvatarSeed = {
-  hair: string;
-  skin: string;
-  shirt: string;
-  style: string;
-  bg: string;
-};
-
-export function seedFor(name: string): AvatarSeed {
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
-  const bgs = ['#E8D8F5', '#D8E8F5', '#F5E8D8', '#D8F5E2', '#F5D8E2', '#EFEFE0'];
-  return {
-    hair: HAIRS[h % HAIRS.length],
-    skin: SKINS[(h >> 3) % SKINS.length],
-    shirt: SHIRTS[(h >> 6) % SHIRTS.length],
-    style: STYLES[(h >> 9) % STYLES.length],
-    bg: bgs[(h >> 12) % bgs.length],
-  };
-}
-
-export function AvatarSvg({ seed, size = 32 }: { seed: AvatarSeed; size?: number }) {
-  const { hair, skin, shirt, style, bg } = seed;
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" style={{ display: 'block' }}>
-      <rect width="32" height="32" rx="3" fill={bg} />
-      {/* shoulders */}
-      <path d="M4,32 Q4,24 16,24 Q28,24 28,32 Z" fill={shirt} />
-      {/* head */}
-      <circle cx="16" cy="13" r="8" fill={skin} />
-      {/* hair styles */}
-      {style === 'short' && <path d="M8,12 Q8,4.5 16,4.5 Q24,4.5 24,12 Q20,9 16,9.5 Q11,9 8,12 Z" fill={hair} />}
-      {style === 'spiky' && (
-        <path d="M8,12 L9.5,6 L11.5,9 L13.5,4.5 L15.5,8.5 L17.5,4.5 L19.5,9 L21.5,6 L24,12 Q20,8.5 16,9 Q11,8.5 8,12 Z" fill={hair} />
-      )}
-      {style === 'long' && (
-        <>
-          <path d="M6,21 L6,13 Q6,4.5 16,4.5 Q26,4.5 26,13 L26,21 Z" fill={hair} />
-          <circle cx="16" cy="13.5" r="7.2" fill={skin} />
-          <path d="M9,10.5 Q16,6.5 23,10.5 Q16,8.5 9,10.5 Z" fill={hair} />
-        </>
-      )}
-      {style === 'bald' && <path d="M9,10 Q10,5.5 16,5.5 Q22,5.5 23,10" fill="none" stroke={hair} strokeWidth="1.4" />}
-      {style === 'cap' && (
-        <>
-          <path d="M8,10.5 Q8,4.5 16,4.5 Q24,4.5 24,10.5 Z" fill={shirt} />
-          <path d="M6,10.5 L26,10.5 L26,12 L6,12 Z" fill={shirt} />
-        </>
-      )}
-      {style === 'curly' && (
-        <g fill={hair}>
-          <circle cx="10" cy="9" r="2.6" />
-          <circle cx="13" cy="6.5" r="2.6" />
-          <circle cx="16.5" cy="6" r="2.6" />
-          <circle cx="20" cy="6.8" r="2.6" />
-          <circle cx="22.5" cy="9.5" r="2.4" />
-        </g>
-      )}
-      {/* eyes */}
-      <circle cx="12.6" cy="12.6" r="1" fill="#2B1B10" />
-      <circle cx="19.4" cy="12.6" r="1" fill="#2B1B10" />
-      {/* smile */}
-      <path d="M12.4,16.4 Q16,19.4 19.6,16.4" fill="none" stroke="#8A4A2A" strokeWidth="1.1" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Buddies                                                             */
+/* Yahoo! Messenger 9 data — buddy roster, audibles, news, ads.        */
+/* Roster & status lines transcribed from the reference screenshots.  */
 /* ------------------------------------------------------------------ */
 
 export type BuddyStatus = 'online' | 'busy' | 'idle' | 'offline' | 'mobile';
@@ -88,183 +10,158 @@ export type BuddyStatus = 'online' | 'busy' | 'idle' | 'offline' | 'mobile';
 export interface Buddy {
   id: string;
   name: string;
-  group: string;
   status: BuddyStatus;
-  statusMsg?: string;
-  personality: 'chatty' | 'cool' | 'dramatic' | 'work' | 'music';
+  statusMsg: string;
+  statusColor?: 'gray' | 'blue';
+  avatar: string; // public path
+  playing?: string; // now-playing text (blue, with music note)
+  personality: 'chatty' | 'cool' | 'work' | 'quirky';
 }
 
-export const INITIAL_BUDDIES: Buddy[] = [
-  { id: 'mmuchmore', name: 'Michael Muchmore', group: 'Friends', status: 'online', statusMsg: '', personality: 'chatty' },
-  { id: 'sbacon', name: 'Sarah Bacon', group: 'Friends', status: 'online', statusMsg: 'Is it Friday yet? :)', personality: 'chatty' },
-  { id: 'chris', name: 'Chris', group: 'Friends', status: 'mobile', statusMsg: "I'm mobile", personality: 'cool' },
-  { id: 'davidf', name: 'David F.', group: 'Friends', status: 'mobile', statusMsg: "I'm mobile", personality: 'work' },
-  { id: 'dee', name: 'Dee', group: 'Friends', status: 'busy', statusMsg: '', personality: 'dramatic' },
-  { id: 'dudley', name: 'Dudley W', group: 'Co-Workers', status: 'online', statusMsg: '', personality: 'work' },
-  { id: 'felix', name: 'Felix', group: 'Co-Workers', status: 'online', statusMsg: '', personality: 'cool' },
-  { id: 'brian', name: 'Brian Yu', group: 'Co-Workers', status: 'online', statusMsg: '', personality: 'work' },
-  { id: 'chinhuat', name: 'Chin-Huat Chang', group: 'Co-Workers', status: 'busy', statusMsg: 'Stepped Out', personality: 'work' },
-  { id: 'sassi', name: 'Sassi', group: 'Family', status: 'online', statusMsg: '', personality: 'dramatic' },
-  { id: 'dfeldman', name: 'David Feldman', group: 'Family', status: 'online', statusMsg: 'Eric Burke ate my inbox', personality: 'chatty' },
-  { id: 'dgould', name: 'David Gould', group: 'Family', status: 'online', statusMsg: '', personality: 'cool' },
-  { id: 'jared', name: 'Jared Freeze', group: 'Friends', status: 'online', statusMsg: "♫ The Choir - It's Cold Outside", personality: 'music' },
-  { id: 'jaykota', name: 'Jay Kota', group: 'Friends', status: 'online', statusMsg: "I'm totally buying one of these", personality: 'music' },
-  { id: 'johnd', name: 'John Dunning', group: 'Friends', status: 'offline', statusMsg: '', personality: 'chatty' },
-  { id: 'kedara', name: 'Kedar Apte', group: 'Family', status: 'online', statusMsg: 'Buzz Down | Myanmar keeps Su...', personality: 'chatty' },
-  { id: 'jimmy', name: 'jimmy', group: 'Friends', status: 'offline', statusMsg: '', personality: 'cool' },
-  { id: 'erich', name: 'Erich Tupper', group: 'Co-Workers', status: 'offline', statusMsg: '', personality: 'work' },
-];
+const A = '/assets/avatars';
 
-export const GROUP_ORDER = ['Friends', 'Family', 'Co-Workers'];
-
-/* ------------------------------------------------------------------ */
-/* Status list (authentic YM 9 dropdown)                               */
-/* ------------------------------------------------------------------ */
-
-export const STATUS_MENU: { label: string; status: BuddyStatus | 'new' | 'signout' }[] = [
-  { label: "I'm Available", status: 'online' },
-  { label: 'Busy', status: 'busy' },
-  { label: 'Be Right Back', status: 'idle' },
-  { label: 'Not At My Desk', status: 'idle' },
-  { label: 'Stepped Out', status: 'idle' },
-  { label: 'Not In The Office', status: 'idle' },
-  { label: 'On The Phone', status: 'idle' },
-  { label: 'On Vacation', status: 'idle' },
-  { label: 'Out To Lunch', status: 'idle' },
-  { label: 'Invisible to Everyone', status: 'offline' },
-  { label: 'New Status Message...', status: 'new' },
-  { label: 'Sign Out', status: 'signout' },
-];
-
-/* ------------------------------------------------------------------ */
-/* Ads / news ticker content                                           */
-/* ------------------------------------------------------------------ */
-
-export const AD_ROTATION: { kind: 'AD' | 'NEWS'; title: string; url: string }[] = [
-  { kind: 'AD', title: 'DISH Network® - Official Site', url: 'www.DISHNetwork.com' },
-  { kind: 'AD', title: 'Save on Flat Panel TVs - Dealtime®', url: 'www.DealTime.com' },
-  { kind: 'AD', title: 'Get exclusive icons, content, and more!', url: 'emoticons.yahoo.com' },
-  { kind: 'NEWS', title: 'ALP the same federally as in Tas: Libs', url: '(AAP)' },
-  { kind: 'NEWS', title: 'Myanmar keeps Suu Kyi under house arrest', url: 'news.yahoo.com' },
-  { kind: 'AD', title: 'Yahoo! Voice — Call phones for 1¢/min', url: 'voice.yahoo.com' },
-  { kind: 'NEWS', title: 'Get exclusive icons, smileys and more!', url: 'yahoo.com' },
-  { kind: 'AD', title: 'Radio on Yahoo! Music — 100+ stations', url: 'music.yahoo.com' },
-];
-
-/* ------------------------------------------------------------------ */
-/* Audibles bar (Hellos)                                               */
-/* ------------------------------------------------------------------ */
-
-export const AUDIBLES: { label: string; text: string; pitch: number }[] = [
-  { label: 'Hey there!', text: 'Hey there!', pitch: 520 },
-  { label: 'Hello!!', text: 'HELLO!!!', pitch: 640 },
-  { label: 'Yo!', text: 'YO!!!', pitch: 380 },
-  { label: 'Whassup?!', text: 'WHASSUP?!', pitch: 300 },
-  { label: 'Howdy!', text: 'HOWDY!', pitch: 460 },
-  { label: 'Hi hi!', text: 'hi hi hi :)', pitch: 700 },
-  { label: 'Greetings!', text: 'Greetings!', pitch: 400 },
-  { label: 'Knock knock!', text: 'Knock knock!', pitch: 560 },
-];
-
-/* ------------------------------------------------------------------ */
-/* Bot reply engine — nostalgic YM-flavored canned responses           */
-/* ------------------------------------------------------------------ */
-
-const REPLIES: Record<Buddy['personality'], string[]> = {
-  chatty: [
-    'lol :))',
-    'omg i know right',
-    'brb mom needs the phone',
-    'did u see that?? :O',
-    'hahaha XD',
-    'so wut r u up to?',
-    'n2m here just chattin',
-    'my dial-up is SO slow today',
-    'brb',
-    'ttyl! *hugs* >:D<',
-  ],
-  cool: [
-    'sup ;)',
-    'nm u?',
-    'cool cool',
-    'ha nice B-)',
-    'yeah i heard',
-    'tru',
-    'kewl :)',
-    'l8r',
-    'thats wassup',
-  ],
-  dramatic: [
-    'OMG!!! :O',
-    'NO WAY',
-    'i cant believe he said that!!',
-    'im telling EVERYONE',
-    'brb crying :((',
-    'u wont BELIEVE what happened today',
-    'ok so basically...',
-    'dont get me started lol',
-    ':-S',
-  ],
-  work: [
-    'in a meeting, brb',
-    'did u send that report yet?',
-    'ok sure',
-    'lets discuss tomorrow',
-    'ty',
-    'on the phone with the client',
-    'can u ping me in 10?',
-    'noted :)',
-  ],
-  music: [
-    "♪♪ this song is EVERYTHING ♪♪",
-    "check out my new playlist!",
-    "concert friday?? :D",
-    "im listening to it right now ♫",
-    "the chorus gives me chills",
-    "ill burn u a cd ;)",
-  ],
+export const ME_DEFAULT = {
+  name: 'Sarah B.',
+  avatar: `${A}/cartoon/guy-red.png`,
 };
 
-const GREETINGS = /\b(hi|hello|hey|yo|sup|wassup|hola)\b/i;
-const THANKS = /\b(thx|thanks|ty)\b/i;
-const BYE = /\b(brb|gtg|g2g|bye|ttyl|l8r|cya|night)\b/i;
-const LAUGH = /\b(lol|lmao|rofl|haha|hehe|XD)\b/i;
-const LOVE = /\b(love|<3|hug)\b/i;
-const QUESTION = /\?\s*$/;
+export const INITIAL_BUDDIES: Buddy[] = [
+  { id: 'sbacon',   name: 'Sarah Bacon',      status: 'online',  statusMsg: 'Is it Friday yet? :)', avatar: `${A}/cartoon/guy-red.png`,   personality: 'chatty' },
+  { id: 'mmuchmore',name: 'Michael Muchmore', status: 'online',  statusMsg: 'Counting sheep',       avatar: `${A}/cartoon/girl-brown.png`, personality: 'work' },
+  { id: 'chris',    name: 'Chris',            status: 'mobile',  statusMsg: "I'm mobile",           statusColor: 'blue', avatar: `${A}/cartoon/guy-blonde.png`, personality: 'cool' },
+  { id: 'dfeld',    name: 'David F',          status: 'mobile',  statusMsg: "I'm mobile",           statusColor: 'blue', avatar: `${A}/men-32.jpg`,  personality: 'cool' },
+  { id: 'dee',      name: 'Dee',              status: 'busy',    statusMsg: 'Stepped Out',          avatar: `${A}/women-21.jpg`, personality: 'cool' },
+  { id: 'dudleyw',  name: 'Dudley W',         status: 'online',  statusMsg: '',                     avatar: `${A}/men-44.jpg`,  personality: 'quirky' },
+  { id: 'felix',    name: 'Felix',            status: 'online',  statusMsg: '',                     avatar: `${A}/men-11.jpg`,  personality: 'chatty' },
+  { id: 'karlad',   name: 'Karl Ad',          status: 'online',  statusMsg: '',                     avatar: `${A}/men-36.jpg`,  personality: 'work' },
+  { id: 'kedar',    name: 'Kedar',            status: 'online',  statusMsg: '',                     avatar: `${A}/men-15.jpg`,  personality: 'cool' },
+  { id: 'brianyu',  name: 'Brian Yu',         status: 'online',  statusMsg: '',                     avatar: `${A}/women-32.jpg`, personality: 'chatty' },
+  { id: 'chinhuat', name: 'Chin-Huat Chang',  status: 'busy',    statusMsg: 'Stepped Out',          avatar: `${A}/men-75.jpg`,  personality: 'work' },
+  { id: 'csaari',   name: 'Chris Saari',      status: 'mobile',  statusMsg: "I'm mobile",           statusColor: 'blue', avatar: `${A}/cartoon/guy-cool.png`, personality: 'cool' },
+  { id: 'dfeldman', name: 'David Feldman',    status: 'online',  statusMsg: 'Eric Burke ate my inbox', avatar: `${A}/men-27.jpg`, personality: 'quirky' },
+  { id: 'dgould',   name: 'David Gould',      status: 'online',  statusMsg: '',                     avatar: `${A}/men-19.jpg`,  personality: 'work' },
+  { id: 'dudleywong', name: 'Dudley Wong',    status: 'idle',    statusMsg: '',                     avatar: `${A}/men-41.jpg`,  personality: 'work' },
+  { id: 'jfreeze',  name: 'Jared Freeze',     status: 'online',  statusMsg: '', playing: 'The Choir - It\'s Cold Outside', avatar: `${A}/women-14.jpg`, personality: 'chatty' },
+  { id: 'jkota',    name: 'Jay Kota',         status: 'online',  statusMsg: '',                     avatar: `${A}/men-22.jpg`,  personality: 'cool' },
+  { id: 'jdunning', name: 'John Dunning',     status: 'online',  statusMsg: "I'm totally buying one of these", avatar: `${A}/men-30.jpg`, personality: 'quirky' },
+  { id: 'kedara',   name: 'Kedar Apte',       status: 'idle',    statusMsg: 'Buzz Down',            avatar: `${A}/men-17.jpg`,  personality: 'work' },
+  { id: 'etupper',  name: 'Erich Tupper',     status: 'offline', statusMsg: '',                     avatar: '', personality: 'work' },
+  { id: 'jimmy',    name: 'jimmy',            status: 'offline', statusMsg: '',                     avatar: '', personality: 'chatty' },
+  { id: 'jhampton', name: 'Jonathon Hampton', status: 'offline', statusMsg: '',                     avatar: '', personality: 'work' },
+];
 
-function ysearchResults(q: string): string[] {
-  const query = q.trim().replace(/\s+/g, ' ') || 'yahoo messenger';
-  return [
-    `Web Results for "${query}" — about 1,240,000 results (0.28 seconds, dial-up charges may apply):`,
-    `1. ${query} - Official Site » www.${query.toLowerCase().replace(/[^a-z0-9]/g, '') || 'yahoo'}.com — The #1 source for ${query} on the entire World Wide Web!`,
-    `2. Top 10 ${query} Tips » geocities.com/~webmaster2008 — You won't BELIEVE #7!! :O`,
-    `3. ${query} - Best Prices » shopping.yahoo.com — Compare and save! Free shipping on orders over $25.`,
-    `Tip: Press "Buzz!" for faster results. (Not really. B-) )`,
-  ];
+/* ---------------- Audibles (real MP4s from Yahoo! Messenger) ---------------- */
+
+export interface AudibleCategory {
+  label: string;
+  dir: string;
+  clips: { file: string; caption: string }[];
 }
 
+const cap = (file: string) =>
+  file.replace('.mp4', '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
-export function botReply(buddy: Buddy, incoming: string): string[] {
-  if (buddy.id === 'ysearch') return ysearchResults(incoming);
-  const pool = REPLIES[buddy.personality];
-  const pick = () => pool[Math.floor(Math.random() * pool.length)];
-  const out: string[] = [];
-  if (GREETINGS.test(incoming)) {
-    out.push(['hey!', 'heyy :)', 'yo!', 'hi!! :D', 'sup'][Math.floor(Math.random() * 5)]);
+function cat(dir: string, files: string[]): AudibleCategory {
+  return { label: cap(dir), dir, clips: files.map((f) => ({ file: f, caption: cap(f) })) };
+}
+
+export const AUDIBLE_CATEGORIES: AudibleCategory[] = [
+  cat('hello', ['dude.mp4', 'echo.mp4', 'expecting-you.mp4', 'guess.mp4', 'i-can-see-you.mp4', 'its-ok-now.mp4', 'ladies-in-da-house.mp4', 'nosepick.mp4', 'skin.mp4', 'sup.mp4']),
+  cat('goodbyes', ['boss.mp4', 'buhbye.mp4', 'iM.mp4', 'meds.mp4', 'outta-here.mp4', 'parole.mp4', 'pee.mp4', 'reboot.mp4', 'see-ya.mp4', 'split.mp4']),
+  cat('taunt', ['badabing.mp4', 'dont-make-me-hurt-you.mp4', 'gotta-hurt.mp4', 'hit-me-with-your-best-shot-grandma.mp4', 'hope-youre-hungry.mp4', 'mopping.mp4', 'muhahahaha.mp4']),
+  cat('insults', ['barf.mp4', 'brain.mp4', 'funny.mp4', 'laughing.mp4', 'lonely.mp4', 'monkey.mp4', 'not-funny.mp4', 'rest-of-my-life.mp4', 'shower.mp4', 'snap.mp4', 'sock.mp4', 'spellcheck.mp4', 'stick.mp4', 'suck.mp4', 'talk-to-the-hand.mp4', 'typo.mp4', 'unplug.mp4', 'whine.mp4']),
+  cat('flirt', ['booty.mp4', 'come-closer.mp4', 'cpr.mp4', 'cupid.mp4', 'dang.mp4', 'dead.mp4', 'heart-melt.mp4', 'hot.mp4', 'loves-me.mp4', 'real-slow.mp4', 'sexy.mp4', 'so.mp4']),
+  cat('losing', ['best-two.mp4', 'cheater.mp4', 'confidence.mp4', 'nooo.mp4', 'on-now.mp4', 'to-someone-like-you.mp4', 'well-played-old-man.mp4']),
+  cat('winning', ['greatest-ever.mp4', 'i-won.mp4', 'na-na-na-na-na.mp4', 'oh-yeah.mp4', 'so-badly.mp4', 'wake-me.mp4']),
+  cat('football', ['airhorn.mp4', 'back.mp4', 'german-drummer.mp4', 'ich-habe-fertig.mp4', 'ole-Ole.mp4', 'pfeife.mp4', 'schiess-los.mp4']),
+  cat('music', ['applause.mp4', 'drumroll.mp4', 'fanfare.mp4', 'tada.mp4']),
+  cat('halloween', ['bad-side.mp4', 'boo.mp4', 'cute.mp4', 'happy-halloween.mp4', 'happy-howloeen.mp4', 'princess.mp4', 'scream.mp4', 'shut-up.mp4', 'trick-or-treat.mp4', 'what-are-you-supposed-to-be.mp4']),
+  cat('happy-tree-friends', ['disco.mp4', 'flaky.mp4', 'flippy.mp4', 'giggles.mp4', 'nutty.mp4']),
+  cat('madonna', ['ray-of-light.mp4']),
+  cat('siedler', ['das-haben-wir-gleich.mp4', 'ihr-entkommt-mir-nicht.mp4']),
+];
+
+export const AUDIBLE_BAR_LABEL = 'Hellos';
+
+/* ---------------- News ticker headlines (era-flavored) ---------------- */
+
+export const NEWS_HEADLINES: string[] = [
+  'ALP the same federally as in Tas: Libs (AAP)',
+  'Yahoo! unveils new Messenger with voice and video',
+  'Study: 8 in 10 teens send instant messages daily',
+  'Dow closes up 114 on upbeat earnings reports',
+  'New iPhone app store downloads top 100 million',
+  'Weather: Sunny skies expected through the weekend',
+  ' Scientists find water vapor on distant planet',
+  'Stocks in play: YHOO, MSFT, AAPL, GOOG',
+  'Trends: MP3 players outsell CD players 3-to-1',
+  'Olympic countdown: Beijing 2008 torch relay begins',
+];
+
+/* ---------------- Ad banners (from the reference screenshots) ---------------- */
+
+export const ADS: { tag: string; title: string; url: string }[] = [
+  { tag: 'AD', title: 'Save on Flat Panel TVs - Dealtime®', url: 'www.DealTime.com' },
+  { tag: 'AD', title: 'DISH Network® - Official Site', url: 'www.DISHNetwork.com' },
+  { tag: 'AD', title: 'Free AOL® Radio - 200+ stations', url: 'www.AOLRadio.com' },
+  { tag: 'AD', title: 'Ringtones for your phone - get 10 free', url: 'www.ringtones.com' },
+];
+
+/* ---------------- Status menu ---------------- */
+
+export const STATUS_MENU: { label: string; status: BuddyStatus; msg?: string }[] = [
+  { label: 'Available', status: 'online' },
+  { label: 'Busy', status: 'busy' },
+  { label: 'Stepped Out', status: 'busy', msg: 'Stepped Out' },
+  { label: 'Be Right Back', status: 'busy', msg: 'Be Right Back' },
+  { label: 'Not At My Desk', status: 'busy', msg: 'Not At My Desk' },
+  { label: 'Not In The Office', status: 'busy', msg: 'Not In The Office' },
+  { label: 'On The Phone', status: 'busy', msg: 'On The Phone' },
+  { label: 'On Vacation', status: 'busy', msg: 'On Vacation' },
+  { label: 'Out To Lunch', status: 'busy', msg: 'Out To Lunch' },
+  { label: 'Invisible to Everyone', status: 'offline', msg: '' },
+];
+
+/* ---------------- Bot conversation engine ---------------- */
+
+const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+
+export function botReply(buddy: Buddy, text: string): string[] {
+  const t = text.toLowerCase();
+  if (t.includes('buzz')) return [':O', 'whoa! that buzz gets me every time :))'];
+  if (t.match(/\b(hi|hey|hello|yo|sup)\b/)) {
+    return [pick(['hey!! :)', 'hiya!', 'hey hey :D']), pick(["what's up?", "how's it going?", 'long time no talk!!'])];
   }
-  if (incoming.toLowerCase().includes('buzz')) out.push('whoa!! the BUZZ!!! X(');
-  if (THANKS.test(incoming)) out.push('np :)');
-  if (BYE.test(incoming)) out.push(['cya!', 'ttyl >:D<', 'l8r!!', 'ok bye!! :)'][Math.floor(Math.random() * 4)]);
-  else if (LAUGH.test(incoming)) out.push(':)) lol');
-  else if (LOVE.test(incoming)) out.push('aww >:D<');
-  else if (QUESTION.test(incoming)) out.push(['hmm good question :-S', 'idk lol', 'maybe??', 'yes totally :D', 'no way!!'][Math.floor(Math.random() * 5)]);
-  else out.push(pick());
-  if (Math.random() < 0.25) out.push(pick());
-  return out;
+  if (t.includes('?')) {
+    return [pick(['hmm good question', 'lol idk', 'let me look it up brb']), pick(['brb 2 min', 'one sec...'])];
+  }
+  if (t.match(/\b(brb|bbs|gtg|g2g)\b/)) return ['ok ttyl!', 'later!! :>'];
+  if (t.includes('lol') || t.includes('haha') || t.includes('joke')) return [pick([':))', '=))', 'LOL', 'xD'])];
+  if (t.includes('bye')) return ['bye!! come back soon :x', 'ttyl!'];
+  if (t.includes('call')) return ["can't talk now, on my cell... I'm mobile", 'call me later :X'];
+  if (t.includes('photo') || t.includes('pic')) return ['send it! :">', 'omg send pics!!'];
+  if (t.includes('video')) return ['my webcam is broken :(', 'ok but i look terrible today lol'];
+  if (t.includes('music') || t.includes('song')) return ['listening to it right now!! o|^_^|o', 'omg i LOVE that song'];
+  switch (buddy.personality) {
+    case 'cool':
+      return [pick(['cool cool', 'nice :)', 'sweet']), pick(['so whats new', 'anything fun happen today'])];
+    case 'work':
+      return [pick(['ok sounds good', 'got it, thanks', 'noted.']), pick(['did you finish the report?', 'the meeting got moved to 3pm'])];
+    case 'quirky':
+      return [pick(['whoa', 'no way!!', 'get out! :O']), pick(['btw did you see that video i sent you?', 'my status message is about you btw :">'])];
+    default:
+      return [
+        pick(['omg really??', 'for real?? :O', 'hahaha :))']),
+        pick(['tell me more!!', 'and then what happened??', 'same here!!!']),
+        pick([':x', 'B-) cool cool', '=))']),
+      ];
+  }
 }
 
 export function botBuzzReaction(buddy: Buddy): string[] {
-  const all = ['AHHH!!! BUZZ!!! X(', 'STOP THE BUZZING!! lol', 'ok ok im here!! :O', 'BUZZ WAR!!! >:)', 'that scared me!! :O'];
-  const i = Math.floor(Math.random() * all.length);
-  return [all[i]];
+  return [pick(['AAAH!! :O', 'hey!! stop buzzing me!! >:(', 'X(  rude!!']), pick(['...ok fine, buzzing you back ;)', 'take THIS!!'])];
+}
+
+export function fmtTimestamp(d = new Date()): string {
+  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
 }
