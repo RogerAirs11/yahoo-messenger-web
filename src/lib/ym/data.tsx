@@ -36,7 +36,7 @@ export const INITIAL_BUDDIES: Buddy[] = [
   { id: 'karlad',   name: 'Karl Ad',          status: 'online',  statusMsg: '',                     avatar: `${A}/men-36.jpg`,  personality: 'work' },
   { id: 'kedar',    name: 'Kedar',            status: 'online',  statusMsg: '',                     avatar: `${A}/men-15.jpg`,  personality: 'cool' },
   { id: 'brianyu',  name: 'Brian Yu',         status: 'online',  statusMsg: '',                     avatar: `${A}/women-32.jpg`, personality: 'chatty' },
-  { id: 'chinhuat', name: 'Chin-Huat Chang',  status: 'busy',    statusMsg: 'Stepped Out',          avatar: `${A}/men-75.jpg`,  personality: 'work' },
+  { id: 'chinhuat', name: 'Chin-Huat Chang',  status: 'busy',    statusMsg: 'Stepped Out',          avatar: `${A}/men-33.jpg`,  personality: 'work' },
   { id: 'csaari',   name: 'Chris Saari',      status: 'mobile',  statusMsg: "I'm mobile",           statusColor: 'blue', avatar: `${A}/cartoon/guy-cool.png`, personality: 'cool' },
   { id: 'dfeldman', name: 'David Feldman',    status: 'online',  statusMsg: 'Eric Burke ate my inbox', avatar: `${A}/men-27.jpg`, personality: 'quirky' },
   { id: 'dgould',   name: 'David Gould',      status: 'online',  statusMsg: '',                     avatar: `${A}/men-19.jpg`,  personality: 'work' },
