@@ -1,0 +1,4507 @@
+{
+  "sha": "3887f20148463a100b2cc6fb053fc620fefd0858",
+  "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/trees/3887f20148463a100b2cc6fb053fc620fefd0858",
+  "tree": [
+    {
+      "path": ".gitattributes",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dfe0770424b2a19faf507a501ebfc23be8f54e7b",
+      "size": 66,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dfe0770424b2a19faf507a501ebfc23be8f54e7b"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdddb29aa445bf3d6a5d843d6dd77e10a9f99657",
+      "size": 1211,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fdddb29aa445bf3d6a5d843d6dd77e10a9f99657"
+    },
+    {
+      "path": "Longhorn Icons",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a0596cdc55d083a00deb5b989f0117b6b01a5dca",
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/trees/a0596cdc55d083a00deb5b989f0117b6b01a5dca"
+    },
+    {
+      "path": "Longhorn Icons/ActiveContact.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eed80908e2825af80f63b40a4c39371b10d48953",
+      "size": 221237,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/eed80908e2825af80f63b40a4c39371b10d48953"
+    },
+    {
+      "path": "Longhorn Icons/BusinessContact.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ee8252f6c8e0e313a1a70a77a83f3536e8633e6",
+      "size": 243069,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3ee8252f6c8e0e313a1a70a77a83f3536e8633e6"
+    },
+    {
+      "path": "Longhorn Icons/ContactOffline.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77aa6c2569df99de2969a4b77ba90f8d2581e6c6",
+      "size": 163791,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/77aa6c2569df99de2969a4b77ba90f8d2581e6c6"
+    },
+    {
+      "path": "Longhorn Icons/DirectoryServices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3835dfbb45e3366d9fa238c850bde2d42339a90f",
+      "size": 213284,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3835dfbb45e3366d9fa238c850bde2d42339a90f"
+    },
+    {
+      "path": "Longhorn Icons/MyGames.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80809a2948b12cdb873b728a6f17ae1b0caacdcd",
+      "size": 275820,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/80809a2948b12cdb873b728a6f17ae1b0caacdcd"
+    },
+    {
+      "path": "Longhorn Icons/NewContact.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3126a8b050d564535900f02a2ae6cd7ba5ef729f",
+      "size": 110079,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3126a8b050d564535900f02a2ae6cd7ba5ef729f"
+    },
+    {
+      "path": "Longhorn Icons/ParentalControls.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "483336eaa52e57a8b8cd638ed1a0c24f3654f480",
+      "size": 268779,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/483336eaa52e57a8b8cd638ed1a0c24f3654f480"
+    },
+    {
+      "path": "Longhorn Icons/PendingContact.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be3c53a79bcb7a35bb641a19067276d419999e97",
+      "size": 234173,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/be3c53a79bcb7a35bb641a19067276d419999e97"
+    },
+    {
+      "path": "Longhorn Icons/PresentationHost.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd5243019dbcc695b923ca41bcdc00cab0873e61",
+      "size": 267110,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fd5243019dbcc695b923ca41bcdc00cab0873e61"
+    },
+    {
+      "path": "Longhorn Icons/PresentationHost2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32bd4ec2ae518914802de4a311eb3e6564341337",
+      "size": 234999,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/32bd4ec2ae518914802de4a311eb3e6564341337"
+    },
+    {
+      "path": "Longhorn Icons/PresentationHost3.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c8781436aaa45403bf40c15fff5e1cbbffb7959",
+      "size": 189208,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8c8781436aaa45403bf40c15fff5e1cbbffb7959"
+    },
+    {
+      "path": "Longhorn Icons/PresentationHost4.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "292f57561dfac5fa40f0dd4911f483fcfe8a0392",
+      "size": 189991,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/292f57561dfac5fa40f0dd4911f483fcfe8a0392"
+    },
+    {
+      "path": "Longhorn Icons/PresentationHost5.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d5ff654b2af02592c4c2a2241056b56f813d36e3",
+      "size": 216508,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d5ff654b2af02592c4c2a2241056b56f813d36e3"
+    },
+    {
+      "path": "Longhorn Icons/PresentationPlatform.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a296b285aa2646f3c9f5b1ccb8171de542566c8",
+      "size": 219418,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7a296b285aa2646f3c9f5b1ccb8171de542566c8"
+    },
+    {
+      "path": "Longhorn Icons/USB.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a83cbeddeeb63f51fa67940e38b60f01d0eb1a38",
+      "size": 174714,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a83cbeddeeb63f51fa67940e38b60f01d0eb1a38"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7ea29e9cc0e5d09f28c381fa3a41fe5376a306e",
+      "size": 48,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a7ea29e9cc0e5d09f28c381fa3a41fe5376a306e"
+    },
+    {
+      "path": "Service Pack 2 Beta",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d6f5dc437b702361e47d0beed057b03e8c08eb8",
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/trees/8d6f5dc437b702361e47d0beed057b03e8c08eb8"
+    },
+    {
+      "path": "Service Pack 2 Beta/Antenna.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ce47b30921d302b1518b49c96b51934f1c6538b",
+      "size": 77588,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8ce47b30921d302b1518b49c96b51934f1c6538b"
+    },
+    {
+      "path": "Service Pack 2 Beta/AntennaSignal.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "360b7c04b1a586eb848b5dd7868d173de3e6743e",
+      "size": 76741,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/360b7c04b1a586eb848b5dd7868d173de3e6743e"
+    },
+    {
+      "path": "Service Pack 2 Beta/InternetConnectionFirewall-LockedDown.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a761dcb156356ae53db2a122472ffa42b2450c8d",
+      "size": 357704,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a761dcb156356ae53db2a122472ffa42b2450c8d"
+    },
+    {
+      "path": "Service Pack 2 Beta/InternetConnectionFirewall-Off.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52b23d2f81898b765350df7aa1b3a1912f6fd2f6",
+      "size": 617771,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/52b23d2f81898b765350df7aa1b3a1912f6fd2f6"
+    },
+    {
+      "path": "Service Pack 2 Beta/InternetConnectionFirewall.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cdfcefb32dc8a4cd8ff281b2168adcdc92dddb7",
+      "size": 452374,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4cdfcefb32dc8a4cd8ff281b2168adcdc92dddb7"
+    },
+    {
+      "path": "Service Pack 2 Beta/SearchforWirelessNetwork.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "552041389a3942dd680bd580bf5dac655689ac2c",
+      "size": 392592,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/552041389a3942dd680bd580bf5dac655689ac2c"
+    },
+    {
+      "path": "Service Pack 2 Beta/SecurityOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "578b1ad5bc5569c0bd53560217e4c31882bf6414",
+      "size": 275168,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/578b1ad5bc5569c0bd53560217e4c31882bf6414"
+    },
+    {
+      "path": "Service Pack 2 Beta/WirelessNetworkConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b7785e4e086ebfcc1c37f60f29abf5e60f8c858",
+      "size": 322704,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6b7785e4e086ebfcc1c37f60f29abf5e60f8c858"
+    },
+    {
+      "path": "Whistler",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d5b05f9f829cccdee3831f9830a517e60c30606b",
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/trees/d5b05f9f829cccdee3831f9830a517e60c30606b"
+    },
+    {
+      "path": "Whistler/Whistler-Accessibility.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de9a260963e0282c8553cdff79ba9fccaba7b04e",
+      "size": 325534,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/de9a260963e0282c8553cdff79ba9fccaba7b04e"
+    },
+    {
+      "path": "Whistler/Whistler-AppearanceandThemes.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71fabcd191bc61707b4ce224a6840be110252d6a",
+      "size": 693823,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/71fabcd191bc61707b4ce224a6840be110252d6a"
+    },
+    {
+      "path": "Whistler/Whistler-Back.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cd34121cbed3431afbc4dae499079c839baa6c4",
+      "size": 149784,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5cd34121cbed3431afbc4dae499079c839baa6c4"
+    },
+    {
+      "path": "Whistler/Whistler-ExplorerDelete.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ddb479cbf5594ade67b137c485bcdc6536df42f9",
+      "size": 69516,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ddb479cbf5594ade67b137c485bcdc6536df42f9"
+    },
+    {
+      "path": "Whistler/Whistler-Favorites.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "219800e0320693260f12f2805062db995bc4bfb1",
+      "size": 190736,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/219800e0320693260f12f2805062db995bc4bfb1"
+    },
+    {
+      "path": "Whistler/Whistler-Forward.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa1c9cb932e504d0b1d0149885264b45ab14f497",
+      "size": 147396,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/aa1c9cb932e504d0b1d0149885264b45ab14f497"
+    },
+    {
+      "path": "Whistler/Whistler-HelpandSupport.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "116e8e5042c452ea89b41ccc62c281da9bb575e7",
+      "size": 313933,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/116e8e5042c452ea89b41ccc62c281da9bb575e7"
+    },
+    {
+      "path": "Whistler/Whistler-IEFavorites.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "719d1b4053b27984c72c6b3d58c89423c6e93ee6",
+      "size": 316213,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/719d1b4053b27984c72c6b3d58c89423c6e93ee6"
+    },
+    {
+      "path": "Whistler/Whistler-IEHistory.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0db9349a0349eb8634d8526c3c064de1658778e7",
+      "size": 160510,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0db9349a0349eb8634d8526c3c064de1658778e7"
+    },
+    {
+      "path": "Whistler/Whistler-IEHome.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14e1653cf4e13abc0421552a4320f430b455037b",
+      "size": 130810,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/14e1653cf4e13abc0421552a4320f430b455037b"
+    },
+    {
+      "path": "Whistler/Whistler-IEPersonalBar.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f33ade1be82a95604660de93418abb8b7ae9a5ab",
+      "size": 46969,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f33ade1be82a95604660de93418abb8b7ae9a5ab"
+    },
+    {
+      "path": "Whistler/Whistler-IERefresh.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea4164e058e6ae06d3d4cf041ff337be61e55fd1",
+      "size": 96257,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ea4164e058e6ae06d3d4cf041ff337be61e55fd1"
+    },
+    {
+      "path": "Whistler/Whistler-IESearch.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d65a9147d7646bcd0526d0e4761afd02fbbbcd94",
+      "size": 713418,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d65a9147d7646bcd0526d0e4761afd02fbbbcd94"
+    },
+    {
+      "path": "Whistler/Whistler-IEStop.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15a524b843211f518c44b4ca2e598cb9f8afda5d",
+      "size": 145571,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/15a524b843211f518c44b4ca2e598cb9f8afda5d"
+    },
+    {
+      "path": "Whistler/Whistler-InternetOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a77708a95d9b1bb3f8faeb486c6c23155e03b366",
+      "size": 598874,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a77708a95d9b1bb3f8faeb486c6c23155e03b366"
+    },
+    {
+      "path": "Whistler/Whistler-ORBDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98708fbd2858dec08435374834991dcf7460cfa6",
+      "size": 133429,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/98708fbd2858dec08435374834991dcf7460cfa6"
+    },
+    {
+      "path": "Whistler/Whistler-Performance.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a6f194c9b2685af189e21e5bb6f236d0f984dce",
+      "size": 219519,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7a6f194c9b2685af189e21e5bb6f236d0f984dce"
+    },
+    {
+      "path": "Whistler/Whistler-Programs.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8190ff5c2b3ba553ffed91c730e77c74092b38c",
+      "size": 394138,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f8190ff5c2b3ba553ffed91c730e77c74092b38c"
+    },
+    {
+      "path": "Whistler/Whistler-RecycleBin(empty).png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f35348af2c703081a02f43a8bc7e3fdfdecd8833",
+      "size": 411553,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f35348af2c703081a02f43a8bc7e3fdfdecd8833"
+    },
+    {
+      "path": "Whistler/Whistler-RecycleBin(full).png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c6965aedf833ca6200253dcf2d18a6dd7aec379",
+      "size": 440222,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9c6965aedf833ca6200253dcf2d18a6dd7aec379"
+    },
+    {
+      "path": "Whistler/Whistler-Redo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb32fc51c2ed8697a5633ad3c66306636ffea5f3",
+      "size": 73884,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cb32fc51c2ed8697a5633ad3c66306636ffea5f3"
+    },
+    {
+      "path": "Whistler/Whistler-Rename.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99ba77b229645469efdf3300a646a34a819f5895",
+      "size": 149053,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/99ba77b229645469efdf3300a646a34a819f5895"
+    },
+    {
+      "path": "Whistler/Whistler-Run.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99b1ff1b0cdd6ce8d116b105ff77b73aa3d067e4",
+      "size": 374625,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/99b1ff1b0cdd6ce8d116b105ff77b73aa3d067e4"
+    },
+    {
+      "path": "Whistler/Whistler-SDCard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c0cf164a21e8c78b2659035863682cbae764223",
+      "size": 146520,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9c0cf164a21e8c78b2659035863682cbae764223"
+    },
+    {
+      "path": "Whistler/Whistler-SwitchUser.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a578ccd8cdf9f0b94a920f469564060db948bf7b",
+      "size": 192813,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a578ccd8cdf9f0b94a920f469564060db948bf7b"
+    },
+    {
+      "path": "Whistler/Whistler-SystemProperties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9164b7764bf7cb3cbdb49541b054a533750a0e1f",
+      "size": 670256,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9164b7764bf7cb3cbdb49541b054a533750a0e1f"
+    },
+    {
+      "path": "Whistler/Whistler-Undo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8147e430227324cb22bafbbba3792b929940c5c8",
+      "size": 73655,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8147e430227324cb22bafbbba3792b929940c5c8"
+    },
+    {
+      "path": "Whistler/Whistler-Up.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e94063a42143fc3574494c2ae69a0ed3a27ec6f3",
+      "size": 325398,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e94063a42143fc3574494c2ae69a0ed3a27ec6f3"
+    },
+    {
+      "path": "Whistler/Whistler-Update.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc4f2e7605ac7fd532b0f746e491db54df36882c",
+      "size": 527732,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bc4f2e7605ac7fd532b0f746e491db54df36882c"
+    },
+    {
+      "path": "Whistler/Whistler-UserAccounts.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "effd4857333c888d2a01528b6b91c63b413561b3",
+      "size": 331091,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/effd4857333c888d2a01528b6b91c63b413561b3"
+    },
+    {
+      "path": "Whistler/Whistler-Volume.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e97116377331f70a3d70ba2aaee1061a78507298",
+      "size": 287394,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e97116377331f70a3d70ba2aaee1061a78507298"
+    },
+    {
+      "path": "Whistler/Whistler-WindowsMediaPlayer7.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82710b9ea92a10cab99a6d8906b0cea007480fa7",
+      "size": 86756,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/82710b9ea92a10cab99a6d8906b0cea007480fa7"
+    },
+    {
+      "path": "XP",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dd0abf495fdac38ebd3abb3efd4d999846930371",
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/trees/dd0abf495fdac38ebd3abb3efd4d999846930371"
+    },
+    {
+      "path": "XP/Accessibility.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70040920e29107a9d6b16627e02f077436d48948",
+      "size": 125078,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/70040920e29107a9d6b16627e02f077436d48948"
+    },
+    {
+      "path": "XP/AccessibilityWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e32260d65d1084228384cf3dfe0a837968a4a0b",
+      "size": 359745,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0e32260d65d1084228384cf3dfe0a837968a4a0b"
+    },
+    {
+      "path": "XP/Activation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e414954a0545b8199bd15be093d32d6cc956e1d",
+      "size": 256284,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4e414954a0545b8199bd15be093d32d6cc956e1d"
+    },
+    {
+      "path": "XP/Add.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abe7fa433d2dcd2f103d0daccff0e2a7beec6582",
+      "size": 217836,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/abe7fa433d2dcd2f103d0daccff0e2a7beec6582"
+    },
+    {
+      "path": "XP/AddNetworkPlace.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1bfa45406c4271b9136383f1180ad964db813fd",
+      "size": 403200,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b1bfa45406c4271b9136383f1180ad964db813fd"
+    },
+    {
+      "path": "XP/AddNewHardware.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a229b987c201979d7795b77057ae7537e70a63bb",
+      "size": 593064,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a229b987c201979d7795b77057ae7537e70a63bb"
+    },
+    {
+      "path": "XP/AddNewPrograms.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebd2420889a6d81bbd840f40a04d9f3b91a2c8a1",
+      "size": 455823,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ebd2420889a6d81bbd840f40a04d9f3b91a2c8a1"
+    },
+    {
+      "path": "XP/AdditionalSettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2d1194075cd2764380b815f5a7b4078f4419698",
+      "size": 194771,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b2d1194075cd2764380b815f5a7b4078f4419698"
+    },
+    {
+      "path": "XP/AddorRemoveWindowsComponents.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53952b7f014af5d25826815bb9b9e9e6d29bcec3",
+      "size": 358534,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/53952b7f014af5d25826815bb9b9e9e6d29bcec3"
+    },
+    {
+      "path": "XP/AddressBook.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8b05fd7fb935c3ba6689381d0aeb0c1b50dbf2c",
+      "size": 314422,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d8b05fd7fb935c3ba6689381d0aeb0c1b50dbf2c"
+    },
+    {
+      "path": "XP/AdministrativeTools.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e29a753bbc1ae7ef7769dcebb12f6bf381152beb",
+      "size": 491796,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e29a753bbc1ae7ef7769dcebb12f6bf381152beb"
+    },
+    {
+      "path": "XP/Alert.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb30bd952e8733b5829dd008af7944dc883bc951",
+      "size": 206568,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/eb30bd952e8733b5829dd008af7944dc883bc951"
+    },
+    {
+      "path": "XP/Appearance.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20b48c2a9ac68d35a8ce4a82ec272a6164b397c5",
+      "size": 579704,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/20b48c2a9ac68d35a8ce4a82ec272a6164b397c5"
+    },
+    {
+      "path": "XP/ApplicationWindow.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92d8f1d8178d3a9f27761f8204304d1b92255e6c",
+      "size": 69743,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/92d8f1d8178d3a9f27761f8204304d1b92255e6c"
+    },
+    {
+      "path": "XP/Attributes.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f406c2bc60bc1e2abab65661817e93c277e0eab3",
+      "size": 460130,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f406c2bc60bc1e2abab65661817e93c277e0eab3"
+    },
+    {
+      "path": "XP/AudioCD.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e258f0bc4e6473da95e56395140d4fa04818f3a2",
+      "size": 328510,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e258f0bc4e6473da95e56395140d4fa04818f3a2"
+    },
+    {
+      "path": "XP/AudioDevices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abc38d94ef6c5283ccf366ac1e4fc1c7c8a0ea67",
+      "size": 563518,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/abc38d94ef6c5283ccf366ac1e4fc1c7c8a0ea67"
+    },
+    {
+      "path": "XP/AuthorizationManager.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fabcdfb80a6c75901544ee2dfe1238140f49743c",
+      "size": 546494,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fabcdfb80a6c75901544ee2dfe1238140f49743c"
+    },
+    {
+      "path": "XP/AutoComplete.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "440b3547357d644319315622dae90b27436d628a",
+      "size": 398591,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/440b3547357d644319315622dae90b27436d628a"
+    },
+    {
+      "path": "XP/BAT.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23f2a44f6c4235e105e9880e7875f3de3ab33579",
+      "size": 148382,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/23f2a44f6c4235e105e9880e7875f3de3ab33579"
+    },
+    {
+      "path": "XP/BLG.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d9b155ef852221dd3318bca6e1bb3709642ce48f",
+      "size": 332306,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d9b155ef852221dd3318bca6e1bb3709642ce48f"
+    },
+    {
+      "path": "XP/Back.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fa7a447eefb5763732a8faa8ad81aa1280f4c92",
+      "size": 191127,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5fa7a447eefb5763732a8faa8ad81aa1280f4c92"
+    },
+    {
+      "path": "XP/BackupWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2be57aaadc4effe82291d79735bc9c0d330de15a",
+      "size": 336956,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2be57aaadc4effe82291d79735bc9c0d330de15a"
+    },
+    {
+      "path": "XP/Backups.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06f1129153b29cd7f923927cfc4a69835ef0ef6c",
+      "size": 294639,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/06f1129153b29cd7f923927cfc4a69835ef0ef6c"
+    },
+    {
+      "path": "XP/BatteryBackup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63c1970af8fbac7162dca1f28924ec0ad2c578ab",
+      "size": 232822,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/63c1970af8fbac7162dca1f28924ec0ad2c578ab"
+    },
+    {
+      "path": "XP/Bitmap.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0681b71309740cfc9497317e9fec5451a852eed5",
+      "size": 304740,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0681b71309740cfc9497317e9fec5451a852eed5"
+    },
+    {
+      "path": "XP/BluetoothAccessPoint.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1050bb54d194fab5ba902a3ae56d2ce217b1c45",
+      "size": 128569,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d1050bb54d194fab5ba902a3ae56d2ce217b1c45"
+    },
+    {
+      "path": "XP/BluetoothDevices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a959649814ba33e2f14095cf4ee8cb97529987c",
+      "size": 141819,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8a959649814ba33e2f14095cf4ee8cb97529987c"
+    },
+    {
+      "path": "XP/BridgedConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1c7ab7d8af7e4149cc0f553af19d8c35ad7260e",
+      "size": 183618,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e1c7ab7d8af7e4149cc0f553af19d8c35ad7260e"
+    },
+    {
+      "path": "XP/Briefcase.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a9dc025df93b5edd9125132b7ac8966f9578cbd",
+      "size": 162434,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4a9dc025df93b5edd9125132b7ac8966f9578cbd"
+    },
+    {
+      "path": "XP/BurnaudioCD.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ec6badc41fd64bb732a63bfc6dc6884984fc575",
+      "size": 641113,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5ec6badc41fd64bb732a63bfc6dc6884984fc575"
+    },
+    {
+      "path": "XP/CAB.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd5a20380583f570f43e4a66c35ba4af07ec3ece",
+      "size": 271557,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fd5a20380583f570f43e4a66c35ba4af07ec3ece"
+    },
+    {
+      "path": "XP/CD-R.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d425ed91dc49b624f3f423a6e5935b758f72ed81",
+      "size": 436805,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d425ed91dc49b624f3f423a6e5935b758f72ed81"
+    },
+    {
+      "path": "XP/CD-ROM.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ee8428d4b67c5e161a4a076ee1c43a444660098",
+      "size": 405084,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9ee8428d4b67c5e161a4a076ee1c43a444660098"
+    },
+    {
+      "path": "XP/CD-RW.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64a4b5ae2c1aecbc53d99473d87f3ae7cd49f715",
+      "size": 419763,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/64a4b5ae2c1aecbc53d99473d87f3ae7cd49f715"
+    },
+    {
+      "path": "XP/CSS.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cdc076789853e43425457cf97dda099e8264033",
+      "size": 306029,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2cdc076789853e43425457cf97dda099e8264033"
+    },
+    {
+      "path": "XP/Calculator.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bed2a4ab4506ceec8ec2c0512bb7067a46b60188",
+      "size": 203301,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bed2a4ab4506ceec8ec2c0512bb7067a46b60188"
+    },
+    {
+      "path": "XP/Camcorder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "516784f9ceb41e60733b2ce5ee6f1c4f2d93ac8e",
+      "size": 243128,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/516784f9ceb41e60733b2ce5ee6f1c4f2d93ac8e"
+    },
+    {
+      "path": "XP/Certificate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "776b9ca686c1e05fce603b3e897b225031c4c0eb",
+      "size": 320561,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/776b9ca686c1e05fce603b3e897b225031c4c0eb"
+    },
+    {
+      "path": "XP/ChangeConnectionSettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fac6def11e7af53d6a8db43ba70633a6ce21d262",
+      "size": 181163,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fac6def11e7af53d6a8db43ba70633a6ce21d262"
+    },
+    {
+      "path": "XP/ChangeLanguage.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea5337e9f6f7563420744e346f4ae9946404c0a0",
+      "size": 415799,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ea5337e9f6f7563420744e346f4ae9946404c0a0"
+    },
+    {
+      "path": "XP/ChangeorRemovePrograms.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e6dedb06120d2e0ec171113a40ced780da01a78",
+      "size": 500242,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7e6dedb06120d2e0ec171113a40ced780da01a78"
+    },
+    {
+      "path": "XP/Charmap.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "368323341556df60d6fe4d1cfa9a20976462fed6",
+      "size": 229158,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/368323341556df60d6fe4d1cfa9a20976462fed6"
+    },
+    {
+      "path": "XP/Checklist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "679c3a00f54fdfede9a0c116c45784904bd6c940",
+      "size": 409932,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/679c3a00f54fdfede9a0c116c45784904bd6c940"
+    },
+    {
+      "path": "XP/Chip.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2855452ffd312975e7685ed4d7cb3cac83047585",
+      "size": 184887,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2855452ffd312975e7685ed4d7cb3cac83047585"
+    },
+    {
+      "path": "XP/ClickToRecord.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e617c4d15cab62b3d4ed234594be2851e9963d0",
+      "size": 527624,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6e617c4d15cab62b3d4ed234594be2851e9963d0"
+    },
+    {
+      "path": "XP/ColorProfile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "053fe34f7172d742c840f113e91e40590f74fc16",
+      "size": 137396,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/053fe34f7172d742c840f113e91e40590f74fc16"
+    },
+    {
+      "path": "XP/ColorScan.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97cbd03371cc800b78b6dd37b7cda8137798e83d",
+      "size": 350333,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/97cbd03371cc800b78b6dd37b7cda8137798e83d"
+    },
+    {
+      "path": "XP/CommandPrompt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d788da9c5ddfd5521b0aef3f811d452dd9bdba4f",
+      "size": 94213,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d788da9c5ddfd5521b0aef3f811d452dd9bdba4f"
+    },
+    {
+      "path": "XP/CompactFlashcard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c67848a3b3af490a2c2d12c51b17edf301de67a",
+      "size": 115755,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3c67848a3b3af490a2c2d12c51b17edf301de67a"
+    },
+    {
+      "path": "XP/ComponentServices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82d335bb1be0cafb084cd87be80ecba4f4efeb2f",
+      "size": 340007,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/82d335bb1be0cafb084cd87be80ecba4f4efeb2f"
+    },
+    {
+      "path": "XP/Composeafax.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13a50680d82bec5c7ecaacad9a9d3b94637e1bc7",
+      "size": 237167,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/13a50680d82bec5c7ecaacad9a9d3b94637e1bc7"
+    },
+    {
+      "path": "XP/ComputerManagement.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a79074407745542162a023075b743fa59bc9b4b1",
+      "size": 351366,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a79074407745542162a023075b743fa59bc9b4b1"
+    },
+    {
+      "path": "XP/ComputertoComputerconnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "497c1ac3b4d512622cf2a76b31f6ded197faa26d",
+      "size": 320238,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/497c1ac3b4d512622cf2a76b31f6ded197faa26d"
+    },
+    {
+      "path": "XP/ConfigureYourServerWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4d75a4b2dadc6fedb27a665a4b2012dc99dde3b",
+      "size": 257347,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c4d75a4b2dadc6fedb27a665a4b2012dc99dde3b"
+    },
+    {
+      "path": "XP/ConnectionManager.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f922d4d253141cdf16469147f0fe473fabf16af7",
+      "size": 211198,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f922d4d253141cdf16469147f0fe473fabf16af7"
+    },
+    {
+      "path": "XP/ConnectionStatus.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73507d056f1ab2dc23a9552f26cbfb236160393c",
+      "size": 814879,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/73507d056f1ab2dc23a9552f26cbfb236160393c"
+    },
+    {
+      "path": "XP/ContentAdvisor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e73fdb7e6f953fa5ba664a811d01e74dd00b8f64",
+      "size": 672193,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e73fdb7e6f953fa5ba664a811d01e74dd00b8f64"
+    },
+    {
+      "path": "XP/ControlPanel.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bc1af1b1b811274db2c70a7e144763c0d7b7f57",
+      "size": 223863,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3bc1af1b1b811274db2c70a7e144763c0d7b7f57"
+    },
+    {
+      "path": "XP/Copy.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c710019e0855025199de1080a43ed32e7e0ec10d",
+      "size": 299067,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c710019e0855025199de1080a43ed32e7e0ec10d"
+    },
+    {
+      "path": "XP/CopyTo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b5a2ea4bc1cfb6368b596cb1d345a3ab1cfef6e",
+      "size": 153496,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9b5a2ea4bc1cfb6368b596cb1d345a3ab1cfef6e"
+    },
+    {
+      "path": "XP/CopyingConflict.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ae6d1edebec45718227e27bd5a688eea1add200",
+      "size": 523644,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4ae6d1edebec45718227e27bd5a688eea1add200"
+    },
+    {
+      "path": "XP/Copytodisc.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4838032b15ae0785088b4961d215ce632d863812",
+      "size": 248031,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4838032b15ae0785088b4961d215ce632d863812"
+    },
+    {
+      "path": "XP/CoverPageEditor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db61a32f5871165ccaf11d45d8f71ef34d677b3e",
+      "size": 406146,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/db61a32f5871165ccaf11d45d8f71ef34d677b3e"
+    },
+    {
+      "path": "XP/Critical.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "799c2276bc75427edcf12f48bc902a2ce751e6f4",
+      "size": 192138,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/799c2276bc75427edcf12f48bc902a2ce751e6f4"
+    },
+    {
+      "path": "XP/Cut.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9aea96c093bdaf003483277b4101278016d3d03b",
+      "size": 79383,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9aea96c093bdaf003483277b4101278016d3d03b"
+    },
+    {
+      "path": "XP/DLL.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c10299bcde9c73a31a9c9381205b43152ae7260e",
+      "size": 182174,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c10299bcde9c73a31a9c9381205b43152ae7260e"
+    },
+    {
+      "path": "XP/DVD-R.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab34ccd93d41d04a024163f86c008b34e6dad4e5",
+      "size": 413949,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ab34ccd93d41d04a024163f86c008b34e6dad4e5"
+    },
+    {
+      "path": "XP/DVD-RAM.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8faf8976e14fd4dbca1ba4b89441572dad4fcd96",
+      "size": 400197,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8faf8976e14fd4dbca1ba4b89441572dad4fcd96"
+    },
+    {
+      "path": "XP/DVD-ROM.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9d777ce429cd70b259782c607544b2c6b1b4c4d",
+      "size": 401980,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b9d777ce429cd70b259782c607544b2c6b1b4c4d"
+    },
+    {
+      "path": "XP/DVD-RW.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb311e0fa2cbd06df0a0818236aac2946a4ab4f2",
+      "size": 398094,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/eb311e0fa2cbd06df0a0818236aac2946a4ab4f2"
+    },
+    {
+      "path": "XP/DVD.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3dfcf795e4af0097931933561534bcc040a87361",
+      "size": 447924,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3dfcf795e4af0097931933561534bcc040a87361"
+    },
+    {
+      "path": "XP/DVDalt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "962843c9e68c934e489caa1752d525819b565f91",
+      "size": 287723,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/962843c9e68c934e489caa1752d525819b565f91"
+    },
+    {
+      "path": "XP/DataExecutionPrevention.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "374fdbb134f41df6d2e0680d88b2b47913dde68f",
+      "size": 207911,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/374fdbb134f41df6d2e0680d88b2b47913dde68f"
+    },
+    {
+      "path": "XP/DateandRegion.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8255d8ea0b36351e2baba496b50a80d1c025a8c",
+      "size": 519894,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c8255d8ea0b36351e2baba496b50a80d1c025a8c"
+    },
+    {
+      "path": "XP/DateandTime.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df8ffe77973b82ae1f5a4f47a64614786010bf25",
+      "size": 391514,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/df8ffe77973b82ae1f5a4f47a64614786010bf25"
+    },
+    {
+      "path": "XP/Default.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f34f519bbdcdfb6ed5752583ddc87dff40c54b8",
+      "size": 130530,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7f34f519bbdcdfb6ed5752583ddc87dff40c54b8"
+    },
+    {
+      "path": "XP/DefaultPrograms(SP1Version).png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5666a265fd7579b18435985c2600caa3a54e2c69",
+      "size": 231614,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5666a265fd7579b18435985c2600caa3a54e2c69"
+    },
+    {
+      "path": "XP/DefaultPrograms.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "526dc10f4de20b524e5c30e2aabe2be48bc7b509",
+      "size": 308842,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/526dc10f4de20b524e5c30e2aabe2be48bc7b509"
+    },
+    {
+      "path": "XP/Delete.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60d7c034bec64f43169dda214bfec83f2a521c20",
+      "size": 123669,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/60d7c034bec64f43169dda214bfec83f2a521c20"
+    },
+    {
+      "path": "XP/DeleteConfirmation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5441239394986aeed5d18875424089a238663cd6",
+      "size": 411027,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5441239394986aeed5d18875424089a238663cd6"
+    },
+    {
+      "path": "XP/DeleteInternetHistory.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "612138db78a4dd27ce4af2006d63bf92a0303b1b",
+      "size": 756987,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/612138db78a4dd27ce4af2006d63bf92a0303b1b"
+    },
+    {
+      "path": "XP/Desktop.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4d0316aee7ea0dfed1c64bc91781c7f98a057d9",
+      "size": 282627,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c4d0316aee7ea0dfed1c64bc91781c7f98a057d9"
+    },
+    {
+      "path": "XP/DetailView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44be27bf7a823e30c616ef29e1ee645a61b04218",
+      "size": 51481,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/44be27bf7a823e30c616ef29e1ee645a61b04218"
+    },
+    {
+      "path": "XP/DialUpConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "440e69636e70ce3da78fac2af8851d9c5d65bdd1",
+      "size": 329939,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/440e69636e70ce3da78fac2af8851d9c5d65bdd1"
+    },
+    {
+      "path": "XP/Dialer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41fc966b8039cd9778337ce197a98243e728b646",
+      "size": 651801,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/41fc966b8039cd9778337ce197a98243e728b646"
+    },
+    {
+      "path": "XP/DigitalCamera.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8b49b9d47a3043d6f76037398ad37083a1c3798",
+      "size": 236395,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c8b49b9d47a3043d6f76037398ad37083a1c3798"
+    },
+    {
+      "path": "XP/DirectConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4020ab04ec94a9d4edb1b8f28f5f79d494b948ab",
+      "size": 299577,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4020ab04ec94a9d4edb1b8f28f5f79d494b948ab"
+    },
+    {
+      "path": "XP/DirectX.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61ab08651cc38f90a8693a42ff6d64f1d9c88cc7",
+      "size": 418862,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/61ab08651cc38f90a8693a42ff6d64f1d9c88cc7"
+    },
+    {
+      "path": "XP/DisableNetworkConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cca2f45297ca19a3ad04446669a149505d1aba4",
+      "size": 454994,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5cca2f45297ca19a3ad04446669a149505d1aba4"
+    },
+    {
+      "path": "XP/DiscardFax.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5062bfbfb46ac8220f1ed05a0fe0f4e6a3cd6d9a",
+      "size": 359694,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5062bfbfb46ac8220f1ed05a0fe0f4e6a3cd6d9a"
+    },
+    {
+      "path": "XP/DisconnectNetworkDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8c786907d8df0b7cb73abd89a5a5c7e68585e02",
+      "size": 126921,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d8c786907d8df0b7cb73abd89a5a5c7e68585e02"
+    },
+    {
+      "path": "XP/DiskCleanup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e472039cfb11f29ade2253598f0504a224fcb23b",
+      "size": 484431,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e472039cfb11f29ade2253598f0504a224fcb23b"
+    },
+    {
+      "path": "XP/DiskDefragmenter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55ed1cad81866015d63c0fe8d3dd0b0917df8761",
+      "size": 229864,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/55ed1cad81866015d63c0fe8d3dd0b0917df8761"
+    },
+    {
+      "path": "XP/DiskManagement.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b1360ec8627fd2d546d1e712fe88adfdd7cf497",
+      "size": 534972,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0b1360ec8627fd2d546d1e712fe88adfdd7cf497"
+    },
+    {
+      "path": "XP/DisplayAdaptor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09a7fd7f7aded2e5499f88f462e4cca8ed2a310c",
+      "size": 516238,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/09a7fd7f7aded2e5499f88f462e4cca8ed2a310c"
+    },
+    {
+      "path": "XP/DisplayProperties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "54d9a8be864599e4234b12a895b6ce74a4edce4d",
+      "size": 514560,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/54d9a8be864599e4234b12a895b6ce74a4edce4d"
+    },
+    {
+      "path": "XP/DocumentSearch.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21f005f14875545faf3c0b2de5858c8ddbc52696",
+      "size": 552132,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/21f005f14875545faf3c0b2de5858c8ddbc52696"
+    },
+    {
+      "path": "XP/DoubleClick.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b3387c389b98ff1576f9440df8f99895ea4afb9",
+      "size": 84355,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2b3387c389b98ff1576f9440df8f99895ea4afb9"
+    },
+    {
+      "path": "XP/Email.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa8daf32ca449e2cf9b5fd685ea45dd3e1cfcd1e",
+      "size": 179487,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/aa8daf32ca449e2cf9b5fd685ea45dd3e1cfcd1e"
+    },
+    {
+      "path": "XP/EntireNetwork.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef64d1c54087cb0d58f2056eda1c5e13a3cd28fd",
+      "size": 708998,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ef64d1c54087cb0d58f2056eda1c5e13a3cd28fd"
+    },
+    {
+      "path": "XP/Erase.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77a0f361fc483d68cab8ef2f09adf673787746ef",
+      "size": 91288,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/77a0f361fc483d68cab8ef2f09adf673787746ef"
+    },
+    {
+      "path": "XP/EraseDisc.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e70c8575ce004b7b389b27f63ed7e4ac8c8c335",
+      "size": 396530,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7e70c8575ce004b7b389b27f63ed7e4ac8c8c335"
+    },
+    {
+      "path": "XP/EventViewer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91e3c85dc2e2b2fb9bbac3505910ecdefe2c7f37",
+      "size": 151684,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/91e3c85dc2e2b2fb9bbac3505910ecdefe2c7f37"
+    },
+    {
+      "path": "XP/Exit.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b2a133dbcdf7e41d9f496ba31f5fbbf0910e678",
+      "size": 149569,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4b2a133dbcdf7e41d9f496ba31f5fbbf0910e678"
+    },
+    {
+      "path": "XP/Explorer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b3af6ce301de946085689b0dc70c5a50190182a",
+      "size": 289552,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4b3af6ce301de946085689b0dc70c5a50190182a"
+    },
+    {
+      "path": "XP/ExplorerDelete.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8554de417c62b51b8e8334d4da80ab61fbb05ebc",
+      "size": 85887,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8554de417c62b51b8e8334d4da80ab61fbb05ebc"
+    },
+    {
+      "path": "XP/Favorites.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b306797aa8679d801820016f3601986a486f96dd",
+      "size": 249320,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b306797aa8679d801820016f3601986a486f96dd"
+    },
+    {
+      "path": "XP/Fax.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41fbecb720c035ccf0cbf65b88fe6450186f5393",
+      "size": 153233,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/41fbecb720c035ccf0cbf65b88fe6450186f5393"
+    },
+    {
+      "path": "XP/FaxArchive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0c6e0de7a028710e6cf20f9f14260c426a53b3b",
+      "size": 206072,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f0c6e0de7a028710e6cf20f9f14260c426a53b3b"
+    },
+    {
+      "path": "XP/FaxConsole.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50acaaf324de747cee5b11e204497a3c5b3b32ae",
+      "size": 257429,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/50acaaf324de747cee5b11e204497a3c5b3b32ae"
+    },
+    {
+      "path": "XP/FaxCoverPage.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b082a2d8a4dc22ffc8a5fc6bca335a18d93685a",
+      "size": 433037,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9b082a2d8a4dc22ffc8a5fc6bca335a18d93685a"
+    },
+    {
+      "path": "XP/FaxDevices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e7eebce08c086dce17a56674a9ccaf495e44032",
+      "size": 405219,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5e7eebce08c086dce17a56674a9ccaf495e44032"
+    },
+    {
+      "path": "XP/FaxEvent.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a1cb84ee295ec1da5976c6b59a690c39bebbc51",
+      "size": 135524,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1a1cb84ee295ec1da5976c6b59a690c39bebbc51"
+    },
+    {
+      "path": "XP/FaxReceivedSuccesfully.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50ed18ea0564491e1f3d445dc7a9950cc62bd9ac",
+      "size": 157174,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/50ed18ea0564491e1f3d445dc7a9950cc62bd9ac"
+    },
+    {
+      "path": "XP/FaxSenderInformation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a282bd081d89ea14f2ea0718c4150a4915bbad51",
+      "size": 406896,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a282bd081d89ea14f2ea0718c4150a4915bbad51"
+    },
+    {
+      "path": "XP/FaxSentSuccesfully.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db31a230c55076cd2f6a7d041378c50519231001",
+      "size": 152006,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/db31a230c55076cd2f6a7d041378c50519231001"
+    },
+    {
+      "path": "XP/FileandSettingsTransferWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6cedc68c95a08f94bf864ab4ea2b6ff9b1aba0a1",
+      "size": 507278,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6cedc68c95a08f94bf864ab4ea2b6ff9b1aba0a1"
+    },
+    {
+      "path": "XP/Firewall.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfbd1fa9b871eb7715985041344adecf118b1a71",
+      "size": 447180,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cfbd1fa9b871eb7715985041344adecf118b1a71"
+    },
+    {
+      "path": "XP/FloppyDisk.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3cf8de099a20e5625ebe11326241ed743c5d042",
+      "size": 379546,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b3cf8de099a20e5625ebe11326241ed743c5d042"
+    },
+    {
+      "path": "XP/FolderClosed.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d0a317a4159990098d4c848866fe274929761d9",
+      "size": 211971,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7d0a317a4159990098d4c848866fe274929761d9"
+    },
+    {
+      "path": "XP/FolderOpened.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a0204a9a99a0498c79fca6921dba4290c7b7c36",
+      "size": 212679,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3a0204a9a99a0498c79fca6921dba4290c7b7c36"
+    },
+    {
+      "path": "XP/FolderOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2868ba5d8fdaefdb61918218eea845af575107f6",
+      "size": 216542,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2868ba5d8fdaefdb61918218eea845af575107f6"
+    },
+    {
+      "path": "XP/FolderView-Classic.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b6e09959c139c1bbeb1c7c4ee5b174db92a611c",
+      "size": 107637,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9b6e09959c139c1bbeb1c7c4ee5b174db92a611c"
+    },
+    {
+      "path": "XP/FolderView-CommonTasks.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55f3b43110d3d2eb3d5b56fac21216cc3debffeb",
+      "size": 248695,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/55f3b43110d3d2eb3d5b56fac21216cc3debffeb"
+    },
+    {
+      "path": "XP/FolderView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cb71f4e940927e0eadaab7fe5181bfcf7bcfb44",
+      "size": 449463,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2cb71f4e940927e0eadaab7fe5181bfcf7bcfb44"
+    },
+    {
+      "path": "XP/Foldersopeninnewwindow.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0600d09a18826b8ab6c28f2279a57d567901ec6",
+      "size": 180675,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e0600d09a18826b8ab6c28f2279a57d567901ec6"
+    },
+    {
+      "path": "XP/Foldersopeninsamewindow.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d9b1f243d49ea3dc2e0822248961ca2b1b2238ca",
+      "size": 136976,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d9b1f243d49ea3dc2e0822248961ca2b1b2238ca"
+    },
+    {
+      "path": "XP/Font.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18e92b07bc998dd6568395ce8ac93b615592083d",
+      "size": 132656,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/18e92b07bc998dd6568395ce8ac93b615592083d"
+    },
+    {
+      "path": "XP/Font2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc3dc3ac0cd8798fddacae413d60048424d4463d",
+      "size": 130409,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cc3dc3ac0cd8798fddacae413d60048424d4463d"
+    },
+    {
+      "path": "XP/FontSimilarityView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52f5261b3298c8c8fc8935b11becc7c73fb8287e",
+      "size": 102155,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/52f5261b3298c8c8fc8935b11becc7c73fb8287e"
+    },
+    {
+      "path": "XP/Fonts.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "725ea704f5f0f3d1300f998de013be7ee3a2b82b",
+      "size": 277702,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/725ea704f5f0f3d1300f998de013be7ee3a2b82b"
+    },
+    {
+      "path": "XP/Forward.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29506bcd2c70824781c8d21dc9f4a42053c3d37f",
+      "size": 188999,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/29506bcd2c70824781c8d21dc9f4a42053c3d37f"
+    },
+    {
+      "path": "XP/Freecell.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00c9c2b371ba77f074e4fbdcdfe134f9cd3bbaf5",
+      "size": 216990,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/00c9c2b371ba77f074e4fbdcdfe134f9cd3bbaf5"
+    },
+    {
+      "path": "XP/FullScreen.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d81dc55dcdc866e02604edeb39965af729cf06a9",
+      "size": 59247,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d81dc55dcdc866e02604edeb39965af729cf06a9"
+    },
+    {
+      "path": "XP/GIF.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30d887e7cfd0fe90be38c1eb45501adc834dc877",
+      "size": 94423,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/30d887e7cfd0fe90be38c1eb45501adc834dc877"
+    },
+    {
+      "path": "XP/GameController.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9628cea158b09a59842e8ca251a7c9496e190813",
+      "size": 204573,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9628cea158b09a59842e8ca251a7c9496e190813"
+    },
+    {
+      "path": "XP/GenericAudio.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27b8e7ca13597f8d937609893a7b49d8466ce951",
+      "size": 220189,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/27b8e7ca13597f8d937609893a7b49d8466ce951"
+    },
+    {
+      "path": "XP/GenericDocument.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14f0a068586af2ea37db2c308ac1e8205f7aa0dc",
+      "size": 86924,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/14f0a068586af2ea37db2c308ac1e8205f7aa0dc"
+    },
+    {
+      "path": "XP/GenericMedia.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de439326c5ffc08d8f3f46946c97b5b3d0f77704",
+      "size": 266234,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/de439326c5ffc08d8f3f46946c97b5b3d0f77704"
+    },
+    {
+      "path": "XP/GenericTextDocument.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f6dcdb792c46e1894899f31ed31e1baba53434b",
+      "size": 79962,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6f6dcdb792c46e1894899f31ed31e1baba53434b"
+    },
+    {
+      "path": "XP/GenericVideo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f7caed39f047bc561dee5830eae5cca6819d37c",
+      "size": 159080,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6f7caed39f047bc561dee5830eae5cca6819d37c"
+    },
+    {
+      "path": "XP/GetGoingwithTabletPC.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e65fe270209a4d08e6cb9f262a89e634b7f6e79e",
+      "size": 237746,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e65fe270209a4d08e6cb9f262a89e634b7f6e79e"
+    },
+    {
+      "path": "XP/GetPictures.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f3474e6870254423bcf0e680f42cad42148da5a",
+      "size": 343594,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2f3474e6870254423bcf0e680f42cad42148da5a"
+    },
+    {
+      "path": "XP/GetSupport.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd2c9b0adbb0fd90e529b42c96975e0cbb4e4e68",
+      "size": 152740,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bd2c9b0adbb0fd90e529b42c96975e0cbb4e4e68"
+    },
+    {
+      "path": "XP/Go.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40cba60cd3b8721effb757ba0bc98f0185de0778",
+      "size": 139480,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/40cba60cd3b8721effb757ba0bc98f0185de0778"
+    },
+    {
+      "path": "XP/GraphView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce2e02437d4a4a7c29b559af178ccf217848b943",
+      "size": 126763,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ce2e02437d4a4a7c29b559af178ccf217848b943"
+    },
+    {
+      "path": "XP/GrayscaleScan.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "280c11f74f1503cb351487234b485eb679bcae95",
+      "size": 159619,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/280c11f74f1503cb351487234b485eb679bcae95"
+    },
+    {
+      "path": "XP/HLP.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "821e1a419fabd06a137fb2d8a94c85f9add36dc8",
+      "size": 199563,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/821e1a419fabd06a137fb2d8a94c85f9add36dc8"
+    },
+    {
+      "path": "XP/HTML.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a1c98e02df3acf8b030dcb34efadc4da7e23e43",
+      "size": 180561,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9a1c98e02df3acf8b030dcb34efadc4da7e23e43"
+    },
+    {
+      "path": "XP/Hearts.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5275da6e57d6aac3034fc514a5adce0a08260a30",
+      "size": 208555,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5275da6e57d6aac3034fc514a5adce0a08260a30"
+    },
+    {
+      "path": "XP/HelpandSupport-Changeview1.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "421b61073eb42800afa4fd01aa41abfb2915c84e",
+      "size": 166708,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/421b61073eb42800afa4fd01aa41abfb2915c84e"
+    },
+    {
+      "path": "XP/HelpandSupport-Changeview2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86297f0d395cbb78201458d60eb60342c79cd62c",
+      "size": 168826,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/86297f0d395cbb78201458d60eb60342c79cd62c"
+    },
+    {
+      "path": "XP/HelpandSupport-Index.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7402bfb5268453d7acbc5fe643e1ace50bbfe8c",
+      "size": 136517,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f7402bfb5268453d7acbc5fe643e1ace50bbfe8c"
+    },
+    {
+      "path": "XP/HelpandSupport-TaskList.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "180c751c65939ec76c82a8cb9de6011922363989",
+      "size": 418310,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/180c751c65939ec76c82a8cb9de6011922363989"
+    },
+    {
+      "path": "XP/HelpandSupport.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb366abcce1dad9900b70a0cd70d47307938d7b8",
+      "size": 229886,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bb366abcce1dad9900b70a0cd70d47307938d7b8"
+    },
+    {
+      "path": "XP/Hibernate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f634580f17494b9389941de89b06d70406d056d",
+      "size": 241570,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7f634580f17494b9389941de89b06d70406d056d"
+    },
+    {
+      "path": "XP/HighContrastSettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9bfd0523d9bfefb071a9e13a4c2665f999fee9b",
+      "size": 80722,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a9bfd0523d9bfefb071a9e13a4c2665f999fee9b"
+    },
+    {
+      "path": "XP/HyperTerminal.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "febe44883be9e66da496f01b99c3a4ac84975eb0",
+      "size": 298666,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/febe44883be9e66da496f01b99c3a4ac84975eb0"
+    },
+    {
+      "path": "XP/IEDiscuss.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "790cc44bcf08b48214f6b8d071977c83b1487efd",
+      "size": 23326,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/790cc44bcf08b48214f6b8d071977c83b1487efd"
+    },
+    {
+      "path": "XP/IEEdit.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "759c8f1179aa839c0262ea138e21953420f2ffc8",
+      "size": 117779,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/759c8f1179aa839c0262ea138e21953420f2ffc8"
+    },
+    {
+      "path": "XP/IEEncoding.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9745ae10706aecce710b8573506f99329076e30f",
+      "size": 92713,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9745ae10706aecce710b8573506f99329076e30f"
+    },
+    {
+      "path": "XP/IEEnlargeImage.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90c8862be514261490248f86328893aeaa342bbb",
+      "size": 201426,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/90c8862be514261490248f86328893aeaa342bbb"
+    },
+    {
+      "path": "XP/IEHistory.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "229f54456ea32f65d05e4a69c953befdc4cf0d57",
+      "size": 294799,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/229f54456ea32f65d05e4a69c953befdc4cf0d57"
+    },
+    {
+      "path": "XP/IEHome.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "739a89522a70bd27b812c3ce144003ea785276ac",
+      "size": 169845,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/739a89522a70bd27b812c3ce144003ea785276ac"
+    },
+    {
+      "path": "XP/IEMedia.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9959cb33d9faeefeb24937daab3d6f639bce13f",
+      "size": 779590,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a9959cb33d9faeefeb24937daab3d6f639bce13f"
+    },
+    {
+      "path": "XP/IERefresh.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d08d3e5e4bdf4b02f24a49f980442f896db85e1c",
+      "size": 89708,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d08d3e5e4bdf4b02f24a49f980442f896db85e1c"
+    },
+    {
+      "path": "XP/IEShrinkImage.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c9ebb3365d7a63c003d4acfa5ee835197ff6daf",
+      "size": 182255,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5c9ebb3365d7a63c003d4acfa5ee835197ff6daf"
+    },
+    {
+      "path": "XP/IESize.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ef6bbc599211123864843cd20184d1940caf366",
+      "size": 150153,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4ef6bbc599211123864843cd20184d1940caf366"
+    },
+    {
+      "path": "XP/IEStop.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e693ff1586abf16fedc6f841252a27a96d67d289",
+      "size": 78220,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e693ff1586abf16fedc6f841252a27a96d67d289"
+    },
+    {
+      "path": "XP/INF.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3109df370d30f960412ae17dba02bd74d95c7bf6",
+      "size": 273972,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3109df370d30f960412ae17dba02bd74d95c7bf6"
+    },
+    {
+      "path": "XP/IRFileTransfer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81ab276c5d63da6fbb7b79a5d6ff83351df6cff7",
+      "size": 290770,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/81ab276c5d63da6fbb7b79a5d6ff83351df6cff7"
+    },
+    {
+      "path": "XP/IconView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13742e81e5318926bc067fbdfc0c42b6ec07ac24",
+      "size": 49980,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/13742e81e5318926bc067fbdfc0c42b6ec07ac24"
+    },
+    {
+      "path": "XP/Iexpress.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8cb8317c703c59755a42d1462a976af04d772508",
+      "size": 309084,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8cb8317c703c59755a42d1462a976af04d772508"
+    },
+    {
+      "path": "XP/Important.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe7bbbe5dfbb94d4ca2d6b1ef91e616be95fe35e",
+      "size": 276555,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fe7bbbe5dfbb94d4ca2d6b1ef91e616be95fe35e"
+    },
+    {
+      "path": "XP/IncomingConnections.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85938ae380bae2d573c6a42cf66a367ec2c63584",
+      "size": 354531,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/85938ae380bae2d573c6a42cf66a367ec2c63584"
+    },
+    {
+      "path": "XP/IndexingService.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7804f59d84e2cbe80a4d3b1b8b1e7ab39d98e54",
+      "size": 435471,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c7804f59d84e2cbe80a4d3b1b8b1e7ab39d98e54"
+    },
+    {
+      "path": "XP/Information.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0c20801ab6304f133fb214d1cf7ca2d9f159eff",
+      "size": 252121,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b0c20801ab6304f133fb214d1cf7ca2d9f159eff"
+    },
+    {
+      "path": "XP/InformationBar.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b860bdb9dc307c9b340f1b61bb2aa8b41f88163",
+      "size": 204421,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0b860bdb9dc307c9b340f1b61bb2aa8b41f88163"
+    },
+    {
+      "path": "XP/InkBall.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52f820b1b44c317f47470f80f70616332381264a",
+      "size": 499809,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/52f820b1b44c317f47470f80f70616332381264a"
+    },
+    {
+      "path": "XP/InputPanel.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bc9c72e5437582ca4a152b2a4cb364f666d3a58",
+      "size": 259019,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6bc9c72e5437582ca4a152b2a4cb364f666d3a58"
+    },
+    {
+      "path": "XP/InternetBackgammon.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e13c945fd5601714762b2f4a4ed4b28dae80720",
+      "size": 348723,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0e13c945fd5601714762b2f4a4ed4b28dae80720"
+    },
+    {
+      "path": "XP/InternetCheckers.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eafb233e835faa4c215a20c2c648473637cfd215",
+      "size": 328681,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/eafb233e835faa4c215a20c2c648473637cfd215"
+    },
+    {
+      "path": "XP/InternetConnectionWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41632e18f27b461ec997bc1475ab1a928d3287be",
+      "size": 461786,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/41632e18f27b461ec997bc1475ab1a928d3287be"
+    },
+    {
+      "path": "XP/InternetExplorer6.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9fc1f5301969393a914e172fd4d87030b89ba34",
+      "size": 346675,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c9fc1f5301969393a914e172fd4d87030b89ba34"
+    },
+    {
+      "path": "XP/InternetHearts.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05b179627ae3d784473bc688fa99799c50432cd9",
+      "size": 319276,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/05b179627ae3d784473bc688fa99799c50432cd9"
+    },
+    {
+      "path": "XP/InternetInformationServices6.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4dfcfed091ab6ecaf8200a9d0ff88f5f0fdcbc96",
+      "size": 325796,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4dfcfed091ab6ecaf8200a9d0ff88f5f0fdcbc96"
+    },
+    {
+      "path": "XP/InternetOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42db7a3e5d081dd32b2882b73a229b7d88c61666",
+      "size": 601748,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/42db7a3e5d081dd32b2882b73a229b7d88c61666"
+    },
+    {
+      "path": "XP/InternetReversi.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05a1ea93a54d68b728f94b3ba93cf3cd06e0eaeb",
+      "size": 380689,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/05a1ea93a54d68b728f94b3ba93cf3cd06e0eaeb"
+    },
+    {
+      "path": "XP/InternetShortcut.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d68c65d31d2b1e5b0d5fd2034a1ed7d6fd4861c",
+      "size": 457322,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9d68c65d31d2b1e5b0d5fd2034a1ed7d6fd4861c"
+    },
+    {
+      "path": "XP/InternetSpades.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dd336e798a433bb91cd84624e2d5c25d5ac6d47",
+      "size": 279693,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1dd336e798a433bb91cd84624e2d5c25d5ac6d47"
+    },
+    {
+      "path": "XP/JAZDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c92bd8ee480702bcd18ae0ff4e0cc81afa053e83",
+      "size": 116337,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c92bd8ee480702bcd18ae0ff4e0cc81afa053e83"
+    },
+    {
+      "path": "XP/JPG.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b61436f749e25cb7d6e2fd31defb7f33418c0b4",
+      "size": 177640,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8b61436f749e25cb7d6e2fd31defb7f33418c0b4"
+    },
+    {
+      "path": "XP/JavaScript.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4cddaf45488d0c56e14c17afb02ec4ca48df7ca",
+      "size": 179134,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d4cddaf45488d0c56e14c17afb02ec4ca48df7ca"
+    },
+    {
+      "path": "XP/JournalNote.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "68147945f4f68ee53c6a24703e15664c1dd98a00",
+      "size": 108387,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/68147945f4f68ee53c6a24703e15664c1dd98a00"
+    },
+    {
+      "path": "XP/JournalTemplate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8fab41d58907dcfbaafe75e13775666f08dcb946",
+      "size": 78880,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8fab41d58907dcfbaafe75e13775666f08dcb946"
+    },
+    {
+      "path": "XP/Key.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b31a46d15c5ca3a16f3ad8fc4a1f4bf8021a171",
+      "size": 304692,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1b31a46d15c5ca3a16f3ad8fc4a1f4bf8021a171"
+    },
+    {
+      "path": "XP/Keyboard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31adc6d4e86a9fce15d12ee34b003edf51438aed",
+      "size": 188073,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/31adc6d4e86a9fce15d12ee34b003edf51438aed"
+    },
+    {
+      "path": "XP/LegacyFloppyDisk.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e14652f5934e53818fa42dcb128ff44d86040127",
+      "size": 353037,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e14652f5934e53818fa42dcb128ff44d86040127"
+    },
+    {
+      "path": "XP/LocalDisk.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b57bfcb3191de2437de67f475a15fe61998db57",
+      "size": 205262,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1b57bfcb3191de2437de67f475a15fe61998db57"
+    },
+    {
+      "path": "XP/LocalSecurityPolicy.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71614612b1436b1b197097d2bd9a700703349307",
+      "size": 275141,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/71614612b1436b1b197097d2bd9a700703349307"
+    },
+    {
+      "path": "XP/Lock.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "150d01dffa5e050fc6239e8a20220115cc2b6f07",
+      "size": 167544,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/150d01dffa5e050fc6239e8a20220115cc2b6f07"
+    },
+    {
+      "path": "XP/LoginQuestion.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2dcb8b96c895c02da774b94c405bf84fb523bc6f",
+      "size": 168822,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2dcb8b96c895c02da774b94c405bf84fb523bc6f"
+    },
+    {
+      "path": "XP/Logout.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6294f1a75c72e47f72598aed1ade1af1a20a5cea",
+      "size": 178527,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6294f1a75c72e47f72598aed1ade1af1a20a5cea"
+    },
+    {
+      "path": "XP/MP3player.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c738add430f38913323bda6d58655c8ecfff122a",
+      "size": 187590,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c738add430f38913323bda6d58655c8ecfff122a"
+    },
+    {
+      "path": "XP/MSN.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb2bd5644d75186011825b8ef9d374bb7a7d84e5",
+      "size": 309226,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bb2bd5644d75186011825b8ef9d374bb7a7d84e5"
+    },
+    {
+      "path": "XP/MSNEmail.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d010976f0e456a5d99f3d59ab2ac6846810786e3",
+      "size": 323232,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d010976f0e456a5d99f3d59ab2ac6846810786e3"
+    },
+    {
+      "path": "XP/MSNMessenger.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41951cb74187b758328b8bb100d4dae4bdd68848",
+      "size": 458015,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/41951cb74187b758328b8bb100d4dae4bdd68848"
+    },
+    {
+      "path": "XP/MSWMM.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32ec74a24f4f2fe015c1505d8c17471cb995b345",
+      "size": 419359,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/32ec74a24f4f2fe015c1505d8c17471cb995b345"
+    },
+    {
+      "path": "XP/Magnifier.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dfad59ecc5d369047c91e3c5e65377d886afcfbc",
+      "size": 570845,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dfad59ecc5d369047c91e3c5e65377d886afcfbc"
+    },
+    {
+      "path": "XP/MaliciousSoftwareRemovalTool.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4c7644114376672dfc4bdb6cd3e980e07d69e43",
+      "size": 274934,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c4c7644114376672dfc4bdb6cd3e980e07d69e43"
+    },
+    {
+      "path": "XP/ManageServerLicenses.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08d46e10b9a9bb5156643a3eba2fb29230c354e3",
+      "size": 229758,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/08d46e10b9a9bb5156643a3eba2fb29230c354e3"
+    },
+    {
+      "path": "XP/ManageServerRoles.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9e57ddaa7ecef28042b4b8ddbae1bc0332098f1",
+      "size": 241158,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e9e57ddaa7ecef28042b4b8ddbae1bc0332098f1"
+    },
+    {
+      "path": "XP/ManageYourServer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b15c67dfc9ef397bccf71f4b4fd246df8cc2c529",
+      "size": 140651,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b15c67dfc9ef397bccf71f4b4fd246df8cc2c529"
+    },
+    {
+      "path": "XP/MapNetworkDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f77906096a19601d2a4960e6026290cf4def9c1",
+      "size": 155126,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0f77906096a19601d2a4960e6026290cf4def9c1"
+    },
+    {
+      "path": "XP/Maximize.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20c305297e1bfaafe15e3658667923e3ecd477ac",
+      "size": 157178,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/20c305297e1bfaafe15e3658667923e3ecd477ac"
+    },
+    {
+      "path": "XP/MediaCenter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28ed69beb4763f8aa0aeac7881806f166952d995",
+      "size": 597084,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/28ed69beb4763f8aa0aeac7881806f166952d995"
+    },
+    {
+      "path": "XP/MediaCenterExtenderManager.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e22225b8a965c80733c61c934ef512187485f2f4",
+      "size": 201274,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e22225b8a965c80733c61c934ef512187485f2f4"
+    },
+    {
+      "path": "XP/MediaCenterFile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe65c7fa405ca613a7689e373607e38d790f8298",
+      "size": 468738,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fe65c7fa405ca613a7689e373607e38d790f8298"
+    },
+    {
+      "path": "XP/MemoryStick.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83b5ff75336ed563a66eb0b8babf92ab1460ac53",
+      "size": 141078,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/83b5ff75336ed563a66eb0b8babf92ab1460ac53"
+    },
+    {
+      "path": "XP/MemoryStickwithMagicGate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37a9db3c5bd5073389a2df6bf459230a740a9119",
+      "size": 187988,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/37a9db3c5bd5073389a2df6bf459230a740a9119"
+    },
+    {
+      "path": "XP/MicrosoftActiveSync.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0515e0739f7350270fac6e3ecf2c37d679fd1ef7",
+      "size": 159661,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0515e0739f7350270fac6e3ecf2c37d679fd1ef7"
+    },
+    {
+      "path": "XP/MicrosoftUpdate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "735de4e2ef1fa0abe25b494099177e82dbb77f34",
+      "size": 254361,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/735de4e2ef1fa0abe25b494099177e82dbb77f34"
+    },
+    {
+      "path": "XP/MicrosoftWindowsNetwork.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dff448815c20b18b7feeb8d48b765727e0cd8ab5",
+      "size": 593475,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dff448815c20b18b7feeb8d48b765727e0cd8ab5"
+    },
+    {
+      "path": "XP/Minesweeper.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a2fe228b669479f02eae7e053259cbd32f64d7d",
+      "size": 246559,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0a2fe228b669479f02eae7e053259cbd32f64d7d"
+    },
+    {
+      "path": "XP/Minimize.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a3e7a5799d05ef584df46be771e0be73d70f74a",
+      "size": 163847,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0a3e7a5799d05ef584df46be771e0be73d70f74a"
+    },
+    {
+      "path": "XP/MissingSetupInformation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c286787d81fb2e8f9d05386467a17a208ca73174",
+      "size": 497586,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c286787d81fb2e8f9d05386467a17a208ca73174"
+    },
+    {
+      "path": "XP/MobileDevice.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36be919d80fc0decf0b641e9fca8bcdbed6a6687",
+      "size": 166663,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/36be919d80fc0decf0b641e9fca8bcdbed6a6687"
+    },
+    {
+      "path": "XP/Modem.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff2fad430179f287901d8c24cc7035e4a75150e8",
+      "size": 169780,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ff2fad430179f287901d8c24cc7035e4a75150e8"
+    },
+    {
+      "path": "XP/Mouse.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e7b2b819509d59ef2a08302b6876ff980e44d12",
+      "size": 183233,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8e7b2b819509d59ef2a08302b6876ff980e44d12"
+    },
+    {
+      "path": "XP/MoveTo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4d694c52d6c81d690618c0e4bd72a206c0a3045",
+      "size": 207216,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b4d694c52d6c81d690618c0e4bd72a206c0a3045"
+    },
+    {
+      "path": "XP/Movethisfolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4f132d0257e9d33dd9833adae32fdf0a9d1749c",
+      "size": 433713,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a4f132d0257e9d33dd9833adae32fdf0a9d1749c"
+    },
+    {
+      "path": "XP/Movetofolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "952188ca8d5208d518796afdf9c1114d2be960e4",
+      "size": 367466,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/952188ca8d5208d518796afdf9c1114d2be960e4"
+    },
+    {
+      "path": "XP/Mute.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8485acc7ee9307c393ed2d09aa99245c81a274c",
+      "size": 233162,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f8485acc7ee9307c393ed2d09aa99245c81a274c"
+    },
+    {
+      "path": "XP/MyComputer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65cd0ff6ae3caab48f9b08ffbb3d80cfb1dab5e4",
+      "size": 677994,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/65cd0ff6ae3caab48f9b08ffbb3d80cfb1dab5e4"
+    },
+    {
+      "path": "XP/MyDocuments.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f11f78ac8d1be3acf82e5a15548e2a3c69cb8aa4",
+      "size": 323488,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f11f78ac8d1be3acf82e5a15548e2a3c69cb8aa4"
+    },
+    {
+      "path": "XP/MyMusic.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0204e7f2143cca2a66939cfb454004dc80282941",
+      "size": 357752,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0204e7f2143cca2a66939cfb454004dc80282941"
+    },
+    {
+      "path": "XP/MyNetworkPlaces.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63188bd8507bd4306bca7faa3534588d627129c3",
+      "size": 639339,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/63188bd8507bd4306bca7faa3534588d627129c3"
+    },
+    {
+      "path": "XP/MyPictures.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "250bf7e46c746af744ccacd9875ba89b22e7567f",
+      "size": 321002,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/250bf7e46c746af744ccacd9875ba89b22e7567f"
+    },
+    {
+      "path": "XP/MyVideos.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f421904c6042b3da624554ec347a1174ff216a1",
+      "size": 297438,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3f421904c6042b3da624554ec347a1174ff216a1"
+    },
+    {
+      "path": "XP/Narrator.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8dce5a47e2f057541dfd5727f3520e4b07d7b279",
+      "size": 238372,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8dce5a47e2f057541dfd5727f3520e4b07d7b279"
+    },
+    {
+      "path": "XP/Netmeeting.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73db4cc72606976995cff5eb2577ae3f730b65d6",
+      "size": 589236,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/73db4cc72606976995cff5eb2577ae3f730b65d6"
+    },
+    {
+      "path": "XP/NetworkConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "058c6052114f50b12bd659d259e0adde78ca3a8e",
+      "size": 291208,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/058c6052114f50b12bd659d259e0adde78ca3a8e"
+    },
+    {
+      "path": "XP/NetworkConnections.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9758e35b2714a9dc6d53ce6f3506208e303c8590",
+      "size": 475750,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9758e35b2714a9dc6d53ce6f3506208e303c8590"
+    },
+    {
+      "path": "XP/NetworkDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83dbf6959f8b09c3872d441da5e2c86bf48a6053",
+      "size": 365798,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/83dbf6959f8b09c3872d441da5e2c86bf48a6053"
+    },
+    {
+      "path": "XP/NetworkDriveDisconnected.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87daeeb69e055bd6a2f8d230a1f9233b1cc6f994",
+      "size": 373465,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/87daeeb69e055bd6a2f8d230a1f9233b1cc6f994"
+    },
+    {
+      "path": "XP/NetworkFax.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90ec2282d373c0fef098b539c60331838fd57c46",
+      "size": 332776,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/90ec2282d373c0fef098b539c60331838fd57c46"
+    },
+    {
+      "path": "XP/NetworkFolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40093343bba05580d3e33a07bf2cca9c7f299f50",
+      "size": 312637,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/40093343bba05580d3e33a07bf2cca9c7f299f50"
+    },
+    {
+      "path": "XP/NetworkSetup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d57f5175a1e1de151961402c0e971e2ab2ac4bf6",
+      "size": 246708,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d57f5175a1e1de151961402c0e971e2ab2ac4bf6"
+    },
+    {
+      "path": "XP/NetworkandInternet.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2e7316249ee1a388c5951fa78a18dcd8d61ae7c",
+      "size": 586228,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b2e7316249ee1a388c5951fa78a18dcd8d61ae7c"
+    },
+    {
+      "path": "XP/Networkprinter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8eed09b07a52fcf2d8413afddb5f00581dd2637",
+      "size": 450886,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f8eed09b07a52fcf2d8413afddb5f00581dd2637"
+    },
+    {
+      "path": "XP/NewFolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75b38fd881cb1003ce9fa5a8d4adb114c48e69c8",
+      "size": 251960,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/75b38fd881cb1003ce9fa5a8d4adb114c48e69c8"
+    },
+    {
+      "path": "XP/NewImagingDevice.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f13bd97384fa73c981c3088eb1081da92b5ae3a",
+      "size": 299411,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0f13bd97384fa73c981c3088eb1081da92b5ae3a"
+    },
+    {
+      "path": "XP/NewInternetConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db8483dfdce856dc6b69d9884acb679a8de35636",
+      "size": 414326,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/db8483dfdce856dc6b69d9884acb679a8de35636"
+    },
+    {
+      "path": "XP/NewNetworkConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "edff79ae2f19c7ae3c136a61db0d6560ebdf580a",
+      "size": 405314,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/edff79ae2f19c7ae3c136a61db0d6560ebdf580a"
+    },
+    {
+      "path": "XP/NewPrinter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b541bbe90c13e5aaafdab47e03ad46b2b636d79",
+      "size": 341386,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5b541bbe90c13e5aaafdab47e03ad46b2b636d79"
+    },
+    {
+      "path": "XP/NewScheduledTask.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8077764fa71550d17d02ec3ef47b2dc749525661",
+      "size": 361618,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8077764fa71550d17d02ec3ef47b2dc749525661"
+    },
+    {
+      "path": "XP/Notepad.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c65927c9c2e1e2ed9436d2ac1791b8fc731ef7b",
+      "size": 201860,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5c65927c9c2e1e2ed9436d2ac1791b8fc731ef7b"
+    },
+    {
+      "path": "XP/ODBCDataSources.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bc240c9f6ab498009afce456e20d656efd6a259",
+      "size": 282031,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5bc240c9f6ab498009afce456e20d656efd6a259"
+    },
+    {
+      "path": "XP/OEAttatch.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2d4ecf1b951b2a0558d96b9f9d80de8de429e1b",
+      "size": 155398,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f2d4ecf1b951b2a0558d96b9f9d80de8de429e1b"
+    },
+    {
+      "path": "XP/OECreateMail.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c21a4d74758586353b0cca917b2b3ad9ee6d4fd",
+      "size": 177928,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2c21a4d74758586353b0cca917b2b3ad9ee6d4fd"
+    },
+    {
+      "path": "XP/OEDecode.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e171bcb0b4a6f5b0b7a3494c93ab5ff3fcadd5e0",
+      "size": 63318,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e171bcb0b4a6f5b0b7a3494c93ab5ff3fcadd5e0"
+    },
+    {
+      "path": "XP/OEEncrypt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b98dd9c3c3f9a33a957b79102e042d0fdef024b",
+      "size": 369644,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1b98dd9c3c3f9a33a957b79102e042d0fdef024b"
+    },
+    {
+      "path": "XP/OEFolderList.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "003f5ffcee1784a7b634d5ebd4091c969b85d22b",
+      "size": 52500,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/003f5ffcee1784a7b634d5ebd4091c969b85d22b"
+    },
+    {
+      "path": "XP/OEForward.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b2b080ec1b6496114fc0c3e8c9e04b01718c743",
+      "size": 279341,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5b2b080ec1b6496114fc0c3e8c9e04b01718c743"
+    },
+    {
+      "path": "XP/OEInbox.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb9b719a0a30b977793eb705344e4de55b4db670",
+      "size": 437700,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fb9b719a0a30b977793eb705344e4de55b4db670"
+    },
+    {
+      "path": "XP/OEMarkasread.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d56b4e89d0f6f8960ccfdad86c9f208203518c42",
+      "size": 234856,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d56b4e89d0f6f8960ccfdad86c9f208203518c42"
+    },
+    {
+      "path": "XP/OEMarkasunread.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b492ff021daf5afbcc559623625c3bf4da04e697",
+      "size": 400679,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b492ff021daf5afbcc559623625c3bf4da04e697"
+    },
+    {
+      "path": "XP/OENewsPost.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7060ac6e3195861a797318b1aabd46fa1c4fde3",
+      "size": 160149,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d7060ac6e3195861a797318b1aabd46fa1c4fde3"
+    },
+    {
+      "path": "XP/OEOutbox.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bcb73afc78d5a6c14b68cf0ee76ca2409328c476",
+      "size": 188098,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bcb73afc78d5a6c14b68cf0ee76ca2409328c476"
+    },
+    {
+      "path": "XP/OEPreviewPane.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40850b5615df7db4d451a8527bb90e6788229b89",
+      "size": 46420,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/40850b5615df7db4d451a8527bb90e6788229b89"
+    },
+    {
+      "path": "XP/OERecipients.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e7db1d9939af7b67aaf74034d0e11f9510f0e5b",
+      "size": 50016,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7e7db1d9939af7b67aaf74034d0e11f9510f0e5b"
+    },
+    {
+      "path": "XP/OEReply.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8dc40b979e303c3102de48a760d36647f4376414",
+      "size": 396030,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8dc40b979e303c3102de48a760d36647f4376414"
+    },
+    {
+      "path": "XP/OEReplyAll.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3cdde1e34f36acae2371eb76ea01b890fe3b4a8",
+      "size": 482283,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f3cdde1e34f36acae2371eb76ea01b890fe3b4a8"
+    },
+    {
+      "path": "XP/OESend.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58bd20928a852ce084f7e9d7dcd0958450d4b1e1",
+      "size": 315852,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/58bd20928a852ce084f7e9d7dcd0958450d4b1e1"
+    },
+    {
+      "path": "XP/OESendandReceive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdb3272d30ad43e5997022f86e26859dfe9b6017",
+      "size": 338131,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fdb3272d30ad43e5997022f86e26859dfe9b6017"
+    },
+    {
+      "path": "XP/OESentItems.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d186fa8b0d263375faa6b91c86fe4ae0622e97f1",
+      "size": 369885,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d186fa8b0d263375faa6b91c86fe4ae0622e97f1"
+    },
+    {
+      "path": "XP/OESign.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4eb3a40572c75167dbb024f77c63de7a1dc35ac",
+      "size": 373571,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f4eb3a40572c75167dbb024f77c63de7a1dc35ac"
+    },
+    {
+      "path": "XP/OESignature.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a8444381ef5eb33ffa0f23d6f4bd30d87d87d84",
+      "size": 111620,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6a8444381ef5eb33ffa0f23d6f4bd30d87d87d84"
+    },
+    {
+      "path": "XP/OEUnscramble.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42bb87ea5649eb618d8da0d088b9250a9bfcb5e1",
+      "size": 319894,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/42bb87ea5649eb618d8da0d088b9250a9bfcb5e1"
+    },
+    {
+      "path": "XP/OfflineWebPages.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcd657662bb9588d807d39ac47b7f55f17ee57bc",
+      "size": 239326,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dcd657662bb9588d807d39ac47b7f55f17ee57bc"
+    },
+    {
+      "path": "XP/On-ScreenKeyboard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0dd684b5005c9b86f203fea599384806f515eb4",
+      "size": 355428,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e0dd684b5005c9b86f203fea599384806f515eb4"
+    },
+    {
+      "path": "XP/Open.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "478e81b210975e01b3c75b710df839c659b9d900",
+      "size": 219711,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/478e81b210975e01b3c75b710df839c659b9d900"
+    },
+    {
+      "path": "XP/OpenType.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d58f7d2d1ba807322cf0ecb939a14954c1203fce",
+      "size": 126474,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d58f7d2d1ba807322cf0ecb939a14954c1203fce"
+    },
+    {
+      "path": "XP/OpticalDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3d2b0437df83ced4c1843b356aa53bda676b84b",
+      "size": 304220,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c3d2b0437df83ced4c1843b356aa53bda676b84b"
+    },
+    {
+      "path": "XP/OutlookExpress.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37191973f68738b50c4c7b5f39d7c8cb8f7800fa",
+      "size": 254575,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/37191973f68738b50c4c7b5f39d7c8cb8f7800fa"
+    },
+    {
+      "path": "XP/PCMCIACard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bc7adf9cabdb17f4ff475d25eb3f5b8bb08c49a",
+      "size": 147853,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0bc7adf9cabdb17f4ff475d25eb3f5b8bb08c49a"
+    },
+    {
+      "path": "XP/Packager.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7de17298059de130d9989e90d92137d5f4eed1cc",
+      "size": 383559,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7de17298059de130d9989e90d92137d5f4eed1cc"
+    },
+    {
+      "path": "XP/Padlock.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d94bafbaeb5c849edf37c0215a81aa080b0deac4",
+      "size": 181980,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d94bafbaeb5c849edf37c0215a81aa080b0deac4"
+    },
+    {
+      "path": "XP/PadlockAlt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "503104fcadd1aee1de87193ce90203781e74b98b",
+      "size": 173703,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/503104fcadd1aee1de87193ce90203781e74b98b"
+    },
+    {
+      "path": "XP/Paint.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7b9912d77efb93bae2551001c842014ca1d916a",
+      "size": 346737,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e7b9912d77efb93bae2551001c842014ca1d916a"
+    },
+    {
+      "path": "XP/Paste.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04eb597b2d5583fc051416bb9657d27c27387364",
+      "size": 212890,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/04eb597b2d5583fc051416bb9657d27c27387364"
+    },
+    {
+      "path": "XP/Performance.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ffcae4fd03d22ea898dfbedab506a494bf53ee00",
+      "size": 135135,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ffcae4fd03d22ea898dfbedab506a494bf53ee00"
+    },
+    {
+      "path": "XP/PerformanceMonitor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58dae96f856bd2d57d290e057c56eb2f595fac1d",
+      "size": 402912,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/58dae96f856bd2d57d290e057c56eb2f595fac1d"
+    },
+    {
+      "path": "XP/Phone.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49cec3c3421499941b81ec188a433b34ed02b168",
+      "size": 98101,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/49cec3c3421499941b81ec188a433b34ed02b168"
+    },
+    {
+      "path": "XP/PhoneandModemOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ec40d2d8f0b3776315bf3d084ca5b760e8788b4",
+      "size": 319840,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6ec40d2d8f0b3776315bf3d084ca5b760e8788b4"
+    },
+    {
+      "path": "XP/Pinball.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bfeba7b196f2d8b24ba0e10a1e9f40bc01d3ebe",
+      "size": 574710,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2bfeba7b196f2d8b24ba0e10a1e9f40bc01d3ebe"
+    },
+    {
+      "path": "XP/Play.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "876b2bb130bf1cb61431ba1ebd121d82e4771a2f",
+      "size": 355809,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/876b2bb130bf1cb61431ba1ebd121d82e4771a2f"
+    },
+    {
+      "path": "XP/Popupallowed.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db0ada056ff5cb8993e9c82eb4790a1ee728695c",
+      "size": 153044,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/db0ada056ff5cb8993e9c82eb4790a1ee728695c"
+    },
+    {
+      "path": "XP/Popupblocked.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bf0481a43a0cfb5253e08bc8d4d645174146f88",
+      "size": 335723,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4bf0481a43a0cfb5253e08bc8d4d645174146f88"
+    },
+    {
+      "path": "XP/Popupinformation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46361d813d4e72b17a4728037a565ed3bb0a30ef",
+      "size": 110793,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/46361d813d4e72b17a4728037a565ed3bb0a30ef"
+    },
+    {
+      "path": "XP/PortableMediaDevices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "deb31a31bb5ad247250306fc1a832888a181adb4",
+      "size": 436386,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/deb31a31bb5ad247250306fc1a832888a181adb4"
+    },
+    {
+      "path": "XP/Power.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ab4d310e8540b4d29d09a26ca09060135e58929",
+      "size": 159328,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1ab4d310e8540b4d29d09a26ca09060135e58929"
+    },
+    {
+      "path": "XP/PowerOptions.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ff518f8cc710f7b4bdfc17f09103cdaea720f88",
+      "size": 239124,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0ff518f8cc710f7b4bdfc17f09103cdaea720f88"
+    },
+    {
+      "path": "XP/PowerStatus.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c11a13d840fee95cd397bf827d83a49291a718c3",
+      "size": 213746,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c11a13d840fee95cd397bf827d83a49291a718c3"
+    },
+    {
+      "path": "XP/PrintServerProperties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b4043f6ed2b03b8d9f6a783d0c211e085a65627",
+      "size": 236084,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1b4043f6ed2b03b8d9f6a783d0c211e085a65627"
+    },
+    {
+      "path": "XP/Printer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f38f4692635bde59331c9e4c27438416ac13c11",
+      "size": 329428,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0f38f4692635bde59331c9e4c27438416ac13c11"
+    },
+    {
+      "path": "XP/PrinterMissing.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef0d905b3b8ee97a1ff98f718f5fe85a306847fa",
+      "size": 339167,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ef0d905b3b8ee97a1ff98f718f5fe85a306847fa"
+    },
+    {
+      "path": "XP/PrintersandFaxes.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afb49b948d9c880b44916a44d11e3cfd15d99fd7",
+      "size": 493672,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/afb49b948d9c880b44916a44d11e3cfd15d99fd7"
+    },
+    {
+      "path": "XP/PrintersandHardware.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "002ea09bdc59005b4bb67baf5a061c35cfaaceaf",
+      "size": 394817,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/002ea09bdc59005b4bb67baf5a061c35cfaaceaf"
+    },
+    {
+      "path": "XP/Printphotos.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c290aeb6fd9a73844d3ce9f8506e7efa48cb975",
+      "size": 400410,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4c290aeb6fd9a73844d3ce9f8506e7efa48cb975"
+    },
+    {
+      "path": "XP/Printtofile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e8961d5df3da4c493186ed33be74313fedca0aa",
+      "size": 442893,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3e8961d5df3da4c493186ed33be74313fedca0aa"
+    },
+    {
+      "path": "XP/Privacy.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6ba8a258c744dfef02ffabbbe051b3a9183651a",
+      "size": 473491,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a6ba8a258c744dfef02ffabbbe051b3a9183651a"
+    },
+    {
+      "path": "XP/Programs.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61252493262ac55423daaa7d560ded664d35df11",
+      "size": 388382,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/61252493262ac55423daaa7d560ded664d35df11"
+    },
+    {
+      "path": "XP/Prohibited.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a7e3286061484511daf0045aa3faf8dec74415c",
+      "size": 120015,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2a7e3286061484511daf0045aa3faf8dec74415c"
+    },
+    {
+      "path": "XP/Properties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8a3566d2fa3cbfae0d5b06708f1dafa682be2e4",
+      "size": 97620,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e8a3566d2fa3cbfae0d5b06708f1dafa682be2e4"
+    },
+    {
+      "path": "XP/ProxyServer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e293797af635c17d41545db6ce6a913d3cb2ce5",
+      "size": 215589,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0e293797af635c17d41545db6ce6a913d3cb2ce5"
+    },
+    {
+      "path": "XP/Publishphotostoweb.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab1095b56ed7dc4a66b76df473ee1ed83241c864",
+      "size": 590219,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ab1095b56ed7dc4a66b76df473ee1ed83241c864"
+    },
+    {
+      "path": "XP/Publishtoweb.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f85fb7e4c4f5ce4ef28e9546b01e6607334ae04",
+      "size": 706495,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9f85fb7e4c4f5ce4ef28e9546b01e6607334ae04"
+    },
+    {
+      "path": "XP/Question.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5045d2186b8acf52fa447e129c5a1b21608a8c74",
+      "size": 282026,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5045d2186b8acf52fa447e129c5a1b21608a8c74"
+    },
+    {
+      "path": "XP/RTCShare.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8189ae5a68454355c3fa798f14ecd11b1b404bc6",
+      "size": 405602,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8189ae5a68454355c3fa798f14ecd11b1b404bc6"
+    },
+    {
+      "path": "XP/RTF.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "868c544b314a223e12dfe414667408e2cb2f3f75",
+      "size": 477166,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/868c544b314a223e12dfe414667408e2cb2f3f75"
+    },
+    {
+      "path": "XP/RecentDocuments.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15a34ce3d5b31c4f3a1a5d89d143dda39d86d6c7",
+      "size": 317771,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/15a34ce3d5b31c4f3a1a5d89d143dda39d86d6c7"
+    },
+    {
+      "path": "XP/Record.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4834054e5e5941697c5dfe4de5995d6e120ad7a0",
+      "size": 276159,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4834054e5e5941697c5dfe4de5995d6e120ad7a0"
+    },
+    {
+      "path": "XP/RecycleBin(empty).png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3cd323430f3d017a70a9bd7dcc63ec4827b2bd1",
+      "size": 359504,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b3cd323430f3d017a70a9bd7dcc63ec4827b2bd1"
+    },
+    {
+      "path": "XP/RecycleBin(full).png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d16d8dadec045c77e59cf6131e92900c8ffbf102",
+      "size": 359045,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d16d8dadec045c77e59cf6131e92900c8ffbf102"
+    },
+    {
+      "path": "XP/Redo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30bebd9cc72e37d3596f6f2e706585366d8d1604",
+      "size": 105441,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/30bebd9cc72e37d3596f6f2e706585366d8d1604"
+    },
+    {
+      "path": "XP/RegionalSettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0113fdbc23de63147f442b72b232f6b7afe485cd",
+      "size": 574568,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0113fdbc23de63147f442b72b232f6b7afe485cd"
+    },
+    {
+      "path": "XP/RegistryDocument.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65efb4722bdb2afa607328b178938335b71dcb16",
+      "size": 317707,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/65efb4722bdb2afa607328b178938335b71dcb16"
+    },
+    {
+      "path": "XP/RegistryEditor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d6edb1dcd380859b2291aa8dc808e6c03b3732e",
+      "size": 206264,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6d6edb1dcd380859b2291aa8dc808e6c03b3732e"
+    },
+    {
+      "path": "XP/RelatedWebContent.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98013946cfc33dd03478f770b63ed9dfadb1f241",
+      "size": 239239,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/98013946cfc33dd03478f770b63ed9dfadb1f241"
+    },
+    {
+      "path": "XP/RemoteAccessService.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "952e4b60efce84d419d9114b8946195daa1a8f3e",
+      "size": 425308,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/952e4b60efce84d419d9114b8946195daa1a8f3e"
+    },
+    {
+      "path": "XP/RemoteAssistance.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b6a89e448c86c422a708c88a3aa6fa5c87db239",
+      "size": 190691,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7b6a89e448c86c422a708c88a3aa6fa5c87db239"
+    },
+    {
+      "path": "XP/RemoteDesktop.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1083b4edcf92f49b70a64f20aceb862b32ead7a7",
+      "size": 363466,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1083b4edcf92f49b70a64f20aceb862b32ead7a7"
+    },
+    {
+      "path": "XP/RemoteDesktopServer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "317c3865a4c7ea034850d4353e2ef5140d7891ca",
+      "size": 268354,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/317c3865a4c7ea034850d4353e2ef5140d7891ca"
+    },
+    {
+      "path": "XP/RemovableMedia.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac1f9b03d52336bc3cd72788e1ffa648ec8f167b",
+      "size": 164953,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ac1f9b03d52336bc3cd72788e1ffa648ec8f167b"
+    },
+    {
+      "path": "XP/Rename.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfa374b02e07678069a4edc83287714bdff7216c",
+      "size": 59537,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cfa374b02e07678069a4edc83287714bdff7216c"
+    },
+    {
+      "path": "XP/Restart.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf278ec3a4a43078e3a94ac3f2ad81838dc8edf6",
+      "size": 148414,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cf278ec3a4a43078e3a94ac3f2ad81838dc8edf6"
+    },
+    {
+      "path": "XP/Restore.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e315620097dc35e959154dbd504c28653d764b6c",
+      "size": 157725,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e315620097dc35e959154dbd504c28653d764b6c"
+    },
+    {
+      "path": "XP/RestoreAllItems.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa546439951d1176798eab0790e6c33198f27c1f",
+      "size": 93040,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fa546439951d1176798eab0790e6c33198f27c1f"
+    },
+    {
+      "path": "XP/Restricted.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28308853fb4fd050a0aa88937c3cd0b0defd76b1",
+      "size": 178204,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/28308853fb4fd050a0aa88937c3cd0b0defd76b1"
+    },
+    {
+      "path": "XP/Router.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "509650c8b9066603896ff4b5987e2af3c39e590c",
+      "size": 171709,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/509650c8b9066603896ff4b5987e2af3c39e590c"
+    },
+    {
+      "path": "XP/Run.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ada72a044077c292927c933b55292a76b72e20f",
+      "size": 108050,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4ada72a044077c292927c933b55292a76b72e20f"
+    },
+    {
+      "path": "XP/SDCard-Alt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8cb199b4c089d8e9345b5cbb8bfd0d53c888bfe",
+      "size": 132505,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c8cb199b4c089d8e9345b5cbb8bfd0d53c888bfe"
+    },
+    {
+      "path": "XP/SDCard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "672dc016dc8fb924579e52b590036fd0a7c5fd86",
+      "size": 129413,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/672dc016dc8fb924579e52b590036fd0a7c5fd86"
+    },
+    {
+      "path": "XP/SafelyRemoveHardware.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03d31c767641e8c07525a79e790ea23615009dc7",
+      "size": 306697,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/03d31c767641e8c07525a79e790ea23615009dc7"
+    },
+    {
+      "path": "XP/Save.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39fc80c9d3694d90b59db301c01718b11b9944eb",
+      "size": 74089,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/39fc80c9d3694d90b59db301c01718b11b9944eb"
+    },
+    {
+      "path": "XP/Scanner.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29bb98fd83a44f7fc581e3e2aa9adcd7c8b46578",
+      "size": 169700,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/29bb98fd83a44f7fc581e3e2aa9adcd7c8b46578"
+    },
+    {
+      "path": "XP/ScannerandCameraWizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5aab21e874d174ffbeb3f802c70fbb4bfa201164",
+      "size": 310367,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5aab21e874d174ffbeb3f802c70fbb4bfa201164"
+    },
+    {
+      "path": "XP/ScannersandCameras.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7fedb8f9382973afb0ddadccfe753370640ebf10",
+      "size": 499261,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7fedb8f9382973afb0ddadccfe753370640ebf10"
+    },
+    {
+      "path": "XP/ScheduledTasks.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0d40a56fbfa669826d62edb50be137fc6a6a632",
+      "size": 336898,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f0d40a56fbfa669826d62edb50be137fc6a6a632"
+    },
+    {
+      "path": "XP/Scrap.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9c1b2cac8b72ab3e5a3cb18d624459adcb3b056",
+      "size": 161324,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e9c1b2cac8b72ab3e5a3cb18d624459adcb3b056"
+    },
+    {
+      "path": "XP/ScriptComponent.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b31c42f3a432db2156f2578c7166e5a6a8d29b25",
+      "size": 472702,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b31c42f3a432db2156f2578c7166e5a6a8d29b25"
+    },
+    {
+      "path": "XP/Search.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09d725be1b0034437d4e58eded55379da141e93e",
+      "size": 132548,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/09d725be1b0034437d4e58eded55379da141e93e"
+    },
+    {
+      "path": "XP/SearchResults.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a18f6a3edadcc1f0849f840f47eb407280d0847",
+      "size": 213627,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0a18f6a3edadcc1f0849f840f47eb407280d0847"
+    },
+    {
+      "path": "XP/Searchforpeople.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51c6ed5511732fe587ce3a537794a964c53b0aa0",
+      "size": 569752,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/51c6ed5511732fe587ce3a537794a964c53b0aa0"
+    },
+    {
+      "path": "XP/Security-Ok.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60862c5076532deea2927b980f1bd4161a8346d0",
+      "size": 212329,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/60862c5076532deea2927b980f1bd4161a8346d0"
+    },
+    {
+      "path": "XP/SecurityAlert.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3116169eb27fec1c0b650671d33f5ab4dda1475f",
+      "size": 225450,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3116169eb27fec1c0b650671d33f5ab4dda1475f"
+    },
+    {
+      "path": "XP/SecurityCenter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "331341c5b5d995c12fa309b9289084cf04289d18",
+      "size": 241871,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/331341c5b5d995c12fa309b9289084cf04289d18"
+    },
+    {
+      "path": "XP/SecurityError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4556dd782cf37f675f2bff2621627a0df2bec32",
+      "size": 213248,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d4556dd782cf37f675f2bff2621627a0df2bec32"
+    },
+    {
+      "path": "XP/SecurityQuestion.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8be8a7cf40767684837a6300707b566b44b30f58",
+      "size": 217339,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8be8a7cf40767684837a6300707b566b44b30f58"
+    },
+    {
+      "path": "XP/SecuritySettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2432fc3d95ffd36918a2c6fee4e024df815841bf",
+      "size": 194311,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2432fc3d95ffd36918a2c6fee4e024df815841bf"
+    },
+    {
+      "path": "XP/SendaFax.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "709208a617d8dcf14910a6c014d7be4439c5ecfb",
+      "size": 330126,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/709208a617d8dcf14910a6c014d7be4439c5ecfb"
+    },
+    {
+      "path": "XP/SerialConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb2d646709b6dea503860b804fd2203eeb91bc05",
+      "size": 88951,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bb2d646709b6dea503860b804fd2203eeb91bc05"
+    },
+    {
+      "path": "XP/ServerLicense.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50c3363cebc3e41811a46dfbd224ed87e10f2a4d",
+      "size": 383897,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/50c3363cebc3e41811a46dfbd224ed87e10f2a4d"
+    },
+    {
+      "path": "XP/Services.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b602c8c01eb4a1e81506dfece17c2c0520b73396",
+      "size": 349853,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b602c8c01eb4a1e81506dfece17c2c0520b73396"
+    },
+    {
+      "path": "XP/SettingsAlert.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "859dd2bc08445b45474566842a2f08d6ffe66d86",
+      "size": 294127,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/859dd2bc08445b45474566842a2f08d6ffe66d86"
+    },
+    {
+      "path": "XP/Setup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43bf82a1ca088de95cd294725e1f7c067c3187cf",
+      "size": 462483,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/43bf82a1ca088de95cd294725e1f7c067c3187cf"
+    },
+    {
+      "path": "XP/SetupLanguage.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8a1edb66d110d0479f37516de9fb1af1185ff64",
+      "size": 102866,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b8a1edb66d110d0479f37516de9fb1af1185ff64"
+    },
+    {
+      "path": "XP/SetupSkip.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f57d6722a019535e1ad93f021eda3eea910d501",
+      "size": 164482,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3f57d6722a019535e1ad93f021eda3eea910d501"
+    },
+    {
+      "path": "XP/Setupback.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36f9f5d801db09e2e2bf1515d14702d5851ddaf0",
+      "size": 132493,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/36f9f5d801db09e2e2bf1515d14702d5851ddaf0"
+    },
+    {
+      "path": "XP/Setuptask.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35543b7ab3f8c139a818cacad36ad1e85de8ea44",
+      "size": 152146,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/35543b7ab3f8c139a818cacad36ad1e85de8ea44"
+    },
+    {
+      "path": "XP/SharedFolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32cc10f8e4f39de98f4dffeeb8188b52db5d0a8a",
+      "size": 354275,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/32cc10f8e4f39de98f4dffeeb8188b52db5d0a8a"
+    },
+    {
+      "path": "XP/SharedFolderAlt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a52c90ba08e90433e01c419d4115d39548243c5",
+      "size": 358385,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4a52c90ba08e90433e01c419d4115d39548243c5"
+    },
+    {
+      "path": "XP/SharedPrinter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e390686001ce68bb013fec36aaa91608cbc89ee4",
+      "size": 370692,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e390686001ce68bb013fec36aaa91608cbc89ee4"
+    },
+    {
+      "path": "XP/SharingHand.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc6841c1fb7196320c3a72c94f035c6492d08fd6",
+      "size": 110546,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cc6841c1fb7196320c3a72c94f035c6492d08fd6"
+    },
+    {
+      "path": "XP/Shortcutoverlay.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7150439de2141d527e337d7bd42bb0630138f36",
+      "size": 70530,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f7150439de2141d527e337d7bd42bb0630138f36"
+    },
+    {
+      "path": "XP/SingleClick.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "321b69b05ed511e86a47148854a6497f82ccc859",
+      "size": 185192,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/321b69b05ed511e86a47148854a6497f82ccc859"
+    },
+    {
+      "path": "XP/Slideshow.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77e1144681597bb37e26817c6056684b8ecd819a",
+      "size": 135524,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/77e1144681597bb37e26817c6056684b8ecd819a"
+    },
+    {
+      "path": "XP/SmartCardReader.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9e575b41a271a4bcbfe6bfd9971bd500574af42",
+      "size": 117316,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e9e575b41a271a4bcbfe6bfd9971bd500574af42"
+    },
+    {
+      "path": "XP/SmartMediaCard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7215c3243d1f0a2e2919817f32937a0f5b4be3b7",
+      "size": 340633,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7215c3243d1f0a2e2919817f32937a0f5b4be3b7"
+    },
+    {
+      "path": "XP/SmartScreen.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a53ed15a8e0beb23ca3a236350be4a5521736e72",
+      "size": 204055,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a53ed15a8e0beb23ca3a236350be4a5521736e72"
+    },
+    {
+      "path": "XP/Solitaire.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8de71996bf8b5035f52e4bdd8a657dad819faf57",
+      "size": 144447,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8de71996bf8b5035f52e4bdd8a657dad819faf57"
+    },
+    {
+      "path": "XP/SortAlphabetically.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d19eaca9ee174e7089ad6bb6d772607559eadba",
+      "size": 144647,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9d19eaca9ee174e7089ad6bb6d772607559eadba"
+    },
+    {
+      "path": "XP/Sortbydate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c94b12340308c4ca7c2757fc378fec8b7b449d60",
+      "size": 155511,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c94b12340308c4ca7c2757fc378fec8b7b449d60"
+    },
+    {
+      "path": "XP/Sortbysize.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d39135310f1726fb9ca0ec2a7a5430f76676cf3a",
+      "size": 88827,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d39135310f1726fb9ca0ec2a7a5430f76676cf3a"
+    },
+    {
+      "path": "XP/Speech.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de78b5d602607755c2b1d61e578df1717ddc57c7",
+      "size": 466360,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/de78b5d602607755c2b1d61e578df1717ddc57c7"
+    },
+    {
+      "path": "XP/SpiderSolitaire.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0117c1971f7d923af51925296359bcc506631dcf",
+      "size": 268714,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0117c1971f7d923af51925296359bcc506631dcf"
+    },
+    {
+      "path": "XP/Standby.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3821e4c230967bad817e498229be45bb0a40ed75",
+      "size": 137662,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3821e4c230967bad817e498229be45bb0a40ed75"
+    },
+    {
+      "path": "XP/StartMenuPrograms.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5618c8a4acb9ef155bdebe0a7258519540de3f4a",
+      "size": 270944,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5618c8a4acb9ef155bdebe0a7258519540de3f4a"
+    },
+    {
+      "path": "XP/StartMenuProgramsAlt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7df4d452f4dbcf7dba506ef89a1a4f8815c2895",
+      "size": 464967,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f7df4d452f4dbcf7dba506ef89a1a4f8815c2895"
+    },
+    {
+      "path": "XP/StickyNotes.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce2d2ddc4d51a19818fa7e208cbf7d59cf195256",
+      "size": 248257,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ce2d2ddc4d51a19818fa7e208cbf7d59cf195256"
+    },
+    {
+      "path": "XP/Stop.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7d724cbe5480ebed813186d337fb496013f9c44",
+      "size": 238610,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c7d724cbe5480ebed813186d337fb496013f9c44"
+    },
+    {
+      "path": "XP/Success.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c12cc35cd9c5c399836d6ae3e0428009dd3eae2f",
+      "size": 319730,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c12cc35cd9c5c399836d6ae3e0428009dd3eae2f"
+    },
+    {
+      "path": "XP/SupportTopic.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "450cbba2e97a39eb153d208b2335a84e1a6aa2d7",
+      "size": 239732,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/450cbba2e97a39eb153d208b2335a84e1a6aa2d7"
+    },
+    {
+      "path": "XP/SwitchUser.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "169ba5f6c2c110ab4f736139d6d8224e87aa01ab",
+      "size": 155054,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/169ba5f6c2c110ab4f736139d6d8224e87aa01ab"
+    },
+    {
+      "path": "XP/Sync.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c39eac55bc140b1e5047618977c09a259a0dca1",
+      "size": 337564,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9c39eac55bc140b1e5047618977c09a259a0dca1"
+    },
+    {
+      "path": "XP/SyncAll.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fbb8b97069ad7211b6788bd0b2e0c70b2a62d8a2",
+      "size": 272396,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fbb8b97069ad7211b6788bd0b2e0c70b2a62d8a2"
+    },
+    {
+      "path": "XP/Synchronize.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9aee28a58b9bfe553a4d27262d5de76c0d82fc07",
+      "size": 501050,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9aee28a58b9bfe553a4d27262d5de76c0d82fc07"
+    },
+    {
+      "path": "XP/SystemInformation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fcbe9b122ea4470ce13699683a5be71ffe364d93",
+      "size": 271316,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/fcbe9b122ea4470ce13699683a5be71ffe364d93"
+    },
+    {
+      "path": "XP/SystemProperties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7221a4541ab88477d07260a7f4053305273376fe",
+      "size": 671502,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7221a4541ab88477d07260a7f4053305273376fe"
+    },
+    {
+      "path": "XP/SystemRestore.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e73ad2916a804cab1931bebab59e8aaf4d06a8f6",
+      "size": 319385,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e73ad2916a804cab1931bebab59e8aaf4d06a8f6"
+    },
+    {
+      "path": "XP/TIFF.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c38b6ebbc9512e46f9f4a28aab016667d8597a13",
+      "size": 160241,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c38b6ebbc9512e46f9f4a28aab016667d8597a13"
+    },
+    {
+      "path": "XP/TXT.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64bd8d0f53fd2dbd4270c6c28c96a20acd5d4c48",
+      "size": 95464,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/64bd8d0f53fd2dbd4270c6c28c96a20acd5d4c48"
+    },
+    {
+      "path": "XP/TabletandPensettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b99f2565d120313a09a99a1aa9222a31ee3e6e9",
+      "size": 228146,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7b99f2565d120313a09a99a1aa9222a31ee3e6e9"
+    },
+    {
+      "path": "XP/TakePicture.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f0ac6916ca0ece8e083d592b06d98c64379fa79",
+      "size": 177992,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2f0ac6916ca0ece8e083d592b06d98c64379fa79"
+    },
+    {
+      "path": "XP/TapeDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89e16e0a442cb5adf99e72a80da7d4297e364476",
+      "size": 193221,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/89e16e0a442cb5adf99e72a80da7d4297e364476"
+    },
+    {
+      "path": "XP/TapeDrive2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bb15b1113c2f85ce083e549956946d8377620f0",
+      "size": 176083,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4bb15b1113c2f85ce083e549956946d8377620f0"
+    },
+    {
+      "path": "XP/TaskManager.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "140ae8c2b3d192107c40831144b905ed6f933863",
+      "size": 313210,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/140ae8c2b3d192107c40831144b905ed6f933863"
+    },
+    {
+      "path": "XP/TaskbarandStartMenu.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2179dcfeb83ef0fa28aee8f1af909851cd17fa07",
+      "size": 264338,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2179dcfeb83ef0fa28aee8f1af909851cd17fa07"
+    },
+    {
+      "path": "XP/Theme.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ea332fc987b33b56c64a5090e7c60d96d2ab721",
+      "size": 217216,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6ea332fc987b33b56c64a5090e7c60d96d2ab721"
+    },
+    {
+      "path": "XP/ThumbnailView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36b64c4c6472b6702cffae05c0ac5c888afbf321",
+      "size": 56281,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/36b64c4c6472b6702cffae05c0ac5c888afbf321"
+    },
+    {
+      "path": "XP/TileView.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "165a69d89ee61be4ec0115ae6201dc6714791ab5",
+      "size": 59680,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/165a69d89ee61be4ec0115ae6201dc6714791ab5"
+    },
+    {
+      "path": "XP/Tipoftheday.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "361c930612071fc51078ce12feafff862b210ffc",
+      "size": 239898,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/361c930612071fc51078ce12feafff862b210ffc"
+    },
+    {
+      "path": "XP/TourXP.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a5f8924ec30b47ff758102ec3299de5fedc7e78",
+      "size": 422885,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8a5f8924ec30b47ff758102ec3299de5fedc7e78"
+    },
+    {
+      "path": "XP/Troubleshoot.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d652c6c7d5fa040e724d61d81d35dd46dc8a090e",
+      "size": 108292,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d652c6c7d5fa040e724d61d81d35dd46dc8a090e"
+    },
+    {
+      "path": "XP/TrueType.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e328e29a17788b8d9c98b53e6e9802fd915676ca",
+      "size": 104288,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e328e29a17788b8d9c98b53e6e9802fd915676ca"
+    },
+    {
+      "path": "XP/TrueType2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bddfcb265127abdf3308535de5d2408aa188155",
+      "size": 103147,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7bddfcb265127abdf3308535de5d2408aa188155"
+    },
+    {
+      "path": "XP/TweakUI.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "985016a420dd5d8778f193dada33d07d1f35c735",
+      "size": 417685,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/985016a420dd5d8778f193dada33d07d1f35c735"
+    },
+    {
+      "path": "XP/UDDIServices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d909efeb5372dbdb42ac90a29dec6169fe167d2b",
+      "size": 573608,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d909efeb5372dbdb42ac90a29dec6169fe167d2b"
+    },
+    {
+      "path": "XP/URL.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd2570b5d10e12751d927e5a19b5c46374187d15",
+      "size": 378206,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dd2570b5d10e12751d927e5a19b5c46374187d15"
+    },
+    {
+      "path": "XP/Undo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4062ff3423c4db9df2248640d9bd0a02a35214d9",
+      "size": 103169,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4062ff3423c4db9df2248640d9bd0a02a35214d9"
+    },
+    {
+      "path": "XP/UndockPC.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4f90d3a9558fd8303f8be471015c9c042bbd1bb",
+      "size": 128931,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b4f90d3a9558fd8303f8be471015c9c042bbd1bb"
+    },
+    {
+      "path": "XP/UnknownDisc.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a30f4069b4cc02a2ebff2a1e1306b1c778738f04",
+      "size": 467542,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a30f4069b4cc02a2ebff2a1e1306b1c778738f04"
+    },
+    {
+      "path": "XP/Up.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ecc4849ff56c0ad1b16610f9442f132fa1a7a0e",
+      "size": 226259,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6ecc4849ff56c0ad1b16610f9442f132fa1a7a0e"
+    },
+    {
+      "path": "XP/UserAccounts.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40d568d192edce026d8b3a0325641b32eb4075b2",
+      "size": 325514,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/40d568d192edce026d8b3a0325641b32eb4075b2"
+    },
+    {
+      "path": "XP/VBS.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90836cddacac16963e7cca38c5aec957c76fc414",
+      "size": 180272,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/90836cddacac16963e7cca38c5aec957c76fc414"
+    },
+    {
+      "path": "XP/VPNConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c41fe593f753855985e5b242c3598a2074b5d1a",
+      "size": 322386,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4c41fe593f753855985e5b242c3598a2074b5d1a"
+    },
+    {
+      "path": "XP/VirusProtection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c1f3473168087d41903a929c260231a525c6e4a",
+      "size": 185233,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6c1f3473168087d41903a929c260231a525c6e4a"
+    },
+    {
+      "path": "XP/Volume.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8488c40f9d60aff80a4d424d3c7459c72bf6cead",
+      "size": 252144,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8488c40f9d60aff80a4d424d3c7459c72bf6cead"
+    },
+    {
+      "path": "XP/VolumeAlt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0524b8ab349360d2b026638eeb79db0f178c729a",
+      "size": 255128,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0524b8ab349360d2b026638eeb79db0f178c729a"
+    },
+    {
+      "path": "XP/VolumeLevel.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1df3e8a5963e83996e1153476b2148be9581dd4",
+      "size": 99740,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b1df3e8a5963e83996e1153476b2148be9581dd4"
+    },
+    {
+      "path": "XP/WMEBroadcastCompanyMeeting.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7c4063701853bec677316ee5f95fb23c5c34002",
+      "size": 537094,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b7c4063701853bec677316ee5f95fb23c5c34002"
+    },
+    {
+      "path": "XP/WMEBroadcastLiveEvent.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "704485b2deafbe47186e86494f4c2a226bbd352e",
+      "size": 596178,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/704485b2deafbe47186e86494f4c2a226bbd352e"
+    },
+    {
+      "path": "XP/WMECaptureAudioorVideo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b29a97e7ac14a985893303097b3b2bf0c024bbd",
+      "size": 577772,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1b29a97e7ac14a985893303097b3b2bf0c024bbd"
+    },
+    {
+      "path": "XP/WMECaptureScreen.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a97afeacfb94150dca6045f6cc46b699eea67f7d",
+      "size": 492014,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a97afeacfb94150dca6045f6cc46b699eea67f7d"
+    },
+    {
+      "path": "XP/WMECapturelivecontentforstreaming.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "935e9ba51daa7a9893a72f2b365fb4590fcd6498",
+      "size": 349177,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/935e9ba51daa7a9893a72f2b365fb4590fcd6498"
+    },
+    {
+      "path": "XP/WMECapturelivecontentlocally.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6c84e3e909a61d4c6e7b029e2c645a4b02e8c6b",
+      "size": 452169,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f6c84e3e909a61d4c6e7b029e2c645a4b02e8c6b"
+    },
+    {
+      "path": "XP/WMEConvertFilm.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee80f0424d5dee92e4ae757acf032ba80542e4d4",
+      "size": 449315,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ee80f0424d5dee92e4ae757acf032ba80542e4d4"
+    },
+    {
+      "path": "XP/WMEConvertaFile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c1688c1a36ba7cad141ff949a070ed8b8a96ad9",
+      "size": 509032,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3c1688c1a36ba7cad141ff949a070ed8b8a96ad9"
+    },
+    {
+      "path": "XP/WMECustomSession.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "432af3c8f877b1767c848c4829dbbeee4a9c060d",
+      "size": 443170,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/432af3c8f877b1767c848c4829dbbeee4a9c060d"
+    },
+    {
+      "path": "XP/WMPAutoPlaylist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdaa37e2967003ce7eb8e50fc940043f7feb3042",
+      "size": 182808,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cdaa37e2967003ce7eb8e50fc940043f7feb3042"
+    },
+    {
+      "path": "XP/WMPCopyProtectedMusic.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd7420366d4a4b78558213f007b00f31e6345436",
+      "size": 608956,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/cd7420366d4a4b78558213f007b00f31e6345436"
+    },
+    {
+      "path": "XP/WMPDeviceError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9be1b1b300f074ba30a07033a7c3c4ca70916a1",
+      "size": 327951,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f9be1b1b300f074ba30a07033a7c3c4ca70916a1"
+    },
+    {
+      "path": "XP/WMPGeneralError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "037d7f723788c9417cbe756ff8f3b8a20028cb95",
+      "size": 404995,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/037d7f723788c9417cbe756ff8f3b8a20028cb95"
+    },
+    {
+      "path": "XP/WMPImportAudioCD.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7cbc3690fa7afda3bc76d2ab8b03bc35079d3f55",
+      "size": 577503,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7cbc3690fa7afda3bc76d2ab8b03bc35079d3f55"
+    },
+    {
+      "path": "XP/WMPImportPlaylist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66e7ecf21f7f6c74e46dda35dcf332a770a12237",
+      "size": 153622,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/66e7ecf21f7f6c74e46dda35dcf332a770a12237"
+    },
+    {
+      "path": "XP/WMPImportVideo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "366d28f302425615ddc7272d29470f86b106f72b",
+      "size": 371222,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/366d28f302425615ddc7272d29470f86b106f72b"
+    },
+    {
+      "path": "XP/WMPLibrary.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8fbe30fa519c8260ebfd451cddd410e5cd3940cc",
+      "size": 173417,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8fbe30fa519c8260ebfd451cddd410e5cd3940cc"
+    },
+    {
+      "path": "XP/WMPLibraryError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c958d805983183a4065464ec558e1d50251420f",
+      "size": 304284,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/7c958d805983183a4065464ec558e1d50251420f"
+    },
+    {
+      "path": "XP/WMPMissingDisc.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a09e3fa2178a26f17c10e2e8947d3ff7dca6b41",
+      "size": 447436,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6a09e3fa2178a26f17c10e2e8947d3ff7dca6b41"
+    },
+    {
+      "path": "XP/WMPMissingFile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53993ae3ce127d14007a59f7ca420eb92730e368",
+      "size": 481513,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/53993ae3ce127d14007a59f7ca420eb92730e368"
+    },
+    {
+      "path": "XP/WMPNetworkError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1b6ed4b42c26e9cb2ca6950350fa20af19da1d1",
+      "size": 641028,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f1b6ed4b42c26e9cb2ca6950350fa20af19da1d1"
+    },
+    {
+      "path": "XP/WMPPerformance.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57f365705b34a37a644caa2ae92a7f7242da0976",
+      "size": 123257,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/57f365705b34a37a644caa2ae92a7f7242da0976"
+    },
+    {
+      "path": "XP/WMPPlaylist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd1bca393af0f7aafc9250360f50bf6cd7581b38",
+      "size": 109068,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/dd1bca393af0f7aafc9250360f50bf6cd7581b38"
+    },
+    {
+      "path": "XP/WMPPlugin.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f080bc9f41d7a5fe1b3042e64d31f50453e8c13",
+      "size": 114875,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/8f080bc9f41d7a5fe1b3042e64d31f50453e8c13"
+    },
+    {
+      "path": "XP/WMPStreamError.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e468e4b7746e7df6edbc57b3903ec242585ef60c",
+      "size": 578781,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e468e4b7746e7df6edbc57b3903ec242585ef60c"
+    },
+    {
+      "path": "XP/WMPTimedLyrics.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5440d3bcd50caa5d0c6516cbeaffeb68b8410102",
+      "size": 396965,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5440d3bcd50caa5d0c6516cbeaffeb68b8410102"
+    },
+    {
+      "path": "XP/WMSAllowConnections.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f331edf462bcdd08af86dbf9b0f4612e4b9fddb1",
+      "size": 36480,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f331edf462bcdd08af86dbf9b0f4612e4b9fddb1"
+    },
+    {
+      "path": "XP/WMSBroadcast.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11147f071dd13f4f95125ee404c7871a60192372",
+      "size": 420695,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/11147f071dd13f4f95125ee404c7871a60192372"
+    },
+    {
+      "path": "XP/WMSBroadcastAlt.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a28d21e492b96f0643a773104fd110e0e76de9e",
+      "size": 409563,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4a28d21e492b96f0643a773104fd110e0e76de9e"
+    },
+    {
+      "path": "XP/WMSCache.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c458ac67e6f6f09e5366b1564fec2a3815a37e6",
+      "size": 228226,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2c458ac67e6f6f09e5366b1564fec2a3815a37e6"
+    },
+    {
+      "path": "XP/WMSDenyConnections.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb2ff22893fdde6fa7ef815e1a475b2ac0c79dcc",
+      "size": 31862,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bb2ff22893fdde6fa7ef815e1a475b2ac0c79dcc"
+    },
+    {
+      "path": "XP/WMSPlaylist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6489d8d4bfa8a9a974eee9c8406dcb6ac965624e",
+      "size": 419033,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6489d8d4bfa8a9a974eee9c8406dcb6ac965624e"
+    },
+    {
+      "path": "XP/WMSStreamingServer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9055a569b979da13f0e15c4b8d7978efb9926868",
+      "size": 148194,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9055a569b979da13f0e15c4b8d7978efb9926868"
+    },
+    {
+      "path": "XP/WMSTroubleshoot.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2f2e2a4ad84b34e1f8dc2c13c610e59f8f6e034",
+      "size": 309228,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d2f2e2a4ad84b34e1f8dc2c13c610e59f8f6e034"
+    },
+    {
+      "path": "XP/WMSWrapperFile.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "330904d500a6ba53dff14e2ce689ab8ca1136300",
+      "size": 82215,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/330904d500a6ba53dff14e2ce689ab8ca1136300"
+    },
+    {
+      "path": "XP/WMV.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0dce6483333a6caacc83c57dad5cef8109c9ca44",
+      "size": 420955,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/0dce6483333a6caacc83c57dad5cef8109c9ca44"
+    },
+    {
+      "path": "XP/WMV2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2b69aac97a972ec85049c2224350496d6edb21a",
+      "size": 619409,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f2b69aac97a972ec85049c2224350496d6edb21a"
+    },
+    {
+      "path": "XP/WRI.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a37ba6de2a3a8c3b80e96db2efcb34cbf3ed5dba",
+      "size": 226204,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a37ba6de2a3a8c3b80e96db2efcb34cbf3ed5dba"
+    },
+    {
+      "path": "XP/Webcam.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1eaff1a98cf40380243b2f213c57f1225b45ba4",
+      "size": 311510,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e1eaff1a98cf40380243b2f213c57f1225b45ba4"
+    },
+    {
+      "path": "XP/Webservicesprinter.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80e5bbc3c69c810349c86efd68ce22cb0ba4b65b",
+      "size": 577659,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/80e5bbc3c69c810349c86efd68ce22cb0ba4b65b"
+    },
+    {
+      "path": "XP/WindowsCatalog.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0bc59a7c80076250bf60122db2190ea785ff14e",
+      "size": 302661,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/f0bc59a7c80076250bf60122db2190ea785ff14e"
+    },
+    {
+      "path": "XP/WindowsJournal.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a70a7e98a5e415e9dae6ce1c9889d6fff2c1688b",
+      "size": 582066,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a70a7e98a5e415e9dae6ce1c9889d6fff2c1688b"
+    },
+    {
+      "path": "XP/WindowsJournalViewer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1937adfd9ea74855bf5304d48e10996d577057bf",
+      "size": 621420,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1937adfd9ea74855bf5304d48e10996d577057bf"
+    },
+    {
+      "path": "XP/WindowsMediaConnect.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af2f34b65dc1e9da1c36c88ca88cfd298f0ac20d",
+      "size": 301983,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/af2f34b65dc1e9da1c36c88ca88cfd298f0ac20d"
+    },
+    {
+      "path": "XP/WindowsMediaEncoder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f256f8c2059f5378fcf5991600ef06421768674",
+      "size": 405021,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/6f256f8c2059f5378fcf5991600ef06421768674"
+    },
+    {
+      "path": "XP/WindowsMediaPlayer10.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4e152d5022c4e342b0d7b6fe61722393108e9b9",
+      "size": 425453,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e4e152d5022c4e342b0d7b6fe61722393108e9b9"
+    },
+    {
+      "path": "XP/WindowsMediaPlayer9.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "debe8b41a12bd36726bbc9102513c9abb8ad7c4c",
+      "size": 385463,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/debe8b41a12bd36726bbc9102513c9abb8ad7c4c"
+    },
+    {
+      "path": "XP/WindowsMediaPlayerSkin.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8ecb9b5ae56d10706bc76146d880fac8eb900bd",
+      "size": 468698,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/c8ecb9b5ae56d10706bc76146d880fac8eb900bd"
+    },
+    {
+      "path": "XP/WindowsMediaServices.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7fc96cbd355eae4b67fda2973bb2dd8d680f30b",
+      "size": 441817,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d7fc96cbd355eae4b67fda2973bb2dd8d680f30b"
+    },
+    {
+      "path": "XP/WindowsMessenger.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cb974dbff385bfed599ceb828132e7cfd470656",
+      "size": 481095,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/4cb974dbff385bfed599ceb828132e7cfd470656"
+    },
+    {
+      "path": "XP/WindowsMovieMaker.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5531f15107e46b4ccf0d6ae24b5433d98e670c59",
+      "size": 292766,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5531f15107e46b4ccf0d6ae24b5433d98e670c59"
+    },
+    {
+      "path": "XP/WindowsPictureandFaxViewer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "945a2446e19630fef100c81b9bd9a1afc06cc852",
+      "size": 156143,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/945a2446e19630fef100c81b9bd9a1afc06cc852"
+    },
+    {
+      "path": "XP/WindowsUpdate.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d2d94d49eddd4f9d7d73a988184490f75106ecb",
+      "size": 533631,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1d2d94d49eddd4f9d7d73a988184490f75106ecb"
+    },
+    {
+      "path": "XP/WirelessConnectionSettings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5aa6a5b49966eb78dab51a11c397cda9dd10fcb4",
+      "size": 458931,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/5aa6a5b49966eb78dab51a11c397cda9dd10fcb4"
+    },
+    {
+      "path": "XP/WirelessNetworkConnection.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6ab5e43f4d3aa1e719f822e6f3f43e6769ac536",
+      "size": 96161,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/b6ab5e43f4d3aa1e719f822e6f3f43e6769ac536"
+    },
+    {
+      "path": "XP/WirelessNetworkSetup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c06347fd6ac6ce52ed05eb95a4b5f63fb20a4d3",
+      "size": 204978,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9c06347fd6ac6ce52ed05eb95a4b5f63fb20a4d3"
+    },
+    {
+      "path": "XP/Wizard.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ade7a42c8ad4f64626ef2766756f4f8566a1187c",
+      "size": 517040,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ade7a42c8ad4f64626ef2766756f4f8566a1187c"
+    },
+    {
+      "path": "XP/Wordpad.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a214e91afb62cd8b930821f2c3eaa650d1b628c9",
+      "size": 207458,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a214e91afb62cd8b930821f2c3eaa650d1b628c9"
+    },
+    {
+      "path": "XP/Workgroup.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1383872f62bc9a7a4a9ff0d74a9922a34747afaa",
+      "size": 252022,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/1383872f62bc9a7a4a9ff0d74a9922a34747afaa"
+    },
+    {
+      "path": "XP/WriteFilestoDisc.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "292f5fd630f56721fecae9aa9f13a5d9af1c428e",
+      "size": 497160,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/292f5fd630f56721fecae9aa9f13a5d9af1c428e"
+    },
+    {
+      "path": "XP/XML.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d91380824dfdc10db937ba8cdb2c2ee89056d34",
+      "size": 232570,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/2d91380824dfdc10db937ba8cdb2c2ee89056d34"
+    },
+    {
+      "path": "XP/XPSP3RESUnknown1.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3710171f7a29a141f0ddf7bb0d2f590fbf12080",
+      "size": 236390,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/d3710171f7a29a141f0ddf7bb0d2f590fbf12080"
+    },
+    {
+      "path": "XP/XPSP3RESUnknown2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02a173aac810aba72e629063114750fd68fcaf47",
+      "size": 336055,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/02a173aac810aba72e629063114750fd68fcaf47"
+    },
+    {
+      "path": "XP/XPSViewer.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee81bf56c4f6313f9b5944e4ed0fac8934cc67e1",
+      "size": 270729,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/ee81bf56c4f6313f9b5944e4ed0fac8934cc67e1"
+    },
+    {
+      "path": "XP/XPSdocument.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5bea77ae6e627069269d26226d4ea4b943badf6",
+      "size": 506217,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/a5bea77ae6e627069269d26226d4ea4b943badf6"
+    },
+    {
+      "path": "XP/XSL.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e85a52ce7efb2beccb90e6c1c54f365a52e5893",
+      "size": 291940,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/3e85a52ce7efb2beccb90e6c1c54f365a52e5893"
+    },
+    {
+      "path": "XP/ZIPDrive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a4a3c8d7a2e43682a5880a5737a5a1a23285522",
+      "size": 107837,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/9a4a3c8d7a2e43682a5880a5737a5a1a23285522"
+    },
+    {
+      "path": "XP/Zipfolder.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e08390e74c013d02015576042775941f461bf1ce",
+      "size": 378281,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/e08390e74c013d02015576042775941f461bf1ce"
+    },
+    {
+      "path": "XP/explorerproperties.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf4e2f13327be3805d221783da66187170491f5a",
+      "size": 91314,
+      "url": "https://api.github.com/repos/softwarehistorysociety/XPIcons/git/blobs/bf4e2f13327be3805d221783da66187170491f5a"
+    }
+  ],
+  "truncated": false
+}

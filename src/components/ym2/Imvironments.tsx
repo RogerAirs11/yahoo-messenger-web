@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { GlossyHeart, HeartGlyph, LeafGlyph, BigKiss } from "./icons";
+import { HeartGlyph, LeafGlyph } from "./icons";
+import { AutumnLeaves, Fishtank, Snowflake, FallingHearts, PurpleLeaves } from "./ImvReal";
 
 /* ==================================================================
    IMVironments — rich, layered, hand-composed recreations of the
@@ -14,12 +15,18 @@ import { GlossyHeart, HeartGlyph, LeafGlyph, BigKiss } from "./icons";
 
 export type ImvId =
   | "none"
+  | /* ---- REAL Yahoo! IMVironments (evidence-based recreations) ---- */
+  "leaves" /* Autumn Leaves  — imv_leaves.gif */
+  | "fishtank" /* Fishtank       — imv_fish.gif */
+  | "snowflake" /* Snowflake      — imv_snow.gif */
+  | "hearts" /* Falling Hearts — imv_hearts.gif */
+  | "purpleleaves" /* Purple Leaves  — purpleleaves_gallery.jpg */
+  | "doodle" /* Doodle         — doodle_gallery.gif */
+  /* ---- Legacy artistic set (kept at the user's request) ---- */
   | "aquarium"
   | "autumn"
   | "beach"
-  | "doodle"
   | "fireworks"
-  | "hearts"
   | "winter";
 
 /* ---------- tiny menu icons (13px) ---------- */
@@ -59,6 +66,7 @@ export const ImvIconPencil = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
+/* legacy small icons (real ones use the genuine Yahoo thumbnails) */
 export const IMV_LIST: { id: ImvId; label: string; icon: React.ReactNode | null }[] = [
   { id: "none", label: "None", icon: null },
   { id: "aquarium", label: "Aquarium", icon: <ImvIconFish /> },
@@ -70,14 +78,63 @@ export const IMV_LIST: { id: ImvId; label: string; icon: React.ReactNode | null 
   { id: "winter", label: "Winter", icon: <ImvIconSnow /> },
 ];
 
+/* the REAL IMVironment picker — grouped exactly like the archived
+   messenger.yahoo.com/imvironments gallery (2011), with the genuine
+   Yahoo thumbnail art served from the still-live l.yimg.com CDN */
+export interface ImvGroup {
+  label: string;
+  items: { id: ImvId; label: string; thumb?: string; icon?: React.ReactNode; official?: string }[];
+}
+export const IMV_GROUPS: ImvGroup[] = [
+  {
+    label: "Animals & Nature",
+    items: [
+      { id: "leaves", label: "Autumn Leaves", thumb: "/assets/imv/imv_leaves.gif", official: "Watch autumn leaves fall — Buzz blows them with the wind" },
+      { id: "fishtank", label: "Fishtank", thumb: "/assets/imv/imv_fish.gif", official: "A virtual fish tank to calm your day" },
+      { id: "snowflake", label: "Snowflake", thumb: "/assets/imv/imv_snow.gif", official: "Buzz! Watch the snowballs fly!" },
+    ],
+  },
+  {
+    label: "Love & Friendship",
+    items: [{ id: "hearts", label: "Falling Hearts", thumb: "/assets/imv/imv_hearts.gif", official: "Buzz gives your loved one a virtual kiss" }],
+  },
+  {
+    label: "Purple",
+    items: [{ id: "purpleleaves", label: "Purple Leaves", thumb: "/assets/imv/purpleleaves_gallery.jpg", official: "Gently falling purple leaves flutter in the breeze" }],
+  },
+  {
+    label: "Interactive Fun",
+    items: [{ id: "doodle", label: "Doodle", thumb: "/assets/imv/doodle_gallery.gif", official: "Create a work of art with your friends" }],
+  },
+  {
+    label: "Classic (Legacy)",
+    items: [
+      { id: "aquarium", label: "Aquarium", icon: <ImvIconFish /> },
+      { id: "beach", label: "Beach", icon: <ImvIconUmbrella /> },
+      { id: "fireworks", label: "Fireworks", icon: <ImvIconBurst /> },
+      { id: "winter", label: "Winter", icon: <ImvIconSnow /> },
+      { id: "autumn", label: "Autumn Oak", icon: <LeafGlyph size={13} /> },
+    ],
+  },
+];
+
+/* legacy scenes dark enough to need a white glow around the text */
+export const IMV_DARK: ReadonlySet<string> = new Set(["aquarium", "fireworks", "winter"]);
+
 /* ---------- pane backgrounds — graded like little paintings ---------- */
 export const IMV_BG: Record<ImvId, string> = {
   none: "#ffffff",
-  hearts: "linear-gradient(165deg, #ffe9f1 0%, #ffd9e7 30%, #ffc7da 58%, #ffb3cb 100%)",
+  /* ---- REAL Yahoo scenes: exact colours sampled from the genuine art ---- */
+  leaves: "#ffefad", /* imv_leaves.gif butter-cream field */
+  fishtank: "linear-gradient(180deg, #d3e5ee 0%, #c2d9e6 34%, #b7d4e3 66%, #aecfda 100%)", /* pale water */
+  snowflake: "linear-gradient(180deg, #c9e3fd 0%, #b3d8fc 48%, #b3d8fc 80%, #edf5ff 100%)", /* baby-blue sky */
+  hearts: "#ffcccc", /* pink frame (inner panel drawn in-scene) */
+  purpleleaves: "linear-gradient(180deg, #f0e3f0 0%, #e8d1e8 44%, #e7cfe7 100%)", /* lavender */
+  doodle: "#ffffff", /* white paper */
+  /* ---- legacy artistic set ---- */
   autumn: "linear-gradient(180deg, #fdf9ee 0%, #faf1da 38%, #f5e7c6 70%, #f0dcb4 100%)",
   aquarium: "linear-gradient(180deg, #8fd0ee 0%, #5fb0e2 20%, #3f93cf 44%, #2e7ab8 70%, #23619b 100%)",
   beach: "linear-gradient(180deg, #4fa8e0 0%, #7ec2ef 26%, #b5e0f7 46%, #ffeccb 62%, #f7e0b2 82%, #eed7a9 100%)",
-  doodle: "#fdfcf6",
   fireworks: "linear-gradient(180deg, #23265e 0%, #3c4090 20%, #6a6fc0 42%, #a7a7e4 66%, #e6def2 88%, #efe9f5 100%)",
   winter: "linear-gradient(180deg, #2c517f 0%, #40689a 22%, #7295ba 50%, #a9c6de 74%, #dcebf5 100%)",
 };
@@ -94,9 +151,20 @@ interface Props {
 
 export function ImvScene({ imv, buzz }: Props) {
   if (imv === "none") return null;
+  /* REAL Yahoo recreations live in ImvReal.tsx */
+  if (imv === "leaves" || imv === "fishtank" || imv === "snowflake" || imv === "hearts" || imv === "purpleleaves") {
+    return (
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {imv === "leaves" && <AutumnLeaves buzz={buzz} />}
+        {imv === "fishtank" && <Fishtank buzz={buzz} />}
+        {imv === "snowflake" && <Snowflake buzz={buzz} />}
+        {imv === "hearts" && <FallingHearts buzz={buzz} />}
+        {imv === "purpleleaves" && <PurpleLeaves buzz={buzz} />}
+      </div>
+    );
+  }
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {imv === "hearts" && <Hearts buzz={buzz} />}
       {imv === "autumn" && <Autumn buzz={buzz} />}
       {imv === "aquarium" && <Aquarium buzz={buzz} />}
       {imv === "fireworks" && <Fireworks buzz={buzz} />}
@@ -850,16 +918,31 @@ type DoodleTool = "pencil" | "eraser";
 function Doodle({ buzz }: { buzz: number }) {
   return (
     <>
-      <ReadingGlow opacity={0.28} />
-      {/* paper dressing — washi tape + coffee ring */}
-      <div className="absolute top-[6px] left-[10px] w-[74px] h-[20px] rotate-[-5deg]" style={{ background: "rgba(250,214,120,0.5)", borderLeft: "2px dashed rgba(255,255,255,0.8)", borderRight: "2px dashed rgba(255,255,255,0.8)" }} />
-      <div className="absolute bottom-[10px] right-[14px] w-[64px] h-[18px] rotate-[4deg]" style={{ background: "rgba(170,220,250,0.45)", borderLeft: "2px dashed rgba(255,255,255,0.8)", borderRight: "2px dashed rgba(255,255,255,0.8)" }} />
-      <svg className="absolute right-[16%] bottom-[14%] opacity-[0.13]" width="66" height="66" viewBox="0 0 66 66">
+      <ReadingGlow opacity={0.18} />
+      {/* REAL Doodle IMV: a row of crayons lying along the top edge */}
+      <div className="absolute top-[3px] left-[4%] right-[19%] h-[20px] flex items-start gap-[2px] pointer-events-none">
+        {["#d43a2a", "#e8802a", "#f2c53d", "#58a55c", "#3e8ed0", "#7a5fc0", "#e06a9a", "#8a5a34", "#4a4a4a"].map((c, i) => (
+          <div key={i} className="relative" style={{ transform: `rotate(${(i % 3) - 1}deg) translateY(${(i % 2) * 2}px)` }}>
+            <svg width="26" height="9" viewBox="0 0 26 9">
+              <path d="M0 2.5 L3 4.5 L0 6.5 z" fill={c} />
+              <rect x="3" y="1" width="20" height="7" rx="1.5" fill={c} />
+              <rect x="7" y="1" width="4.5" height="7" fill="rgba(250,246,230,0.85)" />
+              <rect x="3" y="1" width="20" height="2.2" rx="1" fill="rgba(255,255,255,0.28)" />
+            </svg>
+          </div>
+        ))}
+      </div>
+      {/* paper dressing — washi tape + coffee ring (kept subtle) */}
+      <div className="absolute bottom-[10px] right-[14px] w-[64px] h-[18px] rotate-[4deg]" style={{ background: "rgba(170,220,250,0.4)", borderLeft: "2px dashed rgba(255,255,255,0.8)", borderRight: "2px dashed rgba(255,255,255,0.8)" }} />
+      <svg className="absolute right-[16%] bottom-[14%] opacity-[0.1]" width="66" height="66" viewBox="0 0 66 66">
         <circle cx="33" cy="33" r="28" fill="none" stroke="#6a4a20" strokeWidth="5" />
         <circle cx="33" cy="33" r="21" fill="none" stroke="#6a4a20" strokeWidth="1.6" />
       </svg>
 
-      <DoodleArt />
+      {/* faint example sketches — the real Doodle starts as blank paper */}
+      <div className="absolute inset-0 opacity-[0.15]">
+        <DoodleArt />
+      </div>
       <Bee />
       <DoodleCanvas />
 
@@ -1071,41 +1154,39 @@ function DoodleCanvas() {
           redraw();
         }}
       />
-      {/* tool pill */}
-      <div className="absolute right-1.5 top-1.5 z-40 flex items-center gap-[3px] bg-[#fffdf4] border border-[#c9bd8a] rounded-[4px] shadow-[1px_2px_5px_rgba(60,40,10,0.25)] px-[3px] py-[2px]" style={{ pointerEvents: "auto" }}>
+      {/* REAL Doodle tool rail — vertical, right side, text labels like the original */}
+      <div className="absolute right-[4px] top-[26px] z-40 flex flex-col gap-[3px] bg-[#fffdf4] border border-[#c9bd8a] rounded-[4px] shadow-[1px_2px_5px_rgba(60,40,10,0.25)] px-[4px] py-[4px]" style={{ pointerEvents: "auto" }}>
         <button
-          title="Pencil"
-          className={`w-[22px] h-[20px] rounded-[3px] flex items-center justify-center ${tool === "pencil" ? "bg-[#ffe9a8] border border-[#c9932a]" : "hover:bg-[#f6efd2]"}`}
+          className={`w-[54px] h-[18px] rounded-[3px] text-[10px] text-[#5a4a2a] flex items-center justify-center gap-[3px] ${tool === "pencil" ? "bg-[#ffe9a8] border border-[#c9932a] font-bold" : "hover:bg-[#f6efd2] border border-transparent"}`}
           onClick={() => setTool((t) => (t === "pencil" ? null : "pencil"))}
         >
-          <svg width="12" height="12" viewBox="0 0 14 14">
-            <path d="M3 11 L3.8 8.6 L10.4 2 L12 3.6 L5.4 10.2 z" fill="#f0b23a" stroke="#a86a10" strokeWidth="0.8" />
-          </svg>
+          <svg width="9" height="9" viewBox="0 0 14 14"><path d="M3 11 L3.8 8.6 L10.4 2 L12 3.6 L5.4 10.2 z" fill="#f0b23a" stroke="#a86a10" strokeWidth="0.9" /></svg>
+          Doodle
         </button>
         <button
-          title="Eraser"
-          className={`w-[22px] h-[20px] rounded-[3px] flex items-center justify-center ${tool === "eraser" ? "bg-[#ffe9a8] border border-[#c9932a]" : "hover:bg-[#f6efd2]"}`}
+          className={`w-[54px] h-[18px] rounded-[3px] text-[10px] text-[#5a4a2a] flex items-center justify-center gap-[3px] ${tool === "eraser" ? "bg-[#ffe9a8] border border-[#c9932a] font-bold" : "hover:bg-[#f6efd2] border border-transparent"}`}
           onClick={() => setTool((t) => (t === "eraser" ? null : "eraser"))}
         >
-          <svg width="13" height="12" viewBox="0 0 14 13">
-            <path d="M2 8.5 L7.5 3 L12 7.5 L8.5 11 L4 11 z" fill="#f3d9c2" stroke="#a88a62" strokeWidth="0.9" />
-            <path d="M5 12.2 L12.6 12.2" stroke="#a88a62" strokeWidth="1.2" strokeLinecap="round" />
-          </svg>
+          <svg width="10" height="9" viewBox="0 0 14 13"><path d="M2 8.5 L7.5 3 L12 7.5 L8.5 11 L4 11 z" fill="#f3d9c2" stroke="#a88a62" strokeWidth="0.9" /></svg>
+          Eraser
         </button>
         <button
-          title="Clear the doodle"
-          className="w-[22px] h-[20px] rounded-[3px] flex items-center justify-center hover:bg-[#f6efd2]"
+          className="w-[54px] h-[18px] rounded-[3px] text-[10px] text-[#5a4a2a] flex items-center justify-center gap-[3px] hover:bg-[#f6efd2] border border-transparent"
           onClick={() => {
             strokesRef.current = [];
             currentRef.current = null;
             redraw();
           }}
         >
-          <svg width="11" height="12" viewBox="0 0 12 13">
-            <path d="M2.5 3.5 h7 l-0.7 8 h-5.6 z" fill="none" stroke="#8a7a5a" strokeWidth="1" />
-            <path d="M1 3.5 h10 M4.2 3.3 V2.2 h3.6 v1.1 M4.9 5.5 v4 M7.1 5.5 v4" stroke="#8a7a5a" strokeWidth="0.9" fill="none" strokeLinecap="round" />
-          </svg>
+          <svg width="9" height="10" viewBox="0 0 12 13"><path d="M2.5 3.5 h7 l-0.7 8 h-5.6 z" fill="none" stroke="#8a7a5a" strokeWidth="1" /><path d="M1 3.5 h10" stroke="#8a7a5a" strokeWidth="1" strokeLinecap="round" /></svg>
+          Clear
         </button>
+        {/* crayon colour swatch column, like the original palette */}
+        <div className="grid grid-cols-2 gap-[2px] pt-[2px] border-t border-[#e4d8b8] mt-[1px]">
+          {["#d43a2a", "#e8802a", "#f2c53d", "#58a55c", "#3e8ed0", "#7a5fc0"].map((c) => (
+            <div key={c} className="w-[10px] h-[10px] rounded-[2px]" style={{ background: c, border: "1px solid rgba(90,70,30,0.3)" }} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1287,169 +1368,6 @@ function BurstSvg({ color, seed = 0, kind = "mum" }: { color: string; seed?: num
       <circle cx="50" cy="50" r="5.5" fill="#fff" opacity="0.95" />
       <circle cx="50" cy="50" r="9" fill="none" stroke={color} strokeWidth="1.4" opacity="0.7" />
     </svg>
-  );
-}
-
-/* ==================================================================
-   HEARTS — a Valentine boudoir: layered rose gradient with soft
-   bokeh, a giant beating glossy heart, rose vines blooming in two
-   corners, Cupid sweeping across with his bow, drifting hearts,
-   falling petals and twinkling sparkles.
-   BUZZ: giant lipstick kisses stamp the pane while an explosion of
-   little hearts bursts from the centre and the bokeh flares rose.
-   ================================================================== */
-function Hearts({ buzz }: { buzz: number }) {
-  return (
-    <>
-      {/* soft bokeh field */}
-      {(() => {
-        const rnd = seeded(11);
-        return Array.from({ length: 9 }).map((_, i) => (
-          <span
-            key={`bk${i}`}
-            className="imv-bokeh absolute rounded-full"
-            style={{
-              left: `${rnd() * 92}%`,
-              top: `${rnd() * 84}%`,
-              width: 26 + rnd() * 44,
-              height: 26 + rnd() * 44,
-              animationDelay: `${-rnd() * 16}s`,
-              animationDuration: `${14 + rnd() * 12}s`,
-              background: i % 3 === 0 ? "rgba(255,255,255,0.5)" : "rgba(255,170,200,0.4)",
-              filter: `blur(${6 + (i % 3) * 3}px)`,
-            }}
-          />
-        ));
-      })()}
-
-      {/* watermark heart */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="imv-heartbeat">
-          <GlossyHeart size={225} />
-        </div>
-      </div>
-
-      {/* rose vines in two corners */}
-      <svg className="absolute top-0 left-0" width="150" height="110" viewBox="0 0 150 110" style={{ opacity: 0.75 }}>
-        <path d="M-6 -4 Q40 22 74 18 Q112 14 142 44" fill="none" stroke="#3f7a4c" strokeWidth="2.6" />
-        <path d="M40 16 q10 -12 18 -2 M96 15 q12 -8 12 6" fill="none" stroke="#3f7a4c" strokeWidth="2" />
-        {[[42, 14], [100, 17], [136, 40]].map(([x, y], i) => (
-          <g key={i} transform={`translate(${x} ${y})`}>
-            {[0, 72, 144, 216, 288].map((a) => (
-              <ellipse key={a} cx="0" cy="-5.4" rx="3.4" ry="5.4" fill={i % 2 ? "#e86a92" : "#e2557f"} transform={`rotate(${a})`} />
-            ))}
-            <circle r="2.6" fill="#f8d66a" />
-          </g>
-        ))}
-        {[[24, 12], [76, 20], [118, 26]].map(([x, y], i) => (
-          <ellipse key={`l${i}`} cx={x} cy={y} rx="6" ry="3" fill="#4c8a58" transform={`rotate(${i * 40 - 20} ${x} ${y})`} />
-        ))}
-      </svg>
-      <svg className="absolute bottom-0 right-0" width="140" height="100" viewBox="0 0 150 110" style={{ opacity: 0.7, transform: "rotate(180deg)" }}>
-        <path d="M-6 -4 Q40 22 74 18 Q112 14 142 44" fill="none" stroke="#3f7a4c" strokeWidth="2.6" />
-        {[[42, 14], [100, 17], [136, 40]].map(([x, y], i) => (
-          <g key={i} transform={`translate(${x} ${y})`}>
-            {[0, 72, 144, 216, 288].map((a) => (
-              <ellipse key={a} cx="0" cy="-5.4" rx="3.4" ry="5.4" fill="#e86a92" transform={`rotate(${a})`} />
-            ))}
-            <circle r="2.6" fill="#f8d66a" />
-          </g>
-        ))}
-      </svg>
-
-      {/* Cupid sweeping across */}
-      <div className="imv-cupid absolute top-[9%] left-0 w-full">
-        <svg width="34" height="26" viewBox="0 0 34 26">
-          <ellipse cx="17" cy="10" rx="5" ry="7" fill="rgba(255,240,246,0.95)" stroke="rgba(220,150,180,0.6)" strokeWidth="0.8" />
-          <path d="M12 8 Q6 2 10 0 Q13 3 13 7 M22 8 Q28 2 24 0 Q21 3 21 7" fill="rgba(255,255,255,0.85)" />
-          <circle cx="17" cy="6.5" r="3.4" fill="#ffdfc4" />
-          <path d="M13.5 6 Q17 10 20.5 6" fill="#e88ba0" opacity="0.6" />
-          <path d="M9 22 Q17 14 26 20" fill="none" stroke="#a8763a" strokeWidth="1.4" />
-          <path d="M9 22 L27 15 M27 15 l-3.4 0.6 M27 15 l-1.8 2.8" stroke="#a8763a" strokeWidth="1.2" strokeLinecap="round" />
-        </svg>
-      </div>
-
-      {/* drifting hearts */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        <span
-          key={i}
-          className="imv-float absolute"
-          style={{
-            left: `${(i * 41 + 6) % 90}%`,
-            animationDelay: `${-(i * 2.3) % 14}s`,
-            animationDuration: `${11 + (i % 4) * 3}s`,
-          }}
-        >
-          <span className="imv-sway block" style={{ animationDuration: `${3.2 + (i % 3) * 1.1}s`, opacity: 0.6 }}>
-            <HeartGlyph size={9 + (i % 3) * 5} />
-          </span>
-        </span>
-      ))}
-
-      {/* rose petals */}
-      {Array.from({ length: 10 }).map((_, i) => (
-        <span
-          key={`p${i}`}
-          className="imv-petal absolute"
-          style={{
-            left: `${(i * 53 + 9) % 94}%`,
-            animationDelay: `${-(i * 1.7) % 11}s`,
-            animationDuration: `${8.5 + (i % 4) * 1.7}s`,
-          }}
-        >
-          <svg width="13" height="10" viewBox="0 0 13 10" className="imv-petalspin" style={{ animationDuration: `${2.4 + (i % 3) * 0.8}s` }}>
-            <path d="M1 6 Q3 0.5 12 1.5 Q8 9.5 1 6 z" fill={["#f7a8c2", "#f28bab", "#ef7fa4"][i % 3]} />
-          </svg>
-        </span>
-      ))}
-
-      {/* sparkles */}
-      {Array.from({ length: 10 }).map((_, i) => (
-        <svg
-          key={`sp${i}`}
-          className="imv-sparkle absolute"
-          width={8 + (i % 3) * 3}
-          height={8 + (i % 3) * 3}
-          viewBox="0 0 12 12"
-          style={{ left: `${(i * 57 + 12) % 94}%`, top: `${(i * 31 + 8) % 86}%`, animationDelay: `${-(i * 1.7) % 6}s` }}
-        >
-          <path d="M6 0 L7.2 4.8 L12 6 L7.2 7.2 L6 12 L4.8 7.2 L0 6 L4.8 4.8 z" fill="#fff" opacity="0.9" />
-        </svg>
-      ))}
-
-      {/* ---- BUZZ: kiss stamps + heart explosion + rose flare ---- */}
-      {buzz > 0 && (
-        <div key={buzz} className="absolute inset-0">
-          <BuzzCinema seed={buzz} />
-          <div className="absolute inset-0 imv-roseflash" />
-          <div className="imv-kiss absolute" style={{ left: "18%", top: "18%" }}>
-            <BigKiss size={235} />
-          </div>
-          <div className="imv-kiss absolute" style={{ right: "15%", top: "44%", animationDelay: "0.28s" }}>
-            <BigKiss size={175} />
-          </div>
-          <div className="imv-kiss absolute" style={{ left: "44%", bottom: "8%", animationDelay: "0.6s" }}>
-            <BigKiss size={120} />
-          </div>
-          {Array.from({ length: 18 }).map((_, i) => {
-            const a = (i * 2 * Math.PI) / 18 + 0.3;
-            return (
-              <span
-                key={`hb${i}`}
-                className="imv-heartburst absolute left-1/2 top-1/2"
-                style={{
-                  ["--tx" as string]: `${(120 * Math.cos(a)).toFixed(0)}px`,
-                  ["--ty" as string]: `${(94 * Math.sin(a)).toFixed(0)}px`,
-                  animationDelay: `${(i % 4) * 0.05}s`,
-                }}
-              >
-                <HeartGlyph size={11 + (i % 3) * 4} />
-              </span>
-            );
-          })}
-        </div>
-      )}
-    </>
   );
 }
 

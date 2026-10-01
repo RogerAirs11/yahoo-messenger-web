@@ -252,18 +252,21 @@ export default function YmApp() {
         />
       </div>
 
-      {/* Desktop icons — the genuine shell32 icons */}
+      {/* Desktop icons — the GENUINE XP shell32/Luna icons at the real
+          48px "Medium Icons" size, in the authentic XP order (My Documents,
+          My Network Places, My Computer, Internet Explorer, Recycle Bin) */}
       {desktopStage && (
         <div className="absolute left-3 top-3 flex flex-col gap-3.5 z-[1]">
           {[
-            { id: "pc", label: "My Computer", img: "my-computer" },
             { id: "docs", label: "My Documents", img: "my-docs" },
+            { id: "net", label: "My Network Places", img: "network" },
+            { id: "pc", label: "My Computer", img: "my-computer" },
             { id: "ie", label: "Internet Explorer", img: "ie" },
             { id: "bin", label: "Recycle Bin", img: "recycle-empty" },
           ].map((d) => (
             <button
               key={d.id}
-              className="flex flex-col items-center gap-0.5 w-[76px] py-1 rounded"
+              className="flex flex-col items-center gap-0.5 w-[80px] py-1 rounded"
               style={{ background: deskSel === d.id ? "rgba(60,90,200,0.45)" : "transparent", outline: deskSel === d.id ? "1px dotted rgba(255,255,255,0.7)" : "none" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -274,7 +277,7 @@ export default function YmApp() {
                 if (d.id === "bin") playXpRecycle();
               }}
             >
-              <img src={ICO(d.img, 48)} alt="" className="w-[34px] h-[34px]" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.55))" }} draggable={false} />
+              <img src={ICO(d.img, 48)} alt="" className="w-[48px] h-[48px]" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.55))" }} draggable={false} />
               <span className="text-[11px] leading-[13px] text-white text-center" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}>
                 {d.label}
               </span>
@@ -386,7 +389,7 @@ export default function YmApp() {
               <div className="text-[12px] font-bold text-[#1c3f94] border-b border-[#c8d4e8] pb-1 mb-3">Devices with Removable Storage</div>
               <div className="flex gap-4">
                 <div className="flex items-center gap-2 w-[190px]">
-                  <img src={ICO("globe", 48)} alt="" className="w-[32px] h-[32px]" />
+                  <img src={ICO("cd-drive", 48)} alt="" className="w-[32px] h-[32px]" />
                   <div className="text-[11px] leading-tight">
                     <div className="text-[#1a4fae]">CD Drive (D:)</div>
                   </div>

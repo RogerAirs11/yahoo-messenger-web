@@ -1210,6 +1210,84 @@ body {
   transform-box: fill-box;
   transform-origin: center;
 }
+
+/* ==================================================================
+   IMVironments v8 — REAL Yahoo scene animations (evidence-based
+   recreations of Autumn Leaves / Fishtank / Snowflake / Falling
+   Hearts / Purple Leaves)
+   ================================================================== */
+
+/* Snowflake: clouds breathe sideways very slowly */
+@keyframes imv-clouddrift-k {
+  0%, 100% { transform: translateX(-7px); }
+  50% { transform: translateX(7px); }
+}
+.imv-clouddrift {
+  animation: imv-clouddrift-k ease-in-out infinite;
+}
+/* Snowflake BUZZ: snowballs zipping across the pane, slight arc */
+@keyframes imv-snowball-lr-k {
+  0% { transform: translate(-9%, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 1; }
+  45% { transform: translate(38%, -18px) rotate(320deg); }
+  100% { transform: translate(112%, 8px) rotate(680deg); opacity: 0.9; }
+}
+@keyframes imv-snowball-rl-k {
+  0% { transform: translate(109%, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 1; }
+  45% { transform: translate(60%, -16px) rotate(-320deg); }
+  100% { transform: translate(-10%, 10px) rotate(-680deg); opacity: 0.9; }
+}
+.imv-snowball-lr {
+  animation: imv-snowball-lr-k cubic-bezier(0.32, 0.5, 0.45, 1) forwards;
+}
+.imv-snowball-rl {
+  animation: imv-snowball-rl-k cubic-bezier(0.32, 0.5, 0.45, 1) forwards;
+}
+/* Snowflake BUZZ: soft impact puffs */
+@keyframes imv-snowpuff-k {
+  0% { transform: scale(0.3); opacity: 0; }
+  22% { transform: scale(1.1); opacity: 0.95; }
+  60% { transform: scale(1.35) translateY(-6px); opacity: 0.6; }
+  100% { transform: scale(1.7) translateY(-14px); opacity: 0; }
+}
+.imv-snowpuff {
+  animation: imv-snowpuff-k 0.9s ease-out forwards;
+}
+/* Purple Leaves: the silhouetted trees lean in the breeze */
+@keyframes imv-treesway-k {
+  0%, 100% { transform: rotate(-1.1deg); }
+  50% { transform: rotate(1.3deg); }
+}
+.imv-treesway {
+  animation: imv-treesway-k ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+/* Purple Leaves BUZZ: lavender-tinted wind bands + streaks */
+.imv-windband-pl {
+  background: linear-gradient(90deg, transparent, rgba(252,248,252,0.75) 35%, rgba(244,232,246,0.9) 55%, rgba(190,150,200,0.35) 78%, transparent);
+}
+.imv-streak-pl {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(200,160,210,0.5), transparent);
+}
+/* Falling Hearts BUZZ: hearts popping outward from the kiss */
+@keyframes imv-heartburst-k {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.imv-heartburst {
+  animation: imv-heartburst-k 1.25s ease-out forwards;
+}
+/* readability on dark legacy scenes: white glow/border around the text */
+.ym-msg-glow {
+  text-shadow:
+    0 0 1.5px rgba(255, 255, 255, 0.95),
+    0 0 4px rgba(255, 255, 255, 0.85),
+    0 0 8px rgba(255, 255, 255, 0.5),
+    0 1px 12px rgba(255, 255, 255, 0.35);
+}
+
 /* Beach: the sailboat rides gentle swells */
 @keyframes imv-boatx {
   0%, 100% { transform: translateY(0) rotate(-1.6deg); }

@@ -63,7 +63,7 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
         </span>
       </button>
 
-      {/* Quick Launch */}
+      {/* Quick Launch — the real XP lineup: IE, Show Desktop, Windows Media Player */}
       <div className="flex items-center px-2 gap-1.5">
         <span className="xp-ql-sep" />
         <button className="hover:brightness-125" title="Launch Internet Explorer Browser">
@@ -74,6 +74,9 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
             <rect x="1.5" y="2.5" width="13" height="9.5" rx="1" fill="#7ba7e8" stroke="#eef3fc" strokeWidth="1.2" />
             <path d="M4 14.5 h8" stroke="#eef3fc" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
+        </button>
+        <button className="hover:brightness-125" title="Windows Media Player">
+          <img src={ICO("wmp", 48)} alt="WMP" className="w-[17px] h-[17px]" draggable={false} />
         </button>
         <span className="xp-ql-sep" />
       </div>
@@ -240,12 +243,9 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
         ))}
       </div>
 
-      {/* tray */}
+      {/* tray — genuine XP icons: volume speaker, security shield, YM, clock */}
       <div className="xp-tray flex items-center gap-2 px-3 text-[11.5px]">
-        <svg width="14" height="14" viewBox="0 0 14 14">
-          <path d="M2 5.5 h2 l3-3 v9 l-3-3 h-2 z" fill="#fff" />
-          <path d="M9.5 4.5 a3.5 3.5 0 0 1 0 5" stroke="#fff" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-        </svg>
+        <img src={ICO("volume", 48)} alt="Volume" className="w-[14px] h-[14px]" draggable={false} />
         <svg width="14" height="14" viewBox="0 0 14 14">
           <path d="M7 1 l5 2 v4 c0 3-2.2 5-5 6 c-2.8-1-5-3-5-6 V3 z" fill="none" stroke="#fff" strokeWidth="1.2" />
           <path d="M5 7 l1.5 1.5 L9.5 5" stroke="#9f9" strokeWidth="1.3" fill="none" strokeLinecap="round" />

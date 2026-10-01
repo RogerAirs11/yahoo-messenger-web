@@ -288,6 +288,12 @@ export function playWind() {
    ================================================================== */
 
 const IMV_WAV: Record<string, string> = {
+  /* ---- REAL Yahoo scenes (aliases onto the matching field recordings) ---- */
+  leaves: "autumn_buzz.mp3", // REAL crunching leaves — official: Buzz blows the leaves with wind
+  fishtank: "aquarium_buzz.mp3", // REAL sonar ping w/ echo
+  snowflake: "winter_buzz.mp3", // REAL sleigh bells — official: "watch the snowballs fly!"
+  purpleleaves: "autumn_buzz.mp3", // REAL gusting leaves — "flutter in the breeze"
+  /* ---- legacy set ---- */
   aquarium: "aquarium_buzz.mp3", // REAL sonar ping w/ echo
   fireworks: "fireworks_buzz.mp3", // REAL firework salvo
   hearts: "hearts_buzz.mp3", // REAL kiss
@@ -344,6 +350,12 @@ export function playXpError() {
    ================================================================== */
 
 const IMV_AMBIENT: Record<string, { file: string; vol: number }> = {
+  /* ---- REAL Yahoo scenes ---- */
+  fishtank: { file: "aquarium_ambient.mp3", vol: 0.16 }, // underwater bubbles
+  snowflake: { file: "winter_ambient.mp3", vol: 0.2 }, // howling arctic wind
+  leaves: { file: "autumn_ambient.mp3", vol: 0.18 }, // gusts + rustling leaves
+  purpleleaves: { file: "autumn_ambient.mp3", vol: 0.14 }, // gentle breeze + leaves
+  /* ---- legacy set ---- */
   aquarium: { file: "aquarium_ambient.mp3", vol: 0.16 }, // underwater bubbles
   beach: { file: "beach_ambient.mp3", vol: 0.2 }, // seawash + seagulls
   winter: { file: "winter_ambient.mp3", vol: 0.2 }, // howling arctic wind

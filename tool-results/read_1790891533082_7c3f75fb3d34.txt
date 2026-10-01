@@ -1,0 +1,765 @@
+     1→"use client";
+     2→
+     3→import React, { useEffect, useRef, useState } from "react";
+     4→import WindowFrame, { MenuDef } from "./WindowFrame";
+     5→import {
+     6→  Emoticon,
+     7→  EMO_PALETTE,
+     8→  IconBubble,
+     9→  IconBuzz,
+    10→  IconChevron,
+    11→  IconClip,
+    12→  IconGearFlower,
+    13→  IconImviron,
+    14→  IconInvite,
+    15→  IconKnight,
+    16→  IconMic,
+    17→  IconPhotos,
+    18→  IconSmileySmall,
+    19→  IconVideoCam,
+    20→  StatusDot,
+    21→  WhiteFace,
+    22→  emojify,
+    23→  emojifyHtml,
+    24→} from "./icons";
+    25→import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
+    26→import { playImvBuzz, playMessage, playSent, startImvAmbient, stopImvAmbient, currentImvAmbient } from "./sounds";
+    27→import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
+    28→
+    29→interface Props {
+    30→  contact: Contact;
+    31→  seed: ChatMessage[];
+    32→  x: number;
+    33→  y: number;
+    34→  z: number;
+    35→  focused: boolean;
+    36→  maximized?: boolean;
+    37→  buzzSignal?: number;
+    38→  onNotify?: () => void;
+    39→  width: number;
+    40→  height: number;
+    41→  onMove: (x: number, y: number) => void;
+    42→  onResize: (w: number, h: number) => void;
+    43→  onFocus: () => void;
+    44→  onClose: () => void;
+    45→  onMinimize: () => void;
+    46→  onToggleMax: () => void;
+    47→}
+    48→
+    49→const FONTS = ["Arial", "Verdana", "Tahoma", "Comic Sans MS", "Times New Roman", "Courier New", "Georgia"];
+    50→const SIZES = [8, 10, 12, 14, 18, 24, 36];
+    51→/* YM's "10" point option renders at ~13px on screen */
+    52→const SIZE_PX: Record<number, number> = { 8: 11, 10: 13, 12: 15, 14: 17, 18: 22, 24: 28, 36: 40 };
+    53→const DEFAULT_FONT = "Arial";
+    54→const DEFAULT_SIZE = 10;
+    55→/* the emoticon popup shows a fixed paged grid like the original client */
+    56→const EMO_PER_PAGE = 40;
+    57→
+    58→export default function ChatWindow(p: Props) {
+    59→  const [messages, setMessages] = useState<ChatMessage[]>(p.seed);
+    60→  const [canSend, setCanSend] = useState(false);
+    61→  const [pickerOpen, setPickerOpen] = useState(false);
+    62→  const [sidebar, setSidebar] = useState(true);
+    63→  const [formatOpen, setFormatOpen] = useState(false);
+    64→  const [audiblesOpen, setAudiblesOpen] = useState(false);
+    65→  const [audibleCat, setAudibleCat] = useState(AUDIBLE_CATEGORIES[0].id);
+    66→  const [catMenuOpen, setCatMenuOpen] = useState(false);
+    67→  const [selAudible, setSelAudible] = useState<string | null>(null);
+    68→  const [emoPage, setEmoPage] = useState(0);
+    69→  const [imv, setImv] = useState<ImvId>("none");
+    70→  const [imvMenu, setImvMenu] = useState(false);
+    71→  const [imvBuzz, setImvBuzz] = useState(0);
+    72→  const [shake, setShake] = useState(false);
+    73→  const [font, setFont] = useState("Arial");
+    74→  const [fsize, setFsize] = useState(10);
+    75→  const [bold, setBold] = useState(false);
+    76→  const [italic, setItalic] = useState(false);
+    77→  const [underline, setUnderline] = useState(false);
+    78→  const editor = useRef<HTMLDivElement>(null);
+    79→  const pane = useRef<HTMLDivElement>(null);
+    80→  const replyTimer = useRef<number | null>(null);
+    81→
+    82→  useEffect(() => {
+    83→    pane.current?.scrollTo({ top: pane.current.scrollHeight });
+    84→  }, [messages]);
+    85→
+    86→  /* the active IMVironment's ambient bed: real field recordings (BBC archive)
+    87→     that fade in when a scene opens, cross-switch with the scene, and fade
+    88→     away when the scene leaves or the window closes */
+    89→  useEffect(() => {
+    90→    if (imv === "none") stopImvAmbient();
+    91→    else startImvAmbient(imv);
+    92→  }, [imv]);
+    93→  useEffect(
+    94→    () => () => {
+    95→      /* only kill the bed if it is OURS (another window may be playing its own) */
+    96→      if (currentImvAmbient() === imv && imv !== "none") stopImvAmbient();
+    97→    },
+    98→    /* empty deps on purpose: imv captured here is the one this window owned at unmount */
+    99→    [],
+   100→  );
+   101→
+   102→  useEffect(
+   103→    () => () => {
+   104→      if (replyTimer.current) window.clearTimeout(replyTimer.current);
+   105→    },
+   106→    [],
+   107→  );
+   108→
+   109→  const push = (m: ChatMessage) => setMessages((prev) => [...prev, m]);
+   110→
+   111→  const doBuzz = () => {
+   112→    /* like the original client: the window ALWAYS shakes + BUZZ!!! fires,
+   113→       and the active IMVironment answers with its own artistic flourish
+   114→       and its own realistic sound */
+   115→    setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   116→    setShake(true);
+   117→    window.setTimeout(() => setShake(false), 620);
+   118→    playImvBuzz(imv);
+   119→    if (imv !== "none") setImvBuzz((b) => b + 1);
+   120→  };
+   121→
+   122→  const firstBuzz = useRef(true);
+   123→  useEffect(() => {
+   124→    if (firstBuzz.current) {
+   125→      firstBuzz.current = false;
+   126→      return;
+   127→    }
+   128→    // eslint-disable-next-line react-hooks/set-state-in-effect -- a BUZZ is an imperative signal: it must fire the shake/sound/reaction now
+   129→    doBuzz();
+   130→  }, [p.buzzSignal]);
+   131→
+   132→  /* keep B/I/U button state in sync with the caret selection */
+   133→  useEffect(() => {
+   134→    const sync = () => {
+   135→      const el = editor.current;
+   136→      const sel = document.getSelection();
+   137→      if (!el || !sel || !sel.anchorNode || !el.contains(sel.anchorNode)) return;
+   138→      try {
+   139→        setBold(document.queryCommandState("bold"));
+   140→        setItalic(document.queryCommandState("italic"));
+   141→        setUnderline(document.queryCommandState("underline"));
+   142→      } catch {
+   143→        /* noop */
+   144→      }
+   145→    };
+   146→    document.addEventListener("selectionchange", sync);
+   147→    return () => document.removeEventListener("selectionchange", sync);
+   148→  }, []);
+   149→
+   150→  const applyFont = (f: string) => {
+   151→    setFont(f);
+   152→    const el = editor.current;
+   153→    if (!el) return;
+   154→    el.style.fontFamily = f;
+   155→    el.focus();
+   156→    document.execCommand("fontName", false, f);
+   157→  };
+   158→
+   159→  const applySize = (s: number) => {
+   160→    setFsize(s);
+   161→    const el = editor.current;
+   162→    if (!el) return;
+   163→    el.style.fontSize = `${SIZE_PX[s] ?? 13}px`;
+   164→    el.focus();
+   165→    const legacy = SIZES.indexOf(s);
+   166→    if (legacy > 0) document.execCommand("fontSize", false, String(legacy));
+   167→  };
+   168→
+   169→  const toggle = (cmd: string) => {
+   170→    editor.current?.focus();
+   171→    document.execCommand(cmd, false);
+   172→    try {
+   173→      setBold(document.queryCommandState("bold"));
+   174→      setItalic(document.queryCommandState("italic"));
+   175→      setUnderline(document.queryCommandState("underline"));
+   176→    } catch {
+   177→      /* noop */
+   178→    }
+   179→  };
+   180→
+   181→  const send = () => {
+   182→    const el = editor.current;
+   183→    if (!el || !el.textContent?.trim()) return;
+   184→    const inner = emojifyHtml(el.innerHTML);
+   185→    /* default settings render exactly like incoming messages (Arial @13px) */
+   186→    const custom = font !== DEFAULT_FONT || fsize !== DEFAULT_SIZE;
+   187→    push({
+   188→      from: "me",
+   189→      html: custom ? `<span style="font-family:${font};font-size:${SIZE_PX[fsize] ?? 13}px">${inner}</span>` : inner,
+   190→    });
+   191→    playSent();
+   192→    el.innerHTML = "";
+   193→    el.style.fontFamily = font;
+   194→    el.style.fontSize = `${SIZE_PX[fsize] ?? 13}px`;
+   195→    setCanSend(false);
+   196→    el.focus();
+   197→    if (replyTimer.current) window.clearTimeout(replyTimer.current);
+   198→    replyTimer.current = window.setTimeout(() => {
+   199→      const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+   200→      setMessages((prev) => [...prev, { from: "them", text: reply }]);
+   201→      playMessage();
+   202→      p.onNotify?.();
+   203→    }, 1100 + Math.random() * 1600);
+   204→  };
+   205→
+   206→  const insertEmoticon = (code: string) => {
+   207→    editor.current?.focus();
+   208→    document.execCommand("insertText", false, code + " ");
+   209→    setPickerOpen(false);
+   210→    setCanSend(true);
+   211→  };
+   212→
+   213→  const menus: MenuDef[] = [
+   214→    {
+   215→      label: "Conversation",
+   216→      items: [
+   217→        { label: "Send", onClick: send },
+   218→        { label: "Send a BUZZ!!!", onClick: doBuzz },
+   219→        { sep: true },
+   220→        { label: "Invite to Conference...", onClick: () => {} },
+   221→        { sep: true },
+   222→        { label: "Close", onClick: p.onClose },
+   223→      ],
+   224→    },
+   225→    {
+   226→      label: "Edit",
+   227→      items: [
+   228→        { label: "Bold", onClick: () => toggle("bold") },
+   229→        { label: "Italic", onClick: () => toggle("italic") },
+   230→        { label: "Underline", onClick: () => toggle("underline") },
+   231→        { sep: true },
+   232→        { label: "Select All", onClick: () => editor.current?.focus() },
+   233→      ],
+   234→    },
+   235→    {
+   236→      label: "View",
+   237→      items: [
+   238→        { label: "Show Contact Sidebar", checked: sidebar, onClick: () => setSidebar((v) => !v) },
+   239→        { label: "Text Formatting Bar", checked: formatOpen, onClick: () => setFormatOpen((v) => !v) },
+   240→        { label: "News Ticker", checked: true, onClick: () => {} },
+   241→      ],
+   242→    },
+   243→    {
+   244→      label: "Actions",
+   245→      items: [
+   246→        { label: "Video Call", onClick: () => {} },
+   247→        { label: "Voice Call", onClick: () => {} },
+   248→        { sep: true },
+   249→        { label: "Send File...", onClick: () => {} },
+   250→        { label: "Share Photos...", onClick: () => {} },
+   251→      ],
+   252→    },
+   253→    {
+   254→      label: "Help",
+   255→      items: [{ label: "About Yahoo! Messenger", onClick: () => {} }],
+   256→    },
+   257→  ];
+   258→
+   259→  const tickerText = NEWS_TICKER.join("   •   ");
+   260→
+   261→  return (
+   262→    <WindowFrame
+   263→      title={p.contact.name}
+   264→      icon={<StatusDot status={p.contact.status} />}
+   265→      x={p.x}
+   266→      y={p.y}
+   267→      width={p.width}
+   268→      height={p.height}
+   269→      minW={450}
+   270→      minH={420}
+   271→      onResize={p.onResize}
+   272→      z={p.z}
+   273→      focused={p.focused}
+   274→      maximized={p.maximized}
+   275→      shaking={shake}
+   276→      menus={menus}
+   277→      onMove={p.onMove}
+   278→      onFocus={p.onFocus}
+   279→      onClose={p.onClose}
+   280→      onMinimize={p.onMinimize}
+   281→      onToggleMax={p.onToggleMax}
+   282→    >
+   283→      {/* ---- Call toolbar ---- */}
+   284→      <div className="bg-[#f4f3ea] border-b border-[#d8d5c5] px-2 py-1.5 flex items-start">
+   285→        <ToolBtn icon={<IconVideoCam />} label="Video Call" />
+   286→        <ToolBtn icon={<IconMic />} label="Voice Call" caret />
+   287→        <div className="flex-1" />
+   288→        <div className="relative">
+   289→          <div className={imvMenu ? "[&>button]:bg-[#ddd0f2]" : ""}>
+   290→            <ToolBtn icon={<IconImviron />} label="IMVironments" caret onClick={() => setImvMenu((v) => !v)} active={imv !== "none"} />
+   291→          </div>
+   292→          {imvMenu && (
+   293→            <div className="animate-pop absolute right-0 top-full mt-[2px] w-[168px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
+   294→              {IMV_LIST.map((o) => (
+   295→                <button
+   296→                  key={o.id}
+   297→                  className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
+   298→                  onClick={() => {
+   299→                    setImv(o.id);
+   300→                    setImvBuzz(0); // a fresh scene starts calm, even after a buzz
+   301→                    setImvMenu(false);
+   302→                  }}
+   303→                >
+   304→                  <span className="w-[14px] flex justify-center">{o.icon}</span>
+   305→                  {imv === o.id ? "✓ " : ""}
+   306→                  {o.label}
+   307→                </button>
+   308→              ))}
+   309→            </div>
+   310→          )}
+   311→        </div>
+   312→        <ToolBtn icon={<IconKnight />} label="Activities" caret />
+   313→        <ToolBtn icon={<IconPhotos />} label="Photos" />
+   314→      </div>
+   315→
+   316→      {/* ---- Status strip ---- */}
+   317→      <div className="bg-[#f1f0e3] px-3 py-1 flex items-center gap-1.5 text-[11px] text-[#777] border-b border-[#e0ddcd]">
+   318→        <StatusDot status={p.contact.status} />
+   319→        <span>
+   320→          {p.contact.status === "available" ? "Available" : p.contact.statusText ?? "Away"}
+   321→          {p.contact.customMsg ? ` — ${p.contact.customMsg}` : ""}
+   322→        </span>
+   323→      </div>
+   324→
+   325→      {/* ---- Messages + sidebar ---- */}
+   326→      <div className="flex-1 min-h-0 flex bg-[#f1f0e3] p-1.5 gap-1.5">
+   327→        <div
+   328→          className="relative flex-1 min-h-0 border border-[#a9a595]"
+   329→          style={{
+   330→            background: IMV_BG[imv],
+   331→            boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.08)",
+   332→          }}
+   333→        >
+   334→          {/* IMVironment ambience — lives BEHIND the message text */}
+   335→          <ImvScene imv={imv} buzz={imvBuzz} />
+   336→
+   337→          {/* message text, above the ambience */}
+   338→          <div
+   339→            ref={pane}
+   340→            className="ym-scroll absolute inset-0 overflow-y-auto px-2.5 py-2 leading-[1.6]"
+   341→            style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: SIZE_PX[DEFAULT_SIZE] }}
+   342→          >
+   343→            {messages.map((m, i) =>
+   344→              m.buzz ? (
+   345→                <div key={i} className="animate-msg text-[#d01818] font-bold">
+   346→                  BUZZ!!!
+   347→                </div>
+   348→              ) : m.audible ? (
+   349→                <div key={i} className="animate-msg my-1.5 flex items-start gap-2">
+   350→                  <span className="font-bold pt-1" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   351→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   352→                  </span>
+   353→                  <MessageVideo src={m.audible.src} />
+   354→                  <span className="pt-1 text-[#333] italic">&quot;{m.audible.caption}&quot;</span>
+   355→                </div>
+   356→              ) : (
+   357→                <div key={i} className="animate-msg break-words">
+   358→                  <span className="font-bold" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   359→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   360→                  </span>{" "}
+   361→                  {m.html ? (
+   362→                    <span dangerouslySetInnerHTML={{ __html: m.html }} />
+   363→                  ) : (
+   364→                    <span>{emojify(m.text ?? "")}</span>
+   365→                  )}
+   366→                </div>
+   367→              ),
+   368→            )}
+   369→          </div>
+   370→        </div>
+   371→
+   372→        {sidebar && (
+   373→          <div className="w-[108px] shrink-0 flex flex-col relative">
+   374→            {/* friend's picture (top) — fills its panel exactly */}
+   375→            <div className="h-[96px] shrink-0 bg-[#cfc6de]">
+   376→              {p.contact.avatar ? (
+   377→                <img src={p.contact.avatar} alt={p.contact.name} className="w-full h-full object-cover" />
+   378→              ) : (
+   379→                <div className="w-full h-full bg-[#c3b8d8] flex items-center justify-center">
+   380→                  <WhiteFace size={70} />
+   381→                </div>
+   382→              )}
+   383→            </div>
+   384→            {/* my picture (bottom of the sidebar, full width) */}
+   385→            <div className="flex-1 bg-[#e2dfd2] flex items-end">
+   386→              {ME.avatar ? (
+   387→                <img src={ME.avatar} alt={ME.name} className="w-full h-[104px] object-cover" />
+   388→              ) : (
+   389→                <div className="w-full h-[104px] bg-[#d6d2c4] flex items-center justify-center">
+   390→                  <WhiteFace size={72} />
+   391→                </div>
+   392→              )}
+   393→            </div>
+   394→            {/* collapse control, dead-centre on the seam */}
+   395→            <button
+   396→              className="absolute left-1/2 -translate-x-1/2 top-[96px] -translate-y-1/2 w-[22px] h-[16px] rounded-full bg-white/95 shadow-[0_1px_3px_rgba(40,20,80,0.35)] border border-[#c2bad6] flex items-center justify-center text-[#7a6a9a] hover:bg-[#f3edfc] hover:scale-105 active:scale-95 transition-transform z-10"
+   397→              onClick={() => setSidebar(false)}
+   398→              title="Hide sidebar"
+   399→            >
+   400→              <IconChevron dir="right" />
+   401→            </button>
+   402→          </div>
+   403→        )}
+   404→        {!sidebar && (
+   405→          <button
+   406→            className="w-[16px] bg-[#e4e1d4] border-l border-[#cfccbc] text-[#666] hover:bg-[#f3edfc] flex items-center justify-center"
+   407→            onClick={() => setSidebar(true)}
+   408→            title="Show sidebar"
+   409→          >
+   410→            <IconChevron dir="down" />
+   411→          </button>
+   412→        )}
+   413→      </div>
+   414→
+   415→      {/* ---- Audibles panel with category tabs ---- */}
+   416→      {audiblesOpen && (
+   417→        <div className="bg-[#f1f0e3] border-t border-[#d8d5c5] px-2 pt-1 pb-2">
+   418→          <div className="flex items-center gap-2 mb-1">
+   419→            <span className="text-[11.5px] text-[#555] truncate">{selAudible ?? "Select an Audible below"}</span>
+   420→            <div className="ml-auto relative shrink-0">
+   421→              <button
+   422→                className="xp-btn h-[20px] px-2.5 text-[11px] text-[#333] flex items-center gap-1"
+   423→                onClick={() => setCatMenuOpen((v) => !v)}
+   424→              >
+   425→                More Audibles
+   426→                <svg width="8" height="8" viewBox="0 0 10 10"><path d="M1.5 3 L5 7 L8.5 3" fill="none" stroke="#555" strokeWidth="1.6" strokeLinecap="round" /></svg>
+   427→              </button>
+   428→              {catMenuOpen && (
+   429→                <div className="animate-pop absolute right-0 top-full mt-[2px] w-[150px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50 ym-scroll ym-scroll-thin max-h-[240px] overflow-y-auto">
+   430→                  {AUDIBLE_CATEGORIES.map((c) => (
+   431→                    <button
+   432→                      key={c.id}
+   433→                      className={`ym-dropdown-item w-full text-left px-3 py-[3px] text-[11.5px] ${c.id === audibleCat ? "font-bold" : ""}`}
+   434→                      onClick={() => {
+   435→                        setAudibleCat(c.id);
+   436→                        setSelAudible(null);
+   437→                        setCatMenuOpen(false);
+   438→                      }}
+   439→                    >
+   440→                      {c.id === audibleCat ? "✓ " : ""}
+   441→                      {c.label}
+   442→                    </button>
+   443→                  ))}
+   444→                </div>
+   445→              )}
+   446→            </div>
+   447→          </div>
+   448→
+   449→          {/* category tabs */}
+   450→          <div className="flex items-end gap-[2px] pl-1 overflow-x-hidden">
+   451→            {AUDIBLE_CATEGORIES.map((c) => (
+   452→              <button
+   453→                key={c.id}
+   454→                onClick={() => {
+   455→                  setAudibleCat(c.id);
+   456→                  setSelAudible(null);
+   457→                }}
+   458→                className={`px-2.5 h-[21px] text-[11px] rounded-t-[4px] border border-b-0 transition-colors shrink-0 whitespace-nowrap ${
+   459→                  c.id === audibleCat
+   460→                    ? "bg-white text-[#2244cc] font-bold border-[#b9b6a8]"
+   461→                    : "bg-[#e6e3d5] text-[#666] border-[#cfccbc] hover:bg-[#efeee1]"
+   462→                }`}
+   463→              >
+   464→                {c.label}
+   465→              </button>
+   466→            ))}
+   467→          </div>
+   468→
+   469→          {/* strip */}
+   470→          <div className="ym-scroll ym-scroll-thin flex gap-1 overflow-x-auto bg-white border border-[#b9b6a8] p-1">
+   471→            {(AUDIBLE_CATEGORIES.find((c) => c.id === audibleCat)?.items ?? []).map((a) => (
+   472→              <button
+   473→                key={a.name}
+   474→                title={`${a.name} — "${a.caption}"`}
+   475→                className="w-[64px] h-[62px] shrink-0 overflow-hidden flex flex-col items-center justify-center hover:bg-[#f3edfc] active:bg-[#e9def8] rounded-[2px]"
+   476→                onMouseEnter={(e) => (e.currentTarget.querySelector("video") as HTMLVideoElement | null)?.play().catch(() => {})}
+   477→                onMouseLeave={(e) => {
+   478→                  const v = e.currentTarget.querySelector("video") as HTMLVideoElement | null;
+   479→                  if (v) {
+   480→                    v.pause();
+   481→                    v.currentTime = 0;
+   482→                  }
+   483→                }}
+   484→                onClick={() => {
+   485→                  setSelAudible(a.caption);
+   486→                  push({ from: "me", audible: { name: a.name, caption: a.caption, src: a.src } });
+   487→                }}
+   488→              >
+   489→                <video src={a.src} preload="metadata" muted loop playsInline className="w-[58px] h-[44px] object-cover pointer-events-none" />
+   490→                <span className="text-[9px] text-[#555] truncate w-full text-center leading-[15px]">{a.name}</span>
+   491→              </button>
+   492→            ))}
+   493→          </div>
+   494→        </div>
+   495→      )}
+   496→
+   497→      {/* ---- Format bar (toggled by the T button) ---- */}
+   498→      {formatOpen && (
+   499→        <div className="bg-[#f1f0e3] border-t border-[#e0ddcd] px-2 py-[3px] flex items-center gap-1">
+   500→          <button
+   501→            className={`ym-tool-btn w-[22px] h-[20px] font-bold text-[12px] text-[#333] ${bold ? "active" : ""}`}
+   502→            onMouseDown={(e) => e.preventDefault()}
+   503→            onClick={() => toggle("bold")}
+   504→            title="Bold"
+   505→          >
+   506→            B
+   507→          </button>
+   508→          <button
+   509→            className={`ym-tool-btn w-[22px] h-[20px] italic font-serif text-[12px] text-[#333] ${italic ? "active" : ""}`}
+   510→            onMouseDown={(e) => e.preventDefault()}
+   511→            onClick={() => toggle("italic")}
+   512→            title="Italic"
+   513→          >
+   514→            I
+   515→          </button>
+   516→          <button
+   517→            className={`ym-tool-btn w-[22px] h-[20px] underline text-[12px] text-[#333] ${underline ? "active" : ""}`}
+   518→            onMouseDown={(e) => e.preventDefault()}
+   519→            onClick={() => toggle("underline")}
+   520→            title="Underline"
+   521→          >
+   522→            U
+   523→          </button>
+   524→          <span className="mx-0.5" title="Text colour">
+   525→            <svg width="18" height="18" viewBox="0 0 18 18">
+   526→              <circle cx="9" cy="9" r="7" fill="none" stroke="#888" />
+   527→              <circle cx="6.5" cy="7" r="1.6" fill="#d03030" />
+   528→              <circle cx="11.5" cy="7" r="1.6" fill="#3060d0" />
+   529→              <circle cx="9" cy="11.5" r="1.6" fill="#e0b020" />
+   530→            </svg>
+   531→          </span>
+   532→          <select
+   533→            className="ym-input h-[20px] text-[11px] px-1 flex-1 max-w-[170px]"
+   534→            value={font}
+   535→            onChange={(e) => applyFont(e.target.value)}
+   536→          >
+   537→            {FONTS.map((f) => (
+   538→              <option key={f} value={f} style={{ fontFamily: f }}>
+   539→                {f}
+   540→              </option>
+   541→            ))}
+   542→          </select>
+   543→          <select
+   544→            className="ym-input h-[20px] text-[11px] px-1 w-[48px]"
+   545→            value={fsize}
+   546→            onChange={(e) => applySize(Number(e.target.value))}
+   547→          >
+   548→            {SIZES.map((s) => (
+   549→              <option key={s} value={s}>
+   550→                {s}
+   551→              </option>
+   552→            ))}
+   553→          </select>
+   554→        </div>
+   555→      )}
+   556→
+   557→      {/* ---- Icon row ---- */}
+   558→      <div className="bg-[#f1f0e3] px-2 pb-1.5 flex items-center gap-1 relative">
+   559→        <button
+   560→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${pickerOpen ? "active" : ""}`}
+   561→          title="Emoticons"
+   562→          onClick={() => setPickerOpen((v) => !v)}
+   563→        >
+   564→          <IconSmileySmall />
+   565→        </button>
+   566→        <button
+   567→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${audiblesOpen ? "active" : ""}`}
+   568→          title="Audibles"
+   569→          onClick={() => setAudiblesOpen((v) => !v)}
+   570→        >
+   571→          <IconBubble />
+   572→        </button>
+   573→        <button
+   574→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center font-serif font-bold text-[14px] text-[#444] ${formatOpen ? "active" : ""}`}
+   575→          title="Toggle text formatting"
+   576→          onClick={() => setFormatOpen((v) => !v)}
+   577→        >
+   578→          T
+   579→        </button>
+   580→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="IMVironments" onClick={() => setImvMenu((v) => !v)}>
+   581→          <IconGearFlower />
+   582→        </button>
+   583→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Attach a file">
+   584→          <IconClip />
+   585→        </button>
+   586→        <button
+   587→          className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center"
+   588→          title="Send a BUZZ!!!"
+   589→          onClick={doBuzz}
+   590→        >
+   591→          <IconBuzz />
+   592→        </button>
+   593→        <div className="flex-1" />
+   594→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Invite a contact">
+   595→          <IconInvite />
+   596→        </button>
+   597→
+   598→        {pickerOpen && (
+   599→          <div className="animate-pop absolute left-1 bottom-full mb-1 bg-[#efeee1] border border-[#8663cf] shadow-[3px_3px_10px_rgba(20,5,50,0.35)] p-1 z-40 w-[272px]">
+   600→            {/* pager header, like the original paged palette */}
+   601→            <div className="flex items-center justify-between px-0.5 pb-0.5 mb-[2px] border-b border-[#d5cfbe]">
+   602→              <span className="text-[10.5px] font-bold text-[#6a5a9a]">Emoticons</span>
+   603→              <div className="flex items-center gap-1">
+   604→                <button
+   605→                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+   606→                  title="Previous page"
+   607→                  disabled={emoPage === 0}
+   608→                  onClick={() => setEmoPage((pg) => Math.max(0, pg - 1))}
+   609→                >
+   610→                  ◀
+   611→                </button>
+   612→                <span className="text-[10px] text-[#777] tabular-nums">
+   613→                  {emoPage + 1} / {Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE)}
+   614→                </span>
+   615→                <button
+   616→                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+   617→                  title="Next page"
+   618→                  disabled={emoPage >= Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1}
+   619→                  onClick={() => setEmoPage((pg) => Math.min(Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1, pg + 1))}
+   620→                >
+   621→                  ▶
+   622→                </button>
+   623→              </div>
+   624→            </div>
+   625→            <div className="w-[270px]">
+   626→              {/* official Yahoo palette order — one slot per emoticon, each GIF at
+   627→                  its native 1:1 pixel size (wide GIFs grow their own cell) */}
+   628→              <div className="flex flex-wrap items-center content-start gap-[2px] w-[268px]">
+   629→                {EMO_PALETTE.slice(emoPage * EMO_PER_PAGE, emoPage * EMO_PER_PAGE + EMO_PER_PAGE).map((e) => (
+   630→                  <button
+   631→                    key={e.code}
+   632→                    className="min-w-[24px] min-h-[24px] px-[2px] py-[1px] shrink-0 hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"
+   633→                    title={`${e.name}  ${e.code}`}
+   634→                    onClick={() => insertEmoticon(e.code)}
+   635→                  >
+   636→                    <Emoticon file={e.file} />
+   637→                  </button>
+   638→                ))}
+   639→              </div>
+   640→            </div>
+   641→          </div>
+   642→        )}
+   643→      </div>
+   644→
+   645→      {/* ---- Input ---- */}
+   646→      <div className="bg-[#f1f0e3] px-1.5 pb-1.5">
+   647→        <div className="ym-chat-pane relative">
+   648→          <div
+   649→            ref={editor}
+   650→            className="ym-editable ym-scroll min-h-[44px] max-h-[80px] overflow-y-auto px-2 py-1.5 pr-[74px] outline-none"
+   651→            style={{ fontFamily: font, fontSize: `${SIZE_PX[fsize] ?? 13}px` }}
+   652→            contentEditable
+   653→            data-placeholder=""
+   654→            onInput={() => setCanSend(!!editor.current?.textContent?.trim())}
+   655→            onKeyDown={(e) => {
+   656→              if (e.key === "Enter" && !e.shiftKey) {
+   657→                e.preventDefault();
+   658→                send();
+   659→              }
+   660→            }}
+   661→          />
+   662→          <button
+   663→            className="ym-send absolute right-1.5 bottom-1.5 h-[26px] w-[64px] text-[12px]"
+   664→            disabled={!canSend}
+   665→            onClick={send}
+   666→          >
+   667→            Send
+   668→          </button>
+   669→        </div>
+   670→      </div>
+   671→
+   672→      {/* ---- News ticker ---- */}
+   673→      <div className="bg-[#e9e7da] border-t border-[#cfccbc] h-[22px] flex items-center overflow-hidden">
+   674→        <span className="shrink-0 px-2 text-[10.5px] font-bold text-[#7b2fbd] tracking-wide border-r border-[#cfccbc] h-full flex items-center">
+   675→          NEWS
+   676→        </span>
+   677→        <div className="flex-1 overflow-hidden whitespace-nowrap">
+   678→          <div className="animate-ticker inline-block text-[11px] text-[#333]">
+   679→            <span className="font-bold">ALP</span> {tickerText}
+   680→            &nbsp;&nbsp;&nbsp;&nbsp;
+   681→            <span className="font-bold">ALP</span> {tickerText}
+   682→          </div>
+   683→        </div>
+   684→      </div>
+   685→    </WindowFrame>
+   686→  );
+   687→}
+   688→
+   689→function MessageVideo({ src }: { src: string }) {
+   690→  const ref = useRef<HTMLVideoElement>(null);
+   691→  const [ended, setEnded] = useState(false);
+   692→
+   693→  /* plays once, with voice, right after being sent (user-gesture window) */
+   694→  useEffect(() => {
+   695→    const v = ref.current;
+   696→    if (!v) return;
+   697→    v.muted = false;
+   698→    const t = window.setTimeout(() => v.play().catch(() => {}), 60);
+   699→    return () => window.clearTimeout(t);
+   700→  }, []);
+   701→
+   702→  return (
+   703→    <button
+   704→      className="relative block cursor-pointer group"
+   705→      title={ended ? "Click to play again" : "Audible"}
+   706→      onClick={() => {
+   707→        const v = ref.current;
+   708→        if (!v) return;
+   709→        if (v.paused || ended) {
+   710→          v.currentTime = 0;
+   711→          setEnded(false);
+   712→          void v.play().catch(() => {});
+   713→        } else {
+   714→          v.pause();
+   715→        }
+   716→      }}
+   717→    >
+   718→      <video
+   719→        ref={ref}
+   720→        src={src}
+   721→        playsInline
+   722→        onEnded={() => setEnded(true)}
+   723→        className="block w-[120px] h-[90px] object-cover"
+   724→      />
+   725→      {ended && (
+   726→        <span className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition-colors">
+   727→          <svg width="26" height="26" viewBox="0 0 26 26">
+   728→            <circle cx="13" cy="13" r="12" fill="rgba(255,255,255,0.9)" />
+   729→            <path d="M10 8 L19 13 L10 18 Z" fill="#5a3ca6" />
+   730→          </svg>
+   731→        </span>
+   732→      )}
+   733→    </button>
+   734→  );
+   735→}
+   736→
+   737→function ToolBtn({
+   738→  icon,
+   739→  label,
+   740→  caret,
+   741→  onClick,
+   742→  active,
+   743→}: {
+   744→  icon: React.ReactNode;
+   745→  label: string;
+   746→  caret?: boolean;
+   747→  onClick?: () => void;
+   748→  active?: boolean;
+   749→}) {
+   750→  return (
+   751→    <button
+   752→      onClick={onClick}
+   753→      className={`flex flex-col items-center px-2.5 py-0.5 rounded hover:bg-[#e9e2f6] active:bg-[#ddd0f2] transition-colors group ${
+   754→        active ? "bg-[#e3d7f6]" : ""
+   755→      }`}
+   756→    >
+   757→      <span className="flex items-center gap-0.5">
+   758→        {icon}
+   759→        {caret && <span className="text-[8px] text-[#777] mt-2">▼</span>}
+   760→      </span>
+   761→      <span className="text-[10.5px] text-[#333] mt-0.5 group-hover:text-[#222]">{label}</span>
+   762→    </button>
+   763→  );
+   764→}
+   765→

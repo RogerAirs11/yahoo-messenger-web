@@ -24,7 +24,7 @@ import {
 } from "./icons";
 import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
 import { playImvBuzz, playMessage, playSent, startImvAmbient, stopImvAmbient, currentImvAmbient } from "./sounds";
-import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
+import { ImvScene, IMV_BG, IMV_GROUPS, IMV_DARK, ImvId } from "./Imvironments";
 
 interface Props {
   contact: Contact;
@@ -290,21 +290,30 @@ export default function ChatWindow(p: Props) {
             <ToolBtn icon={<IconImviron />} label="IMVironments" caret onClick={() => setImvMenu((v) => !v)} active={imv !== "none"} />
           </div>
           {imvMenu && (
-            <div className="animate-pop absolute right-0 top-full mt-[2px] w-[168px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
-              {IMV_LIST.map((o) => (
-                <button
-                  key={o.id}
-                  className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
-                  onClick={() => {
-                    setImv(o.id);
-                    setImvBuzz(0); // a fresh scene starts calm, even after a buzz
-                    setImvMenu(false);
-                  }}
-                >
-                  <span className="w-[14px] flex justify-center">{o.icon}</span>
-                  {imv === o.id ? "✓ " : ""}
-                  {o.label}
-                </button>
+            <div className="animate-pop absolute right-0 top-full mt-[2px] w-[252px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-1 z-50 max-h-[420px] overflow-y-auto ym-scroll ym-scroll-thin">
+              {IMV_GROUPS.map((g) => (
+                <div key={g.label}>
+                  <div className="px-2.5 pt-1.5 pb-[2px] text-[10.5px] font-bold text-[#7a57c6] uppercase tracking-wide border-b border-[#e4e0d2] mb-[2px]">{g.label}</div>
+                  {g.items.map((o) => (
+                    <button
+                      key={o.id}
+                      className="ym-dropdown-item w-full text-left px-2.5 py-[3px] text-[11.5px] flex items-center gap-2"
+                      title={o.official}
+                      onClick={() => {
+                        setImv(o.id);
+                        setImvBuzz(0); // a fresh scene starts calm, even after a buzz
+                        setImvMenu(false);
+                      }}
+                    >
+                      {o.thumb ? (
+                        <img src={o.thumb} alt="" className="w-[44px] h-[27px] object-cover rounded-[2px] border border-[#b9b4a4] shrink-0" style={{ imageRendering: "auto" }} />
+                      ) : (
+                        <span className="w-[44px] h-[27px] flex items-center justify-center border border-[#d8d4c6] rounded-[2px] bg-white shrink-0">{o.icon}</span>
+                      )}
+                      <span className="flex-1">{imv === o.id ? "✓ " : ""}{o.label}</span>
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           )}
@@ -334,10 +343,11 @@ export default function ChatWindow(p: Props) {
           {/* IMVironment ambience — lives BEHIND the message text */}
           <ImvScene imv={imv} buzz={imvBuzz} />
 
-          {/* message text, above the ambience */}
+          {/* message text, above the ambience — dark legacy scenes get a
+              white glow/border around the text for readability (user rule) */}
           <div
             ref={pane}
-            className="ym-scroll absolute inset-0 overflow-y-auto px-2.5 py-2 leading-[1.6]"
+            className={`ym-scroll absolute inset-0 overflow-y-auto px-2.5 py-2 leading-[1.6] ${IMV_DARK.has(imv) ? "ym-msg-glow" : ""}`}
             style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: SIZE_PX[DEFAULT_SIZE] }}
           >
             {messages.map((m, i) =>
