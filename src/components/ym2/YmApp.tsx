@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { playAlertOriginal, playLoginOriginal } from "./sounds";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { playAlertOriginal, playXpStartup, playXpLogoff, playXpShutdown, playXpBalloon, playXpRecycle, stopImvAmbient } from "./sounds";
+import { BootScreen, WelcomeScreen } from "./XpBoot";
 import SignInWindow from "./SignInWindow";
 import ContactListWindow from "./ContactListWindow";
 import ChatWindow from "./ChatWindow";
 import Taskbar, { TaskItem } from "./Taskbar";
 import { StatusDot, YahooSmiley } from "./icons";
-import { Contact, SEED_CONVERSATIONS, CONTACTS } from "./data";
+import { Contact, SEED_CONVERSATIONS, CONTACTS, ME } from "./data";
 
 interface WinState {
   x: number;
@@ -19,17 +20,23 @@ interface WinState {
   h?: number;
 }
 
+type Stage = "boot" | "welcome" | "signin" | "in";
+
 const SIGNIN_W = 298;
 const SIGNIN_H = () => Math.min(624, window.innerHeight - 70);
 const CONTACT_W = 356;
 const CONTACT_H = () => Math.min(820, window.innerHeight - 68);
 const CHAT_W = 560;
 const CHAT_H = () => Math.min(648, window.innerHeight - 90);
+const PC_W = 640;
+const PC_H = () => Math.min(480, window.innerHeight - 90);
 
 const contactById = (id: string) => CONTACTS.find((c) => c.id === id);
 
+const ICO = (name: string, size = 48) => `/assets/xp/icons/${name}-${size}.png`;
+
 export default function YmApp() {
-  const [stage, setStage] = useState<"signin" | "in">("signin");
+  const [stage, setStage] = useState<Stage>("boot");
   const zRef = useRef(10);
   const [focusedId, setFocusedId] = useState("signin");
   const [signin, setSignin] = useState<WinState>(() => ({
@@ -55,6 +62,10 @@ export default function YmApp() {
   const [buzzReq, setBuzzReq] = useState<Record<string, number>>({});
   const [flashing, setFlashing] = useState<Record<string, boolean>>({});
   const [deskSel, setDeskSel] = useState<string | null>(null);
+  const [mypc, setMypc] = useState<WinState | null>(null);
+  /* XP tray balloon: "you are signed in" */
+  const [balloon, setBalloon] = useState(false);
+  const balloonShown = useRef(false);
   const focusedRef = useRef(focusedId);
   useEffect(() => {
     focusedRef.current = focusedId;
@@ -66,12 +77,42 @@ export default function YmApp() {
     setFocusedId(id);
   };
 
-  /* one container: compact while signed out, expands to the friend list in place */
+  /* ---------- XP boot → welcome → desktop ---------- */
+  const bootDone = useCallback(() => setStage("welcome"), []);
+  const enterDesktop = useCallback(() => {
+    /* the genuine XP startup sound, played from the welcome-tile user gesture */
+    playXpStartup();
+    /* let the sound breathe, then fade to the desktop */
+    window.setTimeout(() => setStage("signin"), 1500);
+  }, []);
+  const turnOff = useCallback(() => {
+    /* XpBoot plays the shutdown sound; loop back to a fresh boot */
+    window.setTimeout(() => {
+      stopImvAmbient();
+      setStage("boot");
+    }, 2700);
+  }, []);
+
+  const logOff = () => {
+    playXpLogoff();
+    setStage("welcome");
+  };
+
+  /* ---------- windows ---------- */
   const handleSignIn = () => {
     morph();
     setStage("in");
     setContacts({ x: signin.x, y: signin.y, z: nextZ(), minimized: false, open: true, w: CONTACT_W, h: CONTACT_H() });
     setFocusedId("contacts");
+    /* XP-style tray balloon the first time we land on the desktop */
+    if (!balloonShown.current) {
+      balloonShown.current = true;
+      window.setTimeout(() => {
+        setBalloon(true);
+        playXpBalloon();
+        window.setTimeout(() => setBalloon(false), 6500);
+      }, 900);
+    }
   };
 
   const handleSignOut = () => {
@@ -128,6 +169,17 @@ export default function YmApp() {
       });
       return;
     }
+    if (id === "mypc") {
+      setMypc((w) => {
+        if (!w) return w;
+        if (w.minimized || focusedId !== id) {
+          setFocusedId(id);
+          return { ...w, minimized: false, z: nextZ() };
+        }
+        return { ...w, minimized: true };
+      });
+      return;
+    }
     const cid = id.slice(5);
     setFlashing((f) => ({ ...f, [id]: false }));
     setChats((prev) => {
@@ -141,6 +193,15 @@ export default function YmApp() {
     });
   };
 
+  const openMyComputer = () => {
+    if (mypc) {
+      setMypc((w) => (w ? { ...w, minimized: false, z: nextZ() } : w));
+    } else {
+      setMypc({ x: 170, y: 90, z: nextZ(), minimized: false, w: PC_W, h: PC_H() });
+    }
+    setFocusedId("mypc");
+  };
+
   const buzzAll = (c: Contact) => {
     openChat(c);
     setBuzzReq((prev) => ({ ...prev, [c.id]: (prev[c.id] || 0) + 1 }));
@@ -148,24 +209,29 @@ export default function YmApp() {
 
   /* ---------- taskbar items ---------- */
   const items: TaskItem[] = [];
-  if (stage === "signin") {
-    items.push({ id: "signin", title: "Yahoo! Messenger with Voice", icon: <YahooSmiley size={14} />, minimized: signin.minimized, focused: focusedId === "signin" });
-  } else {
-    if (contacts)
-      items.push({ id: "contacts", title: "Sarah Bacon - Yahoo! Messenger", icon: <YahooSmiley size={14} />, minimized: contacts.minimized, focused: focusedId === "contacts" });
-    Object.keys(chats).forEach((cid) => {
-      const c = contactById(cid);
-      items.push({
-        id: `chat:${cid}`,
-        title: c?.name ?? cid,
-        icon: <StatusDot status={c?.status ?? "available"} />,
-        minimized: chats[cid].minimized,
-        focused: focusedId === `chat:${cid}`,
+  if (stage !== "boot" && stage !== "welcome") {
+    if (stage === "signin") {
+      items.push({ id: "signin", title: "Yahoo! Messenger with Voice", icon: <YahooSmiley size={14} />, minimized: signin.minimized, focused: focusedId === "signin" });
+    } else {
+      if (contacts)
+        items.push({ id: "contacts", title: "Sarah Bacon - Yahoo! Messenger", icon: <YahooSmiley size={14} />, minimized: contacts.minimized, focused: focusedId === "contacts" });
+      if (mypc)
+        items.push({ id: "mypc", title: "My Computer", icon: <img src={ICO("my-computer", 48)} alt="" className="w-[14px] h-[14px]" draggable={false} />, minimized: mypc.minimized, focused: focusedId === "mypc" });
+      Object.keys(chats).forEach((cid) => {
+        const c = contactById(cid);
+        items.push({
+          id: `chat:${cid}`,
+          title: c?.name ?? cid,
+          icon: <StatusDot status={c?.status ?? "available"} />,
+          minimized: chats[cid].minimized,
+          focused: focusedId === `chat:${cid}`,
+        });
       });
-    });
+    }
   }
 
-  const topZ = Math.max(signin.z, contacts?.z ?? 0, ...Object.values(chats).map((c) => c.z));
+  const topZ = Math.max(signin.z, contacts?.z ?? 0, mypc?.z ?? 0, ...Object.values(chats).map((c) => c.z));
+  const desktopStage = stage === "signin" || stage === "in";
 
   return (
     <div className="relative w-full h-full overflow-hidden" onClick={() => setDeskSel(null)}>
@@ -186,24 +252,30 @@ export default function YmApp() {
         />
       </div>
 
-      {/* Desktop icons */}
-      {stage === "in" && (
-        <div className="absolute left-3 top-3 flex flex-col gap-4 z-[1]">
+      {/* Desktop icons — the genuine shell32 icons */}
+      {desktopStage && (
+        <div className="absolute left-3 top-3 flex flex-col gap-3.5 z-[1]">
           {[
-            { id: "pc", label: "My Computer", icon: <DeskPc /> },
-            { id: "bin", label: "Recycle Bin", icon: <DeskBin /> },
+            { id: "pc", label: "My Computer", img: "my-computer" },
+            { id: "docs", label: "My Documents", img: "my-docs" },
+            { id: "ie", label: "Internet Explorer", img: "ie" },
+            { id: "bin", label: "Recycle Bin", img: "recycle-empty" },
           ].map((d) => (
             <button
               key={d.id}
-              className="flex flex-col items-center gap-1 w-[74px] py-1 rounded"
+              className="flex flex-col items-center gap-0.5 w-[76px] py-1 rounded"
               style={{ background: deskSel === d.id ? "rgba(60,90,200,0.45)" : "transparent", outline: deskSel === d.id ? "1px dotted rgba(255,255,255,0.7)" : "none" }}
               onClick={(e) => {
                 e.stopPropagation();
                 setDeskSel(d.id);
               }}
+              onDoubleClick={() => {
+                if (d.id === "pc") openMyComputer();
+                if (d.id === "bin") playXpRecycle();
+              }}
             >
-              {d.icon}
-              <span className="text-[11px] text-white" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}>
+              <img src={ICO(d.img, 48)} alt="" className="w-[34px] h-[34px]" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.55))" }} draggable={false} />
+              <span className="text-[11px] leading-[13px] text-white text-center" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}>
                 {d.label}
               </span>
             </button>
@@ -211,8 +283,88 @@ export default function YmApp() {
         </div>
       )}
 
-      {/* Windows */}
-      {stage === "signin" && !signin.minimized && (
+      {/* My Computer window (simple, XP-styled) */}
+      {desktopStage && mypc && !mypc.minimized && (
+        <div
+          className="absolute flex flex-col rounded-t-[8px] overflow-hidden"
+          style={{
+            left: mypc.x, top: mypc.y, width: mypc.w ?? PC_W, height: mypc.h ?? PC_H(), zIndex: mypc.z,
+            background: "#ece9d8",
+            boxShadow: "0 8px 30px rgba(0,0,30,0.45)",
+            border: "1px solid #0831d9",
+          }}
+          onMouseDown={() => {
+            setMypc((w) => (w ? { ...w, z: nextZ(), minimized: false } : w));
+            setFocusedId("mypc");
+          }}
+        >
+          <div className="h-[28px] flex items-center px-2 gap-1.5" style={{ background: "linear-gradient(180deg, #0997ff 0%, #0053ee 12%, #0050ee 40%, #06f 88%, #003dd7 100%)" }}>
+            <img src={ICO("my-computer", 48)} alt="" className="w-[16px] h-[16px]" />
+            <span className="text-white text-[12px] font-bold flex-1" style={{ textShadow: "0 1px 2px rgba(0,10,60,0.7)" }}>My Computer</span>
+            <button className="xp-cap-btn" onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))}>
+              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5 h6" stroke="#fff" strokeWidth="1.6" /></svg>
+            </button>
+            <button className="xp-cap-btn close" onClick={() => setMypc(null)}>
+              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2.2 2.2 l5.6 5.6 M7.8 2.2 l-5.6 5.6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
+            </button>
+          </div>
+          <div className="flex flex-1 min-h-0">
+            {/* task pane */}
+            <div className="w-[180px] bg-[#6f8dd9] p-3 text-white overflow-y-auto">
+              <div className="bg-white/20 rounded p-2 mb-2">
+                <div className="text-[11.5px] font-bold mb-1.5">System Tasks</div>
+                <div className="text-[11px] text-white/90 space-y-1.5">
+                  <div>View system information</div>
+                  <div>Add or remove programs</div>
+                  <div>Change a setting</div>
+                </div>
+              </div>
+              <div className="bg-white/20 rounded p-2">
+                <div className="text-[11.5px] font-bold mb-1.5">Other Places</div>
+                <div className="text-[11px] text-white/90 space-y-1.5">
+                  <div>My Network Places</div>
+                  <div>My Documents</div>
+                  <div>Shared Documents</div>
+                  <div>Control Panel</div>
+                </div>
+              </div>
+            </div>
+            {/* drives */}
+            <div className="flex-1 bg-white p-4 overflow-y-auto">
+              <div className="text-[12px] font-bold text-[#1c3f94] border-b border-[#c8d4e8] pb-1 mb-3">Files Stored on This Computer</div>
+              <div className="flex gap-4 mb-4">
+                <div className="flex items-center gap-2 w-[190px]">
+                  <img src={ICO("my-docs", 48)} alt="" className="w-[32px] h-[32px]" />
+                  <div className="text-[11px] leading-tight">
+                    <div className="text-[#1a4fae]">Shared Documents</div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-[12px] font-bold text-[#1c3f94] border-b border-[#c8d4e8] pb-1 mb-3">Hard Disk Drives</div>
+              <div className="flex gap-4 mb-4">
+                <div className="flex items-center gap-2 w-[190px]">
+                  <img src={ICO("hdd", 48)} alt="" className="w-[32px] h-[32px]" />
+                  <div className="text-[11px] leading-tight">
+                    <div className="text-[#1a4fae]">Local Disk (C:)</div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-[12px] font-bold text-[#1c3f94] border-b border-[#c8d4e8] pb-1 mb-3">Devices with Removable Storage</div>
+              <div className="flex gap-4">
+                <div className="flex items-center gap-2 w-[190px]">
+                  <img src={ICO("globe", 48)} alt="" className="w-[32px] h-[32px]" />
+                  <div className="text-[11px] leading-tight">
+                    <div className="text-[#1a4fae]">CD Drive (D:)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Yahoo! Messenger windows */}
+      {desktopStage && stage === "signin" && !signin.minimized && (
         <SignInWindow
           x={signin.x}
           y={signin.y}
@@ -290,30 +442,49 @@ export default function YmApp() {
           );
         })}
 
-      <Taskbar items={items} flashing={flashing} onTaskClick={taskClick} onSignOut={handleSignOut} onShowContacts={() => taskClick("contacts")} />
-    </div>
-  );
-}
+      {/* XP tray balloon — signed in */}
+      {stage === "in" && balloon && (
+        <div className="absolute right-3 bottom-[42px] z-[9500] xp-balloon" style={{ filter: "drop-shadow(0 3px 8px rgba(0,0,30,0.4))" }}>
+          <div className="relative bg-[#ffffe1] border border-[#8a8875] rounded-[7px] p-2.5 w-[264px] text-[#1a1a1a]">
+            <button
+              className="absolute top-1 right-1.5 text-[#666] hover:text-black text-[11px] leading-none"
+              onClick={() => setBalloon(false)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <div className="flex gap-2">
+              <img src={ICO("info", 48)} alt="" className="w-[17px] h-[17px] mt-0.5" />
+              <div className="text-[11.5px] leading-snug">
+                <div className="font-bold">Yahoo! Messenger</div>
+                <div>
+                  {ME.name} is now signed in and available. Click the buddy list to start chatting.
+                </div>
+              </div>
+            </div>
+            <div
+              className="absolute -bottom-[9px] right-10 w-[14px] h-[14px] bg-[#ffffe1] border-b border-r border-[#8a8875]"
+              style={{ transform: "rotate(45deg)" }}
+            />
+          </div>
+        </div>
+      )}
 
-function DeskPc() {
-  return (
-    <svg width="34" height="34" viewBox="0 0 34 34">
-      <rect x="4" y="5" width="26" height="18" rx="1.5" fill="#c9c2a8" stroke="#6e6a58" />
-      <rect x="6.5" y="7.5" width="21" height="13" fill="#2a66d6" />
-      <rect x="6.5" y="7.5" width="21" height="5" fill="#5b9bf0" />
-      <rect x="13" y="23" width="8" height="3" fill="#a9a28a" />
-      <rect x="9" y="26" width="16" height="2.5" rx="1" fill="#c9c2a8" stroke="#6e6a58" strokeWidth="0.6" />
-    </svg>
-  );
-}
-function DeskBin() {
-  return (
-    <svg width="34" height="34" viewBox="0 0 34 34">
-      <path d="M9 10 h16 l-1.8 18 h-12.4 z" fill="#dfe8f2" stroke="#6a7a8a" />
-      <path d="M9 10 h16 l-.4 4 H9.4 z" fill="#b9c8d8" />
-      <rect x="7" y="7.5" width="20" height="3" rx="1.5" fill="#9aabbc" stroke="#6a7a8a" strokeWidth="0.6" />
-      <path d="M14 6.5 h6 v1.5 h-6 z" fill="#9aabbc" />
-      <path d="M13 15 l8 9 M21 15 l-8 9" stroke="#8a9aa8" strokeWidth="1.2" />
-    </svg>
+      {desktopStage && (
+        <Taskbar
+          items={items}
+          flashing={flashing}
+          onTaskClick={taskClick}
+          onShowContacts={() => taskClick("contacts")}
+          onLogOff={logOff}
+          onTurnOff={turnOff}
+          onOpenMyComputer={openMyComputer}
+        />
+      )}
+
+      {/* the XP boot → welcome experience */}
+      {stage === "boot" && <BootScreen onDone={bootDone} />}
+      {stage === "welcome" && <WelcomeScreen onEnter={enterDesktop} onTurnOff={turnOff} />}
+    </div>
   );
 }

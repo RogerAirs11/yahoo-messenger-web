@@ -603,7 +603,17 @@ export const WhiteFace = ({ size = 96 }: { size?: number }) => (
 
 /* ---------- Sign-in sleeper (the beloved one): big Y! mark with the round
    buddy nestled at its lower right, grey asleep with floating Zzz → yellow
-   awake with a big Yahoo laugh when you hit Sign In. ---------- */
+   awake with a big Yahoo laugh when you hit Sign In.
+   Wake choreography (gradual, layered — no snapping):
+     0.00s  Zzz dissolve + drifting away, breathing slows
+     0.30s  warm gold glow blooms behind the buddy
+     0.35s  grey → yellow "sunrise" crossfade (1.05s, long ease)
+     0.55s  stretch-rise: anticipation squash → lift → settle (damped spring)
+     0.70s  eyes flutter open (open → half → full, like real eyelids)
+     1.55s  the big Yahoo grin springs open w/ overshoot + blush warms in
+     1.70s  sparkles pop around the face (staggered)
+     2.30s  idle: gentle bob + natural blinks forever
+---------- */
 export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: number }) => (
   <svg width={size} height={size * (132 / 172)} viewBox="0 0 172 132" className="block overflow-visible">
     <defs>
@@ -628,10 +638,28 @@ export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: numbe
         <stop offset="0.55" stopColor="rgba(0,0,0,0)" />
         <stop offset="1" stopColor="rgba(0,0,0,0.22)" />
       </radialGradient>
+      <radialGradient id="wakeGlow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor="rgba(255,214,90,0.55)" />
+        <stop offset="0.55" stopColor="rgba(255,196,60,0.22)" />
+        <stop offset="1" stopColor="rgba(255,196,60,0)" />
+      </radialGradient>
     </defs>
 
+    {/* warm glow that blooms as the buddy wakes */}
+    <ellipse
+      className="sif-glow"
+      cx="118" cy="92" rx="52" ry="44"
+      fill="url(#wakeGlow)"
+      style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 1.1s ease 0.3s" : "opacity 0.5s ease" }}
+    />
+
     {/* ground shadow under the buddy */}
-    <ellipse className="sif-shadow" cx="118" cy="126" rx="30" ry="4.5" fill={awake ? "rgba(170,120,0,0.3)" : "rgba(0,0,0,0.16)"} />
+    <ellipse
+      className="sif-shadow"
+      cx="118" cy="126" rx="30" ry="4.5"
+      fill={awake ? "rgba(170,120,0,0.3)" : "rgba(0,0,0,0.16)"}
+      style={{ transformBox: "fill-box", transformOrigin: "50% 50%", transform: awake ? "scaleX(0.92)" : "scaleX(1)", transition: "transform 0.8s ease 0.55s, fill 0.9s ease 0.35s" }}
+    />
 
     {/* Y! mark — oval + fully visible bang, just like the original */}
     <g>
@@ -646,39 +674,42 @@ export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: numbe
     </g>
 
     {/* the round buddy, nestled over the lower-right of the mark */}
-    <g className={awake ? "sif-wake-lift" : "sif-breathe"}>
+    <g className={awake ? "sif-awake" : "sif-breathe"}>
       <g transform="translate(118 93) scale(1.14) translate(-118 -93)">
         {/* base sphere */}
         <circle cx="118" cy="92" r="30" fill="url(#faceGrey)" />
-        <circle cx="118" cy="92" r="30" fill="url(#faceYellow)" className="sif-layer" style={{ opacity: awake ? 1 : 0, transition: "opacity 1s ease 0.15s" }} />
+        <circle cx="118" cy="92" r="30" fill="url(#faceYellow)" style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 1.05s ease-in-out 0.35s" : "opacity 0.5s ease" }} />
         {/* 3D shading: bottom inner shadow, rim light, specular */}
         <circle cx="118" cy="92" r="30" fill="url(#faceShade)" />
         <path d="M139 108 a27 27 0 0 0 8 -16" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.4" strokeLinecap="round" />
         <ellipse cx="107" cy="78" rx="11" ry="7" fill="#fff" opacity="0.65" transform="rotate(-18 107 78)" />
         <ellipse cx="104" cy="75" rx="4" ry="2.4" fill="#fff" opacity="0.8" transform="rotate(-18 104 75)" />
 
-        {/* sleeping features */}
-        <g style={{ opacity: awake ? 0 : 1, transition: "opacity 0.4s ease" }}>
-          <path d="M103 89 q5 4 10 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-          <path d="M123 89 q5 4 10 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        {/* sleeping features: closed lids + restful mouth (fade as it wakes) */}
+        <g className={awake ? "" : "sif-twitch"} style={{ opacity: awake ? 0 : 1, transition: awake ? "opacity 0.55s ease 0.45s" : "opacity 0.35s ease" }}>
+          <path d="M102.5 90 q4.5 3.5 9.5 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+          <path d="M124 90 q4.5 3.5 9.5 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
           <path d="M111 104 q7 -2 14 0" stroke="#6a6a6a" strokeWidth="2" fill="none" strokeLinecap="round" />
         </g>
 
-        {/* awake features: happy squint + big Yahoo laugh */}
-        <g className={awake ? "sif-blink" : ""} style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 0.4s ease 0.75s" : "opacity 0.25s ease" }}>
-          <path d="M102 88 q6 -7 12 0" stroke="#6e4300" strokeWidth="2.8" fill="none" strokeLinecap="round" />
-          <path d="M122 88 q6 -7 12 0" stroke="#6e4300" strokeWidth="2.8" fill="none" strokeLinecap="round" />
+        {/* awake eyes: soft round eyes that flutter open, then keep blinking naturally */}
+        <g className={awake ? "sif-eyes-open" : "sif-eyes-closed"}>
+          <ellipse cx="107.5" cy="89" rx="3.4" ry="4.4" fill="#4a2c00" />
+          <ellipse cx="128.5" cy="89" rx="3.4" ry="4.4" fill="#4a2c00" />
+          <ellipse cx="108.8" cy="87.2" rx="1.1" ry="1.4" fill="#fff" opacity="0.85" />
+          <ellipse cx="129.8" cy="87.2" rx="1.1" ry="1.4" fill="#fff" opacity="0.85" />
         </g>
-        {/* clean open Yahoo grin */}
+
+        {/* clean open Yahoo grin — springs open with a soft overshoot */}
         <g
           style={{
             opacity: awake ? 1 : 0,
-            transform: awake ? "scale(1)" : "scale(0.35)",
+            transform: awake ? "scale(1)" : "scale(0.3)",
             transformOrigin: "50% 0%",
             transformBox: "fill-box",
             transition: awake
-              ? "opacity 0.3s ease 0.95s, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.95s"
-              : "none",
+              ? "opacity 0.3s ease 1.5s, transform 0.62s cubic-bezier(0.3, 1.45, 0.45, 1) 1.55s"
+              : "opacity 0.2s ease, transform 0.2s ease",
           }}
         >
           <path d="M104 97 Q118 121 132 97 Z" fill="#7a2a10" />
@@ -686,14 +717,35 @@ export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: numbe
           <ellipse cx="118" cy="110" rx="6.6" ry="4" fill="#ef8598" />
           <path d="M103 97 Q118 102 133 97" fill="none" stroke="#7a4a00" strokeWidth="2.2" strokeLinecap="round" />
         </g>
-        <ellipse cx="99" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.6s ease 1.4s" }} />
-        <ellipse cx="137" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.6s ease 1.4s" }} />
+        <ellipse cx="99" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.7s ease 1.7s" }} />
+        <ellipse cx="137" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.7s ease 1.7s" }} />
       </g>
+
+      {/* celebratory sparkles — pop in as the grin blooms, each staggered */}
+      {[
+        { x: 88, y: 62, d: "1.72s", s: 1 },
+        { x: 150, y: 70, d: "1.9s", s: 0.8 },
+        { x: 92, y: 118, d: "2.08s", s: 0.75 },
+        { x: 148, y: 114, d: "2.24s", s: 0.9 },
+      ].map((p, i) => (
+        <g
+          key={i}
+          className={awake ? "sif-spark" : ""}
+          style={{ animationDelay: p.d, opacity: awake ? undefined : 0, transformBox: "fill-box", transformOrigin: "50% 50%" }}
+          transform={`translate(${p.x} ${p.y}) scale(${p.s})`}
+        >
+          <path d="M0 -6 L1.5 -1.5 L6 0 L1.5 1.5 L0 6 L-1.5 1.5 L-6 0 L-1.5 -1.5 Z" fill="#ffe47a" stroke="#e8a400" strokeWidth="0.7" />
+        </g>
+      ))}
     </g>
 
-    {/* floating Zzz */}
+    {/* floating Zzz — dissolve upward as the buddy stirs */}
     <g
-      style={{ opacity: awake ? 0 : 1, transition: "opacity 0.45s ease" }}
+      style={{
+        opacity: awake ? 0 : 1,
+        transform: awake ? "translateY(-8px)" : "translateY(0)",
+        transition: awake ? "opacity 0.55s ease 0.15s, transform 0.7s ease 0.1s" : "opacity 0.4s ease",
+      }}
       fontFamily="'Trebuchet MS', Tahoma, sans-serif"
       fontWeight="bold"
       fill="#9a9a9a"

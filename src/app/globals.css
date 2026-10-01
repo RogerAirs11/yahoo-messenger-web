@@ -397,11 +397,22 @@ body {
 /* ---------- Sign-in sleeper face (the beloved one) ---------- */
 @keyframes sif-breathe {
   0%, 100% { transform: scale(1) translateY(0); }
-  50% { transform: scale(1.045) translateY(-1px); }
+  50% { transform: scale(1.035) translateY(-1px); }
 }
 .sif-breathe {
-  animation: sif-breathe 3s ease-in-out infinite;
+  animation: sif-breathe 3.4s ease-in-out infinite;
   transform-origin: 50% 92%;
+}
+/* tiny dream-twitch of the closed eyelids while asleep */
+@keyframes sif-twitch {
+  0%, 91%, 100% { transform: scaleY(1); }
+  94% { transform: scaleY(1.18); }
+  96% { transform: scaleY(1); }
+}
+.sif-twitch {
+  animation: sif-twitch 4.6s ease-in-out infinite;
+  transform-origin: 50% 90%;
+  transform-box: fill-box;
 }
 @keyframes sif-zfloat {
   0% { opacity: 0; transform: translate(0, 4px) rotate(0deg) scale(0.55); }
@@ -417,30 +428,68 @@ body {
 }
 .sif-zzz2 { animation-delay: 0.85s; }
 .sif-zzz3 { animation-delay: 1.7s; }
-/* gentle "waking stretch": the character lifts, tilts and settles */
-@keyframes sif-wake-lift {
-  0% { transform: translateY(0) rotate(0deg) scale(1); }
-  22% { transform: translateY(-4px) rotate(-3deg) scale(1.03, 0.98); }
-  45% { transform: translateY(-6px) rotate(2.5deg) scale(0.98, 1.04); }
-  68% { transform: translateY(-2px) rotate(-1.2deg) scale(1.015, 0.99); }
-  100% { transform: translateY(0) rotate(0deg) scale(1); }
+
+/* ---- WAKE CHOREOGRAPHY (gradual + layered, no snapping) ---- */
+/* the stretch-rise: anticipation squash, lift, damped settle */
+@keyframes sif-rise {
+  0% { transform: translateY(0) scale(1, 1); }
+  28% { transform: translateY(-1px) scale(1.025, 0.985); }
+  55% { transform: translateY(-5.5px) scale(0.975, 1.045); }
+  76% { transform: translateY(-1.5px) scale(1.015, 0.992); }
+  90% { transform: translateY(-0.4px) scale(0.997, 1.003); }
+  100% { transform: translateY(0) scale(1, 1); }
 }
-.sif-wake-lift {
-  animation: sif-wake-lift 1.5s cubic-bezier(0.36, 0.9, 0.32, 1) both;
-  transform-origin: 50% 90%;
+@keyframes sif-idle-bob {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-1.6px) scale(1.006, 0.995); }
 }
-/* single blink right after the eyes open */
-@keyframes sif-eye-blink {
-  0%, 86%, 100% { transform: scaleY(1); }
-  92% { transform: scaleY(0.08); }
+.sif-awake {
+  animation:
+    sif-rise 1.55s cubic-bezier(0.3, 0.9, 0.35, 1) 0.55s both,
+    sif-idle-bob 3.6s ease-in-out 2.45s infinite;
+  transform-origin: 50% 92%;
 }
-.sif-blink {
-  animation: sif-eye-blink 3.4s ease-in-out 1.6s both;
-  transform-origin: center;
+/* eyes: flutter open (open → half → full like real eyelids), then natural blinks */
+@keyframes sif-eye-flutter {
+  0% { transform: scaleY(0.06); }
+  34% { transform: scaleY(1); }
+  52% { transform: scaleY(0.5); }
+  70% { transform: scaleY(1); }
+  84% { transform: scaleY(0.85); }
+  100% { transform: scaleY(1); }
+}
+@keyframes sif-natural-blink {
+  0%, 88.5%, 94.5%, 100% { transform: scaleY(1); }
+  91.5% { transform: scaleY(0.06); }
+}
+.sif-eyes-open {
+  animation:
+    sif-eye-flutter 0.62s cubic-bezier(0.35, 0.1, 0.3, 1) 0.72s both,
+    sif-natural-blink 5.2s ease-in-out 2.6s infinite;
+  transform-origin: 50% 50%;
   transform-box: fill-box;
 }
-.sif-layer { transition: opacity 0.55s ease; }
-.sif-shadow { transition: fill 0.6s ease, opacity 0.6s ease; }
+.sif-eyes-closed {
+  transform: scaleY(0.06);
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+/* sparkles pop, twinkle and drift away */
+@keyframes sif-spark-pop {
+  0% { opacity: 0; transform: scale(0) rotate(0deg); }
+  35% { opacity: 1; transform: scale(1.25) rotate(40deg); }
+  60% { opacity: 0.95; transform: scale(0.95) rotate(65deg); }
+  100% { opacity: 0; transform: scale(0.35) rotate(90deg) translateY(-7px); }
+}
+.sif-spark {
+  animation: sif-spark-pop 1.05s ease-out both;
+}
+.sif-glow { animation: sif-glow-breathe 2.8s ease-in-out infinite; }
+@keyframes sif-glow-breathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.sif-shadow { transition: fill 0.9s ease; }
 
 /* ---------- Sign-in logo (faithful Y! + silver marble) ---------- */
 @keyframes wakepop {
@@ -1264,4 +1313,137 @@ body {
   transform-box: view-box;
   transform-origin: 142px 93px;
   animation: face-spin 1.05s cubic-bezier(0.34, 0.9, 0.3, 1) 1;
+}
+
+/* ==================================================================
+   Windows XP boot → welcome experience (genuine Luna look)
+   ================================================================== */
+/* the classic boot progress bar: 3 blue blocks gliding across */
+@keyframes xp-boot-slide {
+  0% { transform: translateX(-58px); }
+  100% { transform: translateX(206px); }
+}
+.xp-bootbar {
+  animation: xp-boot-slide 2.1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* welcome screen: deep Luna blue with the soft light swoosh */
+.xp-welcome {
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(190,215,255,0.28) 0%, rgba(190,215,255,0) 55%),
+    radial-gradient(140% 110% at 50% 0%, #2f6fd0 0%, #1b4fb4 42%, #123a96 75%, #0c2c7e 100%);
+  color: #fff;
+}
+.xp-welcome-band {
+  background: linear-gradient(180deg, #2a63c4 0%, #1d4dae 55%, #16419b 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 2px 8px rgba(0, 10, 50, 0.45);
+}
+.xp-welcome-tile {
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.xp-welcome-tile:hover {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 18px rgba(160, 200, 255, 0.35);
+}
+.xp-turnoff-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  background: radial-gradient(circle at 36% 30%, #ff8f6a 0%, #e8401c 55%, #b02708 100%);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+.xp-turnoff-dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  width: 2px;
+  height: 7px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: #fff;
+  box-shadow: 0 4.5px 0 0 #fff;
+}
+
+/* tray balloon tip (XP notification balloon) */
+@keyframes balloon-in {
+  0% { opacity: 0; transform: translateY(10px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.xp-balloon {
+  animation: balloon-in 0.35s cubic-bezier(0.3, 1.2, 0.5, 1) both;
+}
+
+/* quick-launch separator */
+.xp-ql-sep {
+  width: 3px;
+  height: 20px;
+  margin: 0 3px;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  border-right: 1px solid rgba(0, 0, 60, 0.35);
+}
+
+/* XP window caption buttons (simple windows like My Computer) */
+.xp-cap-btn {
+  width: 17px;
+  height: 15px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #8fb4f2 0%, #4a7ce0 50%, #3563c8 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 1px 1px rgba(0, 10, 60, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.xp-cap-btn:hover {
+  filter: brightness(1.18);
+}
+.xp-cap-btn.close {
+  background: linear-gradient(180deg, #f4a890 0%, #e05638 50%, #c33f22 100%);
+}
+
+/* ---------- Universal cinematic BUZZ layer (all IMVironments) ---------- */
+/* the world holds its breath: soft dark dip then recovery */
+@keyframes imv-cinema-dim-k {
+  0% { opacity: 0; }
+  10% { opacity: 0.55; }
+  38% { opacity: 0.22; }
+  100% { opacity: 0; }
+}
+.imv-cinema-dim {
+  background: radial-gradient(circle at 50% 55%, rgba(0, 0, 24, 0) 26%, rgba(0, 0, 24, 0.8) 100%);
+  mix-blend-mode: multiply;
+  animation: imv-cinema-dim-k 1.5s ease-out both;
+  pointer-events: none;
+}
+/* wide shockwave ripple rolling outward */
+@keyframes imv-shock-k {
+  0% { transform: scale(0.04); opacity: 0.95; }
+  55% { opacity: 0.45; }
+  100% { transform: scale(2.7); opacity: 0; }
+}
+.imv-shock {
+  width: 340px;
+  height: 340px;
+  margin: -170px 0 0 -170px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 0 26px rgba(255, 255, 255, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: imv-shock-k 1.55s cubic-bezier(0.18, 0.6, 0.3, 1) both;
+  pointer-events: none;
+}
+/* glinting motes swept outward by the shockwave */
+@keyframes imv-mote-k {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  14% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--mx, 60px)), calc(-50% + var(--my, 40px))) scale(0.15); opacity: 0; }
+}
+.imv-mote {
+  background: #fff;
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.95);
+  animation: imv-mote-k 1.15s ease-out both;
+  pointer-events: none;
 }

@@ -77,8 +77,8 @@ export default function SignInWindow(p: Props) {
     if (signing) return;
     setSigning(true);
     void playLoginOriginal(); // warm & play the original "yahoo_online" sound on this user gesture
-    /* let the wake-up animation play out before entering the desktop */
-    timer.current = window.setTimeout(p.onSignIn, 2600);
+    /* let the full wake choreography play out before entering the desktop */
+    timer.current = window.setTimeout(p.onSignIn, 3050);
   };
 
   const cancelSignIn = () => {
@@ -107,14 +107,15 @@ export default function SignInWindow(p: Props) {
     >
       <div className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-5 pb-3 overflow-y-auto ym-scroll">
         {/* ---- the beloved sleeper: big Y! mark with the round buddy, asleep
-             with floating Zzz until you hit Sign In — then it wakes up ---- */}
-        <div className={`relative mb-2 ${signing ? "animate-wake" : ""}`}>
+             with floating Zzz until you hit Sign In — then it wakes up through
+             a gradual, layered sequence (glow → warmth → eyes → grin) ---- */}
+        <div className="relative mb-2">
           {signing && (
             <div
               className="signin-glow absolute rounded-full"
               style={{
                 inset: "-14px",
-                background: "radial-gradient(closest-side, rgba(150,110,230,0.35), transparent)",
+                background: "radial-gradient(closest-side, rgba(255,205,80,0.4), rgba(255,190,60,0.12), transparent)",
               }}
             />
           )}

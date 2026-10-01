@@ -136,6 +136,47 @@ function Vignette({ strength = 0.16 }: { strength?: number }) {
   );
 }
 
+/* ---- Universal cinematic BUZZ layer ----------------------------------
+   Every IMVironment gets this under its own flourish: the world holds
+   its breath (a soft dark dip), a wide shockwave ripple rolls out from
+   the centre in two beats, and glinting motes lift and drift away.
+   Deterministic per-burst direction so SSR/CSR agree. ------------------ */
+function BuzzCinema({ seed = 1 }: { seed?: number }) {
+  const motes = Array.from({ length: 14 }).map((_, i) => {
+    const ang = (i / 14) * Math.PI * 2 + seed * 0.7 + i * 0.37;
+    const dist = 90 + ((i * 53 + seed * 29) % 70);
+    return {
+      mx: `${Math.cos(ang) * dist}px`,
+      my: `${Math.sin(ang) * dist * 0.62}px`,
+      delay: `${(i % 5) * 0.05}s`,
+      size: 3 + (i % 3),
+    };
+  });
+  return (
+    <>
+      {/* the light dips, then recovers — cinematic "hold your breath" beat */}
+      <div className="absolute inset-0 imv-cinema-dim" />
+      {/* twin shockwave ripples */}
+      <div className="imv-shock absolute left-1/2 top-1/2" />
+      <div className="imv-shock absolute left-1/2 top-1/2" style={{ animationDelay: "0.32s" }} />
+      {/* glinting motes swept outward */}
+      {motes.map((m, i) => (
+        <span
+          key={i}
+          className="imv-mote absolute left-1/2 top-1/2 rounded-full"
+          style={{
+            width: m.size,
+            height: m.size,
+            ["--mx" as string]: m.mx,
+            ["--my" as string]: m.my,
+            animationDelay: m.delay,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
 /* ==================================================================
    AQUARIUM — a coral reef kingdom: deep graded water, shimmering
    surface, god rays, moving light caustics, a schooling silverfish
@@ -383,6 +424,7 @@ function Aquarium({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: sonar rings + flash + startle + bubble eruption ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="absolute inset-0 imv-flash" style={{ animationDuration: "0.7s" }} />
           <div className="imv-ring absolute left-1/2 top-1/2" />
           <div className="imv-ring absolute left-1/2 top-1/2" style={{ animationDelay: "0.22s" }} />
@@ -723,6 +765,7 @@ function Beach({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: the towering wave ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="imv-bigwave absolute left-[-10%] right-[-10%] bottom-0" />
           {/* a racing foam shockwave across the sand */}
           <div className="imv-surfrise absolute left-[-50%] bottom-[6%] w-[200%] opacity-90" style={{ animationDuration: "1.4s" }}>
@@ -822,6 +865,7 @@ function Doodle({ buzz }: { buzz: number }) {
 
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 imv-boing">
             <svg width="120" height="86" viewBox="0 0 120 86">
               <path d="M28 44 q-6 -22 8 -30 M64 40 q-2 -24 14 -30 M46 58 q-10 -26 4 -34" fill="none" stroke="#e2574c" strokeWidth="7" strokeLinecap="round" />
@@ -1138,14 +1182,14 @@ function Fireworks({ buzz }: { buzz: number }) {
       ))}
 
       {/* looping bursts — chrysanthemums + a ring */}
-      {[
+      {([
         { x: 22, y: 16, c: 0, d: 0, s: 1, k: "mum" },
         { x: 60, y: 9, c: 1, d: 2.1, s: 0.8, k: "mum" },
         { x: 41, y: 24, c: 2, d: 4.2, s: 1.1, k: "willow" },
         { x: 79, y: 20, c: 3, d: 6.1, s: 0.9, k: "mum" },
         { x: 10, y: 30, c: 4, d: 7.9, s: 0.75, k: "ring" },
         { x: 90, y: 33, c: 5, d: 5.3, s: 0.7, k: "mum" },
-      ].map((f, i) => (
+      ] as const).map((f, i) => (
         <div key={i} className="absolute" style={{ left: `${f.x}%`, top: `${f.y}%`, transform: `scale(${f.s})` }}>
           <div className="imv-burst" style={{ animationDelay: `${-f.d}s` }}>
             <BurstSvg color={FW_COLORS[f.c]} seed={i} kind={f.k} />
@@ -1156,6 +1200,7 @@ function Fireworks({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: grand five-shell finale ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="absolute inset-0 imv-flash" />
           <div className="imv-ring-gold absolute left-1/2 top-[34%]" />
           {[
@@ -1375,6 +1420,7 @@ function Hearts({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: kiss stamps + heart explosion + rose flare ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="absolute inset-0 imv-roseflash" />
           <div className="imv-kiss absolute" style={{ left: "18%", top: "18%" }}>
             <BigKiss size={235} />
@@ -1516,6 +1562,7 @@ function Autumn({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: the whirlwind ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           <div className="imv-streak" style={{ top: "24%" }} />
           <div className="imv-streak" style={{ top: "58%", animationDelay: "0.12s" }} />
           {/* the leaf litter erupts */}
@@ -1676,6 +1723,7 @@ function Winter({ buzz }: { buzz: number }) {
       {/* ---- BUZZ: the blizzard ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
+          <BuzzCinema seed={buzz} />
           {/* the aurora flares */}
           <div className="imv-auroraflash absolute inset-0" />
           <div className="imv-streak-winter" style={{ top: "26%" }} />

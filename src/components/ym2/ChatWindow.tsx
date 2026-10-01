@@ -23,7 +23,7 @@ import {
   emojifyHtml,
 } from "./icons";
 import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
-import { playImvBuzz, playMessage, playSent } from "./sounds";
+import { playImvBuzz, playMessage, playSent, startImvAmbient, stopImvAmbient, currentImvAmbient } from "./sounds";
 import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
 
 interface Props {
@@ -82,6 +82,22 @@ export default function ChatWindow(p: Props) {
   useEffect(() => {
     pane.current?.scrollTo({ top: pane.current.scrollHeight });
   }, [messages]);
+
+  /* the active IMVironment's ambient bed: real field recordings (BBC archive)
+     that fade in when a scene opens, cross-switch with the scene, and fade
+     away when the scene leaves or the window closes */
+  useEffect(() => {
+    if (imv === "none") stopImvAmbient();
+    else startImvAmbient(imv);
+  }, [imv]);
+  useEffect(
+    () => () => {
+      /* only kill the bed if it is OURS (another window may be playing its own) */
+      if (currentImvAmbient() === imv && imv !== "none") stopImvAmbient();
+    },
+    /* empty deps on purpose: imv captured here is the one this window owned at unmount */
+    [],
+  );
 
   useEffect(
     () => () => {

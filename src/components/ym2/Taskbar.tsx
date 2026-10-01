@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { WinFlag, YahooSmiley, StatusDot } from "./icons";
+import { useEffect, useRef, useState } from "react";
+import { XpFlag } from "./XpBoot";
+import { YahooSmiley, StatusDot } from "./icons";
 import { ME } from "./data";
 
 export interface TaskItem {
@@ -16,67 +17,171 @@ interface Props {
   items: TaskItem[];
   flashing?: Record<string, boolean>;
   onTaskClick: (id: string) => void;
-  onSignOut: () => void;
   onShowContacts: () => void;
+  onLogOff: () => void;
+  onTurnOff: () => void;
+  onOpenMyComputer: () => void;
 }
 
-export default function Taskbar({ items, flashing = {}, onTaskClick, onSignOut, onShowContacts }: Props) {
+const ICO = (name: string, size = 32) => `/assets/xp/icons/${name}-${size}.png`;
+
+export default function Taskbar({ items, flashing = {}, onTaskClick, onShowContacts, onLogOff, onTurnOff, onOpenMyComputer }: Props) {
   const [now, setNow] = useState(new Date());
   const [startOpen, setStartOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 20000);
     return () => clearInterval(t);
   }, []);
 
+  /* close the start menu when clicking anywhere else */
+  useEffect(() => {
+    if (!startOpen) return;
+    const close = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setStartOpen(false);
+    };
+    window.addEventListener("mousedown", close);
+    return () => window.removeEventListener("mousedown", close);
+  }, [startOpen]);
+
   const time = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   return (
     <div className="xp-taskbar absolute bottom-0 left-0 right-0 h-[34px] flex items-stretch z-[9000] text-white select-none">
+      {/* Start button — green pill with the flying flag */}
       <button
-        className="xp-start flex items-center gap-1.5 px-3 font-bold italic text-[15px] relative"
+        className="xp-start flex items-end gap-1 pl-2.5 pr-3 pb-[5px] font-bold italic text-[15px] relative"
         onClick={() => setStartOpen((v) => !v)}
       >
-        <WinFlag />
-        <span className="text-[15px] tracking-wide" style={{ fontFamily: "'Trebuchet MS', Tahoma, sans-serif", fontStyle: "italic", fontWeight: 700 }}>
+        <XpFlag size={19} />
+        <span
+          className="text-[15.5px]"
+          style={{ fontFamily: "'Franklin Gothic Medium', 'Trebuchet MS', Tahoma, sans-serif", fontStyle: "italic", fontWeight: 700, textShadow: "0 1px 2px rgba(0,40,0,0.7)" }}
+        >
           start
         </span>
       </button>
 
+      {/* Quick Launch */}
+      <div className="flex items-center px-2 gap-1.5">
+        <span className="xp-ql-sep" />
+        <button className="hover:brightness-125" title="Launch Internet Explorer Browser">
+          <img src={ICO("ie", 48)} alt="IE" className="w-[17px] h-[17px]" draggable={false} />
+        </button>
+        <button className="hover:brightness-125" title="Show Desktop">
+          <svg width="16" height="16" viewBox="0 0 16 16">
+            <rect x="1.5" y="2.5" width="13" height="9.5" rx="1" fill="#7ba7e8" stroke="#eef3fc" strokeWidth="1.2" />
+            <path d="M4 14.5 h8" stroke="#eef3fc" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        </button>
+        <span className="xp-ql-sep" />
+      </div>
+
+      {/* the authentic two-column Luna start menu */}
       {startOpen && (
-        <div className="animate-pop absolute bottom-[34px] left-0 w-[230px] bg-[#3b7ce6] border border-[#1c4fae] rounded-t-lg shadow-2xl overflow-hidden z-50">
-          <div className="bg-gradient-to-b from-[#4a6fd8] to-[#2a4cb8] px-3 py-2.5 flex items-center gap-2 border-b border-[#1c3f9e]">
-            <div className="w-9 h-9 rounded border-2 border-white/70 overflow-hidden bg-white">
-              <img src={ME.avatar} alt="" className="w-full h-full object-cover" />
+        <div ref={menuRef} className="animate-pop absolute bottom-[33px] left-0 z-50" style={{ width: 396 }}>
+          {/* header with user tile */}
+          <div
+            className="flex items-center gap-2.5 px-3 py-2 rounded-t-[8px]"
+            style={{
+              background: "linear-gradient(180deg, #2f71d8 0%, #1e56c8 60%, #1a4cb8 100%)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
+              borderBottom: "2px solid #e88c00",
+            }}
+          >
+            <span className="w-[42px] h-[42px] rounded-[4px] bg-white p-[2px] inline-flex shadow">
+              <img src={ME.avatar} alt="" className="w-full h-full rounded-[2px] object-cover" />
+            </span>
+            <span className="font-bold text-[15px]" style={{ textShadow: "0 1px 2px rgba(0,10,60,0.7)" }}>
+              {ME.name}
+            </span>
+          </div>
+
+          <div className="flex" style={{ boxShadow: "0 -2px 14px rgba(0,10,60,0.5)" }}>
+            {/* left column — pinned + programs */}
+            <div className="w-[196px] bg-white py-1.5 px-1 flex flex-col text-[#1a1a1a]">
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); }}>
+                <img src={ICO("ie", 48)} alt="" className="w-[26px] h-[26px]" draggable={false} />
+                <span className="leading-tight">
+                  <span className="block text-[12px] font-bold">Internet</span>
+                  <span className="block text-[10.5px] text-[#555]">Internet Explorer</span>
+                </span>
+              </button>
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onShowContacts(); }}>
+                <YahooSmiley size={26} />
+                <span className="leading-tight">
+                  <span className="block text-[12px] font-bold">E-mail</span>
+                  <span className="block text-[10.5px] text-[#555]">Yahoo! Messenger</span>
+                </span>
+              </button>
+              <div className="h-[1px] bg-[#c8d4e8] my-1 mx-2" />
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onShowContacts(); }}>
+                <YahooSmiley size={22} />
+                <span className="text-[12px]">Yahoo! Messenger</span>
+              </button>
+              <div className="flex-1" />
+              <div className="h-[1px] bg-[#c8d4e8] my-1 mx-2" />
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onOpenMyComputer(); }}>
+                <img src={ICO("my-computer", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                <span className="text-[12px] font-bold">My Computer</span>
+              </button>
             </div>
-            <span className="font-bold text-[13px]" style={{ textShadow: "0 1px 2px rgba(0,0,30,0.6)" }}>{ME.name}</span>
-          </div>
-          <div className="py-1 bg-white/10">
-            <button
-              className="w-full text-left px-4 py-1.5 hover:bg-white/25 flex items-center gap-2 text-[12px]"
-              onClick={() => {
-                setStartOpen(false);
-                onShowContacts();
-              }}
+
+            {/* right column — places */}
+            <div
+              className="w-[200px] py-1.5 px-1 flex flex-col text-[#12233f]"
+              style={{ background: "linear-gradient(180deg, #d3e5fa 0%, #c4dcf8 100%)" }}
             >
-              <YahooSmiley size={15} /> Yahoo! Messenger
-            </button>
-            <button
-              className="w-full text-left px-4 py-1.5 hover:bg-white/25 text-[12px]"
-              onClick={() => {
-                setStartOpen(false);
-                onSignOut();
-              }}
-            >
-              Sign Out...
-            </button>
+              {([
+                ["my-docs", "My Documents"],
+                ["my-pictures", "My Pictures"],
+                ["my-music", "My Music"],
+                ["my-computer", "My Computer"],
+              ] as const).map(([ic, label]) => (
+                <button key={ic} className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); if (ic === "my-computer") onOpenMyComputer(); }}>
+                  <img src={ICO(ic, 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                  <span className="text-[12px] font-bold">{label}</span>
+                </button>
+              ))}
+              <div className="h-[1px] bg-[#a8c4e8] my-1 mx-2" />
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => setStartOpen(false)}>
+                <img src={ICO("control-panel", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                <span className="text-[12px]">Control Panel</span>
+              </button>
+              <div className="h-[1px] bg-[#a8c4e8] my-1 mx-2" />
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => setStartOpen(false)}>
+                <img src={ICO("help", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                <span className="text-[12px]">Help and Support</span>
+              </button>
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => setStartOpen(false)}>
+                <img src={ICO("search", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                <span className="text-[12px]">Search</span>
+              </button>
+            </div>
           </div>
-          <div className="bg-gradient-to-b from-[#2a66d6] to-[#1e56c0] px-4 py-2 text-[11px] italic text-white/80">
-            It&apos;s Friday almost. Hang in there.
+
+          {/* footer strip: log off + turn off */}
+          <div
+            className="flex items-center justify-end gap-4 px-4 py-[7px] rounded-b-[8px]"
+            style={{
+              background: "linear-gradient(180deg, #2f71d8 0%, #1e56c8 60%, #1a4cb8 100%)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)",
+            }}
+          >
+            <button className="flex items-center gap-1.5 text-white text-[12px] hover:underline" onClick={() => { setStartOpen(false); onLogOff(); }}>
+              <img src={ICO("user", 48)} alt="" className="w-[18px] h-[18px]" draggable={false} />
+              Log Off
+            </button>
+            <button className="flex items-center gap-1.5 text-white text-[12px] hover:underline" onClick={() => { setStartOpen(false); onTurnOff(); }}>
+              <img src={ICO("turnoff", 48)} alt="" className="w-[18px] h-[18px]" draggable={false} />
+              Turn Off Computer
+            </button>
           </div>
         </div>
       )}
 
+      {/* task buttons */}
       <div className="flex-1 flex items-center gap-1 px-1.5 overflow-hidden">
         {items.map((it) => (
           <button
@@ -92,6 +197,7 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onSignOut, 
         ))}
       </div>
 
+      {/* tray */}
       <div className="xp-tray flex items-center gap-2 px-3 text-[11.5px]">
         <svg width="14" height="14" viewBox="0 0 14 14">
           <path d="M2 5.5 h2 l3-3 v9 l-3-3 h-2 z" fill="#fff" />

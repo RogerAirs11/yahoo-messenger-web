@@ -288,13 +288,13 @@ export function playWind() {
    ================================================================== */
 
 const IMV_WAV: Record<string, string> = {
-  aquarium: "aquarium_buzz.wav", // sonar ping + bubbles
-  fireworks: "fireworks_buzz.wav", // mortar + whistle + boom + crackle
-  hearts: "hearts_buzz.wav", // harp gliss + smack + heartbeat
-  winter: "winter_buzz.wav", // arctic wind + sleigh bells
-  autumn: "autumn_buzz.wav", // gust + leaf rustle
-  beach: "beach_buzz.wav", // breaking wave + seagulls
-  doodle: "doodle_buzz.wav", // boing + pencil scribble
+  aquarium: "aquarium_buzz.mp3", // REAL sonar ping w/ echo
+  fireworks: "fireworks_buzz.mp3", // REAL firework salvo
+  hearts: "hearts_buzz.mp3", // REAL kiss
+  winter: "winter_buzz.mp3", // REAL sleigh bells
+  autumn: "autumn_buzz.mp3", // REAL crunching leaves
+  beach: "beach_buzz.mp3", // REAL large splash
+  doodle: "doodle_buzz.mp3", // REAL jews-harp boing
 };
 
 /** Play the IMVironment-specific buzz sound (falls back to a synth). */
@@ -305,4 +305,106 @@ export function playImvBuzz(imv: string) {
     return;
   }
   playWav(`imv/${f}`, synthBuzz, 0.95);
+}
+
+/* ==================================================================
+   GENUINE Windows XP system sounds (C:\WINDOWS\Media), archived by
+   the community and served locally. Used for the boot → welcome →
+   desktop experience and system events.
+   ================================================================== */
+
+export function playXpStartup() {
+  playWav("xp/xp_startup.wav", () => {}, 0.85);
+}
+
+export function playXpShutdown() {
+  playWav("xp/xp_shutdown.wav", () => {}, 0.8);
+}
+
+export function playXpLogoff() {
+  playWav("xp/xp_logoff.wav", () => {}, 0.75);
+}
+
+export function playXpBalloon() {
+  playWav("xp/xp_balloon.wav", () => {}, 0.7);
+}
+
+export function playXpRecycle() {
+  playWav("xp/xp_recycle.wav", () => {}, 0.7);
+}
+
+export function playXpError() {
+  playWav("xp/xp_error.wav", () => {}, 0.7);
+}
+
+/* ==================================================================
+   IMVironment AMBIENT beds — REAL field recordings (BBC Sound
+   Effects archive, sound-effects.bbcrewind.co.uk), trimmed into
+   gentle loops that play while an IMVironment is the active scene.
+   ================================================================== */
+
+const IMV_AMBIENT: Record<string, { file: string; vol: number }> = {
+  aquarium: { file: "aquarium_ambient.mp3", vol: 0.16 }, // underwater bubbles
+  beach: { file: "beach_ambient.mp3", vol: 0.2 }, // seawash + seagulls
+  winter: { file: "winter_ambient.mp3", vol: 0.2 }, // howling arctic wind
+  autumn: { file: "autumn_ambient.mp3", vol: 0.18 }, // gusts + rustling leaves
+};
+
+let ambientAudio: HTMLAudioElement | null = null;
+let ambientKey: string | null = null;
+
+/** Start (or cross-switch) the ambient bed for an IMVironment scene. */
+export function startImvAmbient(imv: string) {
+  const conf = IMV_AMBIENT[imv];
+  if (!conf) {
+    stopImvAmbient();
+    return;
+  }
+  if (ambientKey === imv && ambientAudio) return;
+  stopImvAmbient();
+  try {
+    const a = new Audio(`${S}/imv/${conf.file}`);
+    a.loop = true;
+    a.volume = 0;
+    a.play().then(() => {
+      // gentle fade-in
+      const t0 = performance.now();
+      const step = (t: number) => {
+        const p = Math.min(1, (t - t0) / 900);
+        a.volume = conf.vol * p;
+        if (p < 1 && ambientAudio === a) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }).catch(() => {});
+    ambientAudio = a;
+    ambientKey = imv;
+  } catch {
+    /* audio unavailable */
+  }
+}
+
+/** Which IMVironment's ambient bed is currently playing (if any). */
+export function currentImvAmbient(): string | null {
+  return ambientKey;
+}
+
+/** Fade out and stop any playing ambient bed. */
+export function stopImvAmbient() {
+  const a = ambientAudio;
+  ambientAudio = null;
+  ambientKey = null;
+  if (!a) return;
+  try {
+    const v = a.volume;
+    const t0 = performance.now();
+    const step = (t: number) => {
+      const p = Math.min(1, (t - t0) / 450);
+      a.volume = v * (1 - p);
+      if (p < 1) requestAnimationFrame(step);
+      else a.pause();
+    };
+    requestAnimationFrame(step);
+  } catch {
+    try { a.pause(); } catch { /* noop */ }
+  }
 }
