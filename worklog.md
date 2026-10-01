@@ -45,3 +45,32 @@ Stage Summary:
 - ChunkLoadError resolved: stale Turbopack chunk state + missing allowedDevOrigins; server now auto-restarted with fresh chunk graph and preview domain whitelisted
 - User may need one hard refresh (Ctrl+Shift+R) on the preview tab to pick up fresh HTML
 - GitHub remains source of truth at commit 9fdebf3
+
+---
+Task ID: 3
+Agent: Super Z (main)
+Task: Port the other agent's YM replica (user-uploaded zip, commit 7286b59) into our Next.js app, upgraded with our local real assets
+
+Work Log:
+- Pulled origin/main; extracted yahoo-messenger-ui-replica.zip to reference/other-agent/ and studied all 13 files line-by-line
+- Downloaded the ORIGINAL Yahoo Messenger sound pack (wink.messengergeek.com 2009 zip) -> public/assets/sounds/: real buzz.wav, message.wav, yahoo_online.wav, alert.wav, default_ring.wav, ringback.wav, resume.wav
+- Rebuilt app as src/components/ym2/ (10 files), porting their proven UI 1:1, adapted to Next.js "use client":
+  - globals.css replaced with their design system: layered purple texture (strings/dots/blooms), cream interior #f1f0e3, Bitter wordmark font, lavender scrollbars, XP taskbar styles, all animations (buzz-shake, ticker, cloud-drift, breathe/zzz/wake-lift, IMV hearts/leaves/kiss/gust)
+  - icons.tsx: their full SVG icon set + animated SignInFace (sleeping grey -> awake yellow) + EMO rebuilt from OUR 118 local GIFs with official codes, sorted longest-first (fixes :(( vs :( matching bug); Emoticon renders local /assets/emoticons
+  - WindowFrame: drag/resize (e/s/se + grip), maximize, focused dimming, menu system
+  - SignInWindow: wake animation on sign-in (2.7s), "Signing in as" state, Cancel
+  - ContactListWindow: Sarah Bacon header + status menu (8 kinds) + custom msg w/ history, purple search band, collapsible Friends/Offline groups, badges (crown/trophy/music/mobile), Add a Contact/Plug-ins, Y! WEB SEARCH footer
+  - ChatWindow: call toolbar, status strip, message pane w/ IMVironments BEHIND text (Luv pink hearts/kiss-stamps, Autumn leaves/gusts), friend+me photo sidebar w/ collapse pill, audibles panel w/ category tabs + hover-preview + plays-with-sound, format bar (B/I/U/font/size via execCommand + selectionchange sync), emoticon picker (118 GIFs), contentEditable input, BUZZ (shake / kiss / gust per IMV), news ticker
+  - Taskbar: start menu, per-window task buttons w/ orange flash on new IM, tray clock
+  - YmApp: window manager w/ z-order, in-place signin->buddlist morph transition, CSS Bliss wallpaper (sky/hills/drifting clouds), desktop icons
+  - sounds.ts: original WAVs local-first w/ WebAudio synth fallbacks (buzz doorbell, knock, sent tick, login jingle, logout creak, kiss, wind)
+  - data.ts: 18-contact roster (local avatars incl. 2 cartoon Yahoo-avatars), FULL 114-clip audible catalog (13 categories, hand-written captions), seeds (ladypersia greeting spam, horace buzz war), auto-replies, news headlines
+- page.tsx -> <YmApp/>; layout.tsx + Bitter font links; deleted old src/components/ym/ + src/lib/ym/
+- DEBUGGED Tailwind v4: string-form postcss plugin silently no-oped under Turbopack (14KB CSS, no utilities) -> object form { "@tailwindcss/postcss": {} } works (114KB, @layer utilities present); removed Bitter @import from CSS (must precede rules; font loads via <link> in layout); forced rebuild via next.config touch (graceful auto-restart)
+- Removed nonexistent yin-yang.gif EMO entry (only missing file of 119)
+- Browser-verified: login render, wake animation, morph to buddy list, open chat via Actions menu, send msg w/ :D -> real GIF, auto-reply, audibles panel w/ local video thumbs, BUZZ!!! red + shake, Luv IMV (pink pane + hearts + kiss stamp), emoticon picker grid, taskbar buttons; dev.log zero compile errors, zero 404s
+
+Stage Summary:
+- App now matches the reference implementation's look AND keeps our advantages: 100% local assets (no CDN/proxy flakiness), 114 vs 35 audibles, 118 vs ~80 emoticons, genuine original WAV sounds served locally
+- Known good commit to follow; reference/other-agent/ kept for provenance
+- Tailwind v4 gotcha for future turns: postcss plugins MUST use object form under Turbopack in this sandbox

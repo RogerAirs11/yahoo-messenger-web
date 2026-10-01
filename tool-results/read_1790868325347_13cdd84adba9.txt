@@ -1,0 +1,830 @@
+     1→     1→import React, { useEffect, useRef, useState } from "react";
+     2→     2→import WindowFrame, { MenuDef } from "./WindowFrame";
+     3→     3→import {
+     4→     4→  BigKiss,
+     5→     5→  Emoticon,
+     6→     6→  EMO,
+     7→     7→  GlossyHeart,
+     8→     8→  HeartGlyph,
+     9→     9→  IconBubble,
+    10→    10→  IconBuzz,
+    11→    11→  IconChevron,
+    12→    12→  IconClip,
+    13→    13→  IconGearFlower,
+    14→    14→  IconImviron,
+    15→    15→  IconInvite,
+    16→    16→  IconKnight,
+    17→    17→  IconMic,
+    18→    18→  IconPhotos,
+    19→    19→  IconSmileySmall,
+    20→    20→  IconVideoCam,
+    21→    21→  LeafGlyph,
+    22→    22→  StatusDot,
+    23→    23→  WhiteFace,
+    24→    24→  emojify,
+    25→    25→  emojifyHtml,
+    26→    26→} from "./icons";
+    27→    27→import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "../data/contacts";
+    28→    28→import { playBuzz, playKiss, playMessage, playSent, playWind } from "../utils/sounds";
+    29→    29→
+    30→    30→interface Props {
+    31→    31→  contact: Contact;
+    32→    32→  seed: ChatMessage[];
+    33→    33→  x: number;
+    34→    34→  y: number;
+    35→    35→  z: number;
+    36→    36→  focused: boolean;
+    37→    37→  maximized?: boolean;
+    38→    38→  buzzSignal?: number;
+    39→    39→  onNotify?: () => void;
+    40→    40→  width: number;
+    41→    41→  height: number;
+    42→    42→  onMove: (x: number, y: number) => void;
+    43→    43→  onResize: (w: number, h: number) => void;
+    44→    44→  onFocus: () => void;
+    45→    45→  onClose: () => void;
+    46→    46→  onMinimize: () => void;
+    47→    47→  onToggleMax: () => void;
+    48→    48→}
+    49→    49→
+    50→    50→const FONTS = ["Arial", "Verdana", "Tahoma", "Comic Sans MS", "Times New Roman", "Courier New", "Georgia"];
+    51→    51→const SIZES = [8, 10, 12, 14, 18, 24, 36];
+    52→    52→/* YM's "10" point option renders at ~13px on screen */
+    53→    53→const SIZE_PX: Record<number, number> = { 8: 11, 10: 13, 12: 15, 14: 17, 18: 22, 24: 28, 36: 40 };
+    54→    54→const DEFAULT_FONT = "Arial";
+    55→    55→const DEFAULT_SIZE = 10;
+    56→    56→
+    57→    57→
+    58→    58→
+    59→    59→export default function ChatWindow(p: Props) {
+    60→    60→  const [messages, setMessages] = useState<ChatMessage[]>(p.seed);
+    61→    61→  const [canSend, setCanSend] = useState(false);
+    62→    62→  const [pickerOpen, setPickerOpen] = useState(false);
+    63→    63→  const [sidebar, setSidebar] = useState(true);
+    64→    64→  const [formatOpen, setFormatOpen] = useState(false);
+    65→    65→  const [audiblesOpen, setAudiblesOpen] = useState(false);
+    66→    66→  const [audibleCat, setAudibleCat] = useState(AUDIBLE_CATEGORIES[0].id);
+    67→    67→  const [catMenuOpen, setCatMenuOpen] = useState(false);
+    68→    68→  const [selAudible, setSelAudible] = useState<string | null>(null);
+    69→    69→  const [imv, setImv] = useState<"none" | "luv" | "autumn">("none");
+    70→    70→  const [imvMenu, setImvMenu] = useState(false);
+    71→    71→  const [gust, setGust] = useState(0);
+    72→    72→  const [kisses, setKisses] = useState<number[]>([]);
+    73→    73→  const [shake, setShake] = useState(false);
+    74→    74→  const [font, setFont] = useState("Arial");
+    75→    75→  const [fsize, setFsize] = useState(10);
+    76→    76→  const [bold, setBold] = useState(false);
+    77→    77→  const [italic, setItalic] = useState(false);
+    78→    78→  const [underline, setUnderline] = useState(false);
+    79→    79→  const editor = useRef<HTMLDivElement>(null);
+    80→    80→  const pane = useRef<HTMLDivElement>(null);
+    81→    81→  const replyTimer = useRef<number | null>(null);
+    82→    82→
+    83→    83→  useEffect(() => {
+    84→    84→    pane.current?.scrollTo({ top: pane.current.scrollHeight });
+    85→    85→  }, [messages]);
+    86→    86→
+    87→    87→  useEffect(() => () => {
+    88→    88→    if (replyTimer.current) window.clearTimeout(replyTimer.current);
+    89→    89→  }, []);
+    90→    90→
+    91→    91→  const push = (m: ChatMessage) => setMessages((prev) => [...prev, m]);
+    92→    92→
+    93→    93→  const doBuzz = () => {
+    94→    94→    if (imv === "luv") {
+    95→    95→      const id = Date.now();
+    96→    96→      setKisses((k) => [...k, id]);
+    97→    97→      window.setTimeout(() => setKisses((k) => k.filter((x) => x !== id)), 3400);
+    98→    98→      playKiss();
+    99→    99→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   100→   100→      return;
+   101→   101→    }
+   102→   102→    if (imv === "autumn") {
+   103→   103→      setGust((g) => g + 1);
+   104→   104→      playWind();
+   105→   105→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   106→   106→      return;
+   107→   107→    }
+   108→   108→    setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   109→   109→    setShake(true);
+   110→   110→    playBuzz();
+   111→   111→    window.setTimeout(() => setShake(false), 620);
+   112→   112→  };
+   113→   113→
+   114→   114→  const firstBuzz = useRef(true);
+   115→   115→  useEffect(() => {
+   116→   116→    if (firstBuzz.current) {
+   117→   117→      firstBuzz.current = false;
+   118→   118→      return;
+   119→   119→    }
+   120→   120→    doBuzz();
+   121→   121→    // eslint-disable-next-line react-hooks/exhaustive-deps
+   122→   122→  }, [p.buzzSignal]);
+   123→   123→
+   124→   124→  /* keep B/I/U button state in sync with the caret selection */
+   125→   125→  useEffect(() => {
+   126→   126→    const sync = () => {
+   127→   127→      const el = editor.current;
+   128→   128→      const sel = document.getSelection();
+   129→   129→      if (!el || !sel || !sel.anchorNode || !el.contains(sel.anchorNode)) return;
+   130→   130→      try {
+   131→   131→        setBold(document.queryCommandState("bold"));
+   132→   132→        setItalic(document.queryCommandState("italic"));
+   133→   133→        setUnderline(document.queryCommandState("underline"));
+   134→   134→      } catch {
+   135→   135→        /* noop */
+   136→   136→      }
+   137→   137→    };
+   138→   138→    document.addEventListener("selectionchange", sync);
+   139→   139→    return () => document.removeEventListener("selectionchange", sync);
+   140→   140→  }, []);
+   141→   141→
+   142→   142→  const applyFont = (f: string) => {
+   143→   143→    setFont(f);
+   144→   144→    const el = editor.current;
+   145→   145→    if (!el) return;
+   146→   146→    el.style.fontFamily = f;
+   147→   147→    el.focus();
+   148→   148→    document.execCommand("fontName", false, f);
+   149→   149→  };
+   150→   150→
+   151→   151→  const applySize = (s: number) => {
+   152→   152→    setFsize(s);
+   153→   153→    const el = editor.current;
+   154→   154→    if (!el) return;
+   155→   155→    el.style.fontSize = `${SIZE_PX[s] ?? 13}px`;
+   156→   156→    el.focus();
+   157→   157→    const legacy = SIZES.indexOf(s);
+   158→   158→    if (legacy > 0) document.execCommand("fontSize", false, String(legacy));
+   159→   159→  };
+   160→   160→
+   161→   161→  const toggle = (cmd: string) => {
+   162→   162→    editor.current?.focus();
+   163→   163→    document.execCommand(cmd, false);
+   164→   164→    try {
+   165→   165→      setBold(document.queryCommandState("bold"));
+   166→   166→      setItalic(document.queryCommandState("italic"));
+   167→   167→      setUnderline(document.queryCommandState("underline"));
+   168→   168→    } catch {
+   169→   169→      /* noop */
+   170→   170→    }
+   171→   171→  };
+   172→   172→
+   173→   173→  const send = () => {
+   174→   174→    const el = editor.current;
+   175→   175→    if (!el || !el.textContent?.trim()) return;
+   176→   176→    const inner = emojifyHtml(el.innerHTML);
+   177→   177→    /* default settings render exactly like incoming messages (Arial @13px) */
+   178→   178→    const custom = font !== DEFAULT_FONT || fsize !== DEFAULT_SIZE;
+   179→   179→    push({
+   180→   180→      from: "me",
+   181→   181→      html: custom ? `<span style="font-family:${font};font-size:${SIZE_PX[fsize] ?? 13}px">${inner}</span>` : inner,
+   182→   182→    });
+   183→   183→    playSent();
+   184→   184→    el.innerHTML = "";
+   185→   185→    el.style.fontFamily = font;
+   186→   186→    el.style.fontSize = `${SIZE_PX[fsize] ?? 13}px`;
+   187→   187→    setCanSend(false);
+   188→   188→    el.focus();
+   189→   189→    if (replyTimer.current) window.clearTimeout(replyTimer.current);
+   190→   190→    replyTimer.current = window.setTimeout(() => {
+   191→   191→      const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+   192→   192→      setMessages((prev) => [...prev, { from: "them", text: reply }]);
+   193→   193→      playMessage();
+   194→   194→      p.onNotify?.();
+   195→   195→    }, 1100 + Math.random() * 1600);
+   196→   196→  };
+   197→   197→
+   198→   198→  const insertEmoticon = (code: string) => {
+   199→   199→    editor.current?.focus();
+   200→   200→    document.execCommand("insertText", false, code + " ");
+   201→   201→    setPickerOpen(false);
+   202→   202→    setCanSend(true);
+   203→   203→  };
+   204→   204→
+   205→   205→  const menus: MenuDef[] = [
+   206→   206→    {
+   207→   207→      label: "Conversation",
+   208→   208→      items: [
+   209→   209→        { label: "Send", onClick: send },
+   210→   210→        { label: "Send a BUZZ!!!", onClick: doBuzz },
+   211→   211→        { sep: true },
+   212→   212→        { label: "Invite to Conference...", onClick: () => {} },
+   213→   213→        { sep: true },
+   214→   214→        { label: "Close", onClick: p.onClose },
+   215→   215→      ],
+   216→   216→    },
+   217→   217→    {
+   218→   218→      label: "Edit",
+   219→   219→      items: [
+   220→   220→        { label: "Bold", onClick: () => toggle("bold") },
+   221→   221→        { label: "Italic", onClick: () => toggle("italic") },
+   222→   222→        { label: "Underline", onClick: () => toggle("underline") },
+   223→   223→        { sep: true },
+   224→   224→        { label: "Select All", onClick: () => editor.current?.focus() },
+   225→   225→      ],
+   226→   226→    },
+   227→   227→    {
+   228→   228→      label: "View",
+   229→   229→      items: [
+   230→   230→        { label: "Show Contact Sidebar", checked: sidebar, onClick: () => setSidebar((v) => !v) },
+   231→   231→        { label: "Text Formatting Bar", checked: formatOpen, onClick: () => setFormatOpen((v) => !v) },
+   232→   232→        { label: "News Ticker", checked: true, onClick: () => {} },
+   233→   233→      ],
+   234→   234→    },
+   235→   235→    {
+   236→   236→      label: "Actions",
+   237→   237→      items: [
+   238→   238→        { label: "Video Call", onClick: () => {} },
+   239→   239→        { label: "Voice Call", onClick: () => {} },
+   240→   240→        { sep: true },
+   241→   241→        { label: "Send File...", onClick: () => {} },
+   242→   242→        { label: "Share Photos...", onClick: () => {} },
+   243→   243→      ],
+   244→   244→    },
+   245→   245→    {
+   246→   246→      label: "Help",
+   247→   247→      items: [{ label: "About Yahoo! Messenger", onClick: () => {} }],
+   248→   248→    },
+   249→   249→  ];
+   250→   250→
+   251→   251→  const tickerText = NEWS_TICKER.join("   •   ");
+   252→   252→
+   253→   253→  return (
+   254→   254→    <WindowFrame
+   255→   255→      title={p.contact.name}
+   256→   256→      icon={<StatusDot status={p.contact.status} />}
+   257→   257→      x={p.x}
+   258→   258→      y={p.y}
+   259→   259→      width={p.width}
+   260→   260→      height={p.height}
+   261→   261→      minW={450}
+   262→   262→      minH={420}
+   263→   263→      onResize={p.onResize}
+   264→   264→      z={p.z}
+   265→   265→      focused={p.focused}
+   266→   266→      maximized={p.maximized}
+   267→   267→      shaking={shake}
+   268→   268→      menus={menus}
+   269→   269→      onMove={p.onMove}
+   270→   270→      onFocus={p.onFocus}
+   271→   271→      onClose={p.onClose}
+   272→   272→      onMinimize={p.onMinimize}
+   273→   273→      onToggleMax={p.onToggleMax}
+   274→   274→    >
+   275→   275→      {/* ---- Call toolbar ---- */}
+   276→   276→      <div className="bg-[#f4f3ea] border-b border-[#d8d5c5] px-2 py-1.5 flex items-start">
+   277→   277→        <ToolBtn icon={<IconVideoCam />} label="Video Call" />
+   278→   278→        <ToolBtn icon={<IconMic />} label="Voice Call" caret />
+   279→   279→        <div className="flex-1" />
+   280→   280→        <div className="relative">
+   281→   281→          <div className={imvMenu ? "[&>button]:bg-[#ddd0f2]" : ""}>
+   282→   282→            <ToolBtn icon={<IconImviron />} label="IMVironments" caret onClick={() => setImvMenu((v) => !v)} active={imv !== "none"} />
+   283→   283→          </div>
+   284→   284→          {imvMenu && (
+   285→   285→            <div className="animate-pop absolute right-0 top-full mt-[2px] w-[168px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
+   286→   286→              {(
+   287→   287→                [
+   288→   288→                  { id: "none", label: "None", icon: null },
+   289→   289→                  { id: "luv", label: "Luv", icon: <HeartGlyph size={13} /> },
+   290→   290→                  { id: "autumn", label: "Autumn", icon: <LeafGlyph size={13} /> },
+   291→   291→                ] as const
+   292→   292→              ).map((o) => (
+   293→   293→                <button
+   294→   294→                  key={o.id}
+   295→   295→                  className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
+   296→   296→                  onClick={() => {
+   297→   297→                    setImv(o.id);
+   298→   298→                    setImvMenu(false);
+   299→   299→                  }}
+   300→   300→                >
+   301→   301→                  <span className="w-[14px] flex justify-center">{o.icon}</span>
+   302→   302→                  {imv === o.id ? "✓ " : ""}
+   303→   303→                  {o.label}
+   304→   304→                </button>
+   305→   305→              ))}
+   306→   306→            </div>
+   307→   307→          )}
+   308→   308→        </div>
+   309→   309→        <ToolBtn icon={<IconKnight />} label="Activities" caret />
+   310→   310→        <ToolBtn icon={<IconPhotos />} label="Photos" />
+   311→   311→      </div>
+   312→   312→
+   313→   313→      {/* ---- Status strip ---- */}
+   314→   314→      <div className="bg-[#f1f0e3] px-3 py-1 flex items-center gap-1.5 text-[11px] text-[#777] border-b border-[#e0ddcd]">
+   315→   315→        <StatusDot status={p.contact.status} />
+   316→   316→        <span>
+   317→   317→          {p.contact.status === "available" ? "Available" : p.contact.statusText ?? "Away"}
+   318→   318→          {p.contact.customMsg ? ` — ${p.contact.customMsg}` : ""}
+   319→   319→        </span>
+   320→   320→      </div>
+   321→   321→
+   322→   322→      {/* ---- Messages + sidebar ---- */}
+   323→   323→      <div className="flex-1 min-h-0 flex bg-[#f1f0e3] p-1.5 gap-1.5">
+   324→   324→        <div
+   325→   325→          className="relative flex-1 min-h-0 border border-[#a9a595]"
+   326→   326→          style={{
+   327→   327→            background:
+   328→   328→              imv === "luv"
+   329→   329→                ? "linear-gradient(180deg, #ffdce7 0%, #ffcbdb 55%, #ffc2d4 100%)"
+   330→   330→                : imv === "autumn"
+   331→   331→                ? "linear-gradient(180deg, #fdf7ea 0%, #f8ecd2 55%, #f5e3bd 100%)"
+   332→   332→                : "#fff",
+   333→   333→            boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.08)",
+   334→   334→          }}
+   335→   335→        >
+   336→   336→          {/* IMVironment ambience — lives BEHIND the message text */}
+   337→   337→          {imv !== "none" && (
+   338→   338→            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+   339→   339→              {imv === "luv" && (
+   340→   340→                <>
+   341→   341→                  {/* glossy watermark heart, gently breathing */}
+   342→   342→                  <div className="absolute inset-0 flex items-center justify-center">
+   343→   343→                    <div className="imv-heartbeat">
+   344→   344→                      <GlossyHeart size={Math.min(230, 200)} />
+   345→   345→                    </div>
+   346→   346→                  </div>
+   347→   347→                  {/* drifting little hearts */}
+   348→   348→                  {Array.from({ length: 8 }).map((_, i) => (
+   349→   349→                    <span
+   350→   350→                      key={i}
+   351→   351→                      className="imv-float absolute"
+   352→   352→                      style={{
+   353→   353→                        left: `${(i * 41 + 6) % 90}%`,
+   354→   354→                        animationDelay: `${-(i * 2.3) % 14}s`,
+   355→   355→                        animationDuration: `${11 + (i % 4) * 3}s`,
+   356→   356→                      }}
+   357→   357→                    >
+   358→   358→                      <span
+   359→   359→                        className="imv-sway block"
+   360→   360→                        style={{ animationDuration: `${3.2 + (i % 3) * 1.1}s`, opacity: 0.5 }}
+   361→   361→                      >
+   362→   362→                        <HeartGlyph size={9 + (i % 3) * 5} />
+   363→   363→                      </span>
+   364→   364→                    </span>
+   365→   365→                  ))}
+   366→   366→                  {/* kiss stamps from buzzing */}
+   367→   367→                  {kisses.map((id, i) => (
+   368→   368→                    <div
+   369→   369→                      key={id}
+   370→   370→                      className="imv-kiss absolute"
+   371→   371→                      style={{ left: `${14 + ((i * 29) % 46)}%`, top: `${16 + ((i * 37) % 42)}%` }}
+   372→   372→                    >
+   373→   373→                      <BigKiss size={250} />
+   374→   374→                    </div>
+   375→   375→                  ))}
+   376→   376→                </>
+   377→   377→              )}
+   378→   378→
+   379→   379→              {imv === "autumn" && (
+   380→   380→                <>
+   381→   381→                  {/* warm vignette */}
+   382→   382→                  <div
+   383→   383→                    className="absolute inset-0"
+   384→   384→                    style={{ background: "radial-gradient(120% 90% at 50% 0%, rgba(255,214,140,0.25), transparent 60%)" }}
+   385→   385→                  />
+   386→   386→                  {/* gently tumbling leaves */}
+   387→   387→                  {Array.from({ length: 13 }).map((_, i) => (
+   388→   388→                    <span
+   389→   389→                      key={i}
+   390→   390→                      className="imv-fall absolute"
+   391→   391→                      style={{
+   392→   392→                        left: `${(i * 31 + 4) % 96}%`,
+   393→   393→                        animationDelay: `${-(i * 1.9) % 12}s`,
+   394→   394→                        animationDuration: `${8 + (i % 5) * 1.6}s`,
+   395→   395→                      }}
+   396→   396→                    >
+   397→   397→                      <span
+   398→   398→                        className="imv-sway2 block"
+   399→   399→                        style={{ animationDuration: `${2.6 + (i % 4) * 0.9}s`, opacity: 0.8 }}
+   400→   400→                      >
+   401→   401→                        <LeafGlyph size={11 + (i % 3) * 4} hue={[18, 32, 44, 10][i % 4]} />
+   402→   402→                      </span>
+   403→   403→                    </span>
+   404→   404→                  ))}
+   405→   405→                  {/* the gust storm */}
+   406→   406→                  {gust > 0 && (
+   407→   407→                    <div key={gust} className="absolute inset-0">
+   408→   408→                      <div className="imv-streak" style={{ top: "24%" }} />
+   409→   409→                      <div className="imv-streak" style={{ top: "58%", animationDelay: "0.12s" }} />
+   410→   410→                      {Array.from({ length: 18 }).map((_, i) => (
+   411→   411→                        <span
+   412→   412→                          key={i}
+   413→   413→                          className="imv-gustleaf absolute"
+   414→   414→                          style={{
+   415→   415→                            top: `${(i * 19 + 4) % 92}%`,
+   416→   416→                            animationDelay: `${(i % 7) * 0.06}s`,
+   417→   417→                            animationDuration: `${0.95 + (i % 5) * 0.14}s`,
+   418→   418→                          }}
+   419→   419→                        >
+   420→   420→                          <LeafGlyph size={10 + (i % 3) * 5} hue={[20, 36, 12, 46][i % 4]} />
+   421→   421→                        </span>
+   422→   422→                      ))}
+   423→   423→                    </div>
+   424→   424→                  )}
+   425→   425→                </>
+   426→   426→              )}
+   427→   427→            </div>
+   428→   428→          )}
+   429→   429→
+   430→   430→          {/* message text, above the ambience */}
+   431→   431→          <div
+   432→   432→            ref={pane}
+   433→   433→            className="ym-scroll absolute inset-0 overflow-y-auto px-2.5 py-2 leading-[1.6]"
+   434→   434→            style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: SIZE_PX[DEFAULT_SIZE] }}
+   435→   435→          >
+   436→   436→            {messages.map((m, i) =>
+   437→   437→              m.buzz ? (
+   438→   438→                <div key={i} className="animate-msg text-[#d01818] font-bold">
+   439→   439→                  BUZZ!!!
+   440→   440→                </div>
+   441→   441→              ) : m.audible ? (
+   442→   442→                <div key={i} className="animate-msg my-1.5 flex items-start gap-2">
+   443→   443→                  <span className="font-bold pt-1" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   444→   444→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   445→   445→                  </span>
+   446→   446→                  <MessageVideo src={m.audible.src} />
+   447→   447→                  <span className="pt-1 text-[#333] italic">"{m.audible.caption}"</span>
+   448→   448→                </div>
+   449→   449→              ) : (
+   450→   450→                <div key={i} className="animate-msg break-words">
+   451→   451→                  <span className="font-bold" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   452→   452→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   453→   453→                  </span>{" "}
+   454→   454→                  {m.html ? (
+   455→   455→                    <span dangerouslySetInnerHTML={{ __html: m.html }} />
+   456→   456→                  ) : (
+   457→   457→                    <span>{emojify(m.text ?? "")}</span>
+   458→   458→                  )}
+   459→   459→                </div>
+   460→   460→              )
+   461→   461→            )}
+   462→   462→          </div>
+   463→   463→        </div>
+   464→   464→
+   465→   465→        {sidebar && (
+   466→   466→          <div className="w-[108px] shrink-0 flex flex-col relative">
+   467→   467→            {/* friend's picture (top) — fills its panel exactly */}
+   468→   468→            <div className="h-[96px] shrink-0 bg-[#cfc6de]">
+   469→   469→              {p.contact.avatar ? (
+   470→   470→                <img src={p.contact.avatar} alt={p.contact.name} className="w-full h-full object-cover" />
+   471→   471→              ) : (
+   472→   472→                <div className="w-full h-full bg-[#c3b8d8] flex items-center justify-center">
+   473→   473→                  <WhiteFace size={70} />
+   474→   474→                </div>
+   475→   475→              )}
+   476→   476→            </div>
+   477→   477→            {/* my picture (bottom of the sidebar, full width) */}
+   478→   478→            <div className="flex-1 bg-[#e2dfd2] flex items-end">
+   479→   479→              {ME.avatar ? (
+   480→   480→                <img src={ME.avatar} alt={ME.name} className="w-full h-[104px] object-cover" />
+   481→   481→              ) : (
+   482→   482→                <div className="w-full h-[104px] bg-[#d6d2c4] flex items-center justify-center">
+   483→   483→                  <WhiteFace size={72} />
+   484→   484→                </div>
+   485→   485→              )}
+   486→   486→            </div>
+   487→   487→            {/* collapse control, dead-centre on the seam */}
+   488→   488→            <button
+   489→   489→              className="absolute left-1/2 -translate-x-1/2 top-[96px] -translate-y-1/2 w-[22px] h-[16px] rounded-full bg-white/95 shadow-[0_1px_3px_rgba(40,20,80,0.35)] border border-[#c2bad6] flex items-center justify-center text-[#7a6a9a] hover:bg-[#f3edfc] hover:scale-105 active:scale-95 transition-transform z-10"
+   490→   490→              onClick={() => setSidebar(false)}
+   491→   491→              title="Hide sidebar"
+   492→   492→            >
+   493→   493→              <IconChevron dir="right" />
+   494→   494→            </button>
+   495→   495→          </div>
+   496→   496→        )}
+   497→   497→        {!sidebar && (
+   498→   498→          <button
+   499→   499→            className="w-[16px] bg-[#e4e1d4] border-l border-[#cfccbc] text-[#666] hover:bg-[#f3edfc] flex items-center justify-center"
+   500→   500→            onClick={() => setSidebar(true)}
+   501→   501→            title="Show sidebar"
+   502→   502→          >
+   503→   503→            <IconChevron dir="down" />
+   504→   504→          </button>
+   505→   505→        )}
+   506→   506→      </div>
+   507→   507→
+   508→   508→      {/* ---- Audibles panel with category tabs ---- */}
+   509→   509→      {audiblesOpen && (
+   510→   510→        <div className="bg-[#f1f0e3] border-t border-[#d8d5c5] px-2 pt-1 pb-2">
+   511→   511→          <div className="flex items-center gap-2 mb-1">
+   512→   512→            <span className="text-[11.5px] text-[#555] truncate">{selAudible ?? "Select an Audible below"}</span>
+   513→   513→            <div className="ml-auto relative shrink-0">
+   514→   514→              <button
+   515→   515→                className="xp-btn h-[20px] px-2.5 text-[11px] text-[#333] flex items-center gap-1"
+   516→   516→                onClick={() => setCatMenuOpen((v) => !v)}
+   517→   517→              >
+   518→   518→                More Audibles
+   519→   519→                <svg width="8" height="8" viewBox="0 0 10 10"><path d="M1.5 3 L5 7 L8.5 3" fill="none" stroke="#555" strokeWidth="1.6" strokeLinecap="round" /></svg>
+   520→   520→              </button>
+   521→   521→              {catMenuOpen && (
+   522→   522→                <div className="animate-pop absolute right-0 top-full mt-[2px] w-[140px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
+   523→   523→                  {AUDIBLE_CATEGORIES.map((c) => (
+   524→   524→                    <button
+   525→   525→                      key={c.id}
+   526→   526→                      className={`ym-dropdown-item w-full text-left px-3 py-[3px] text-[11.5px] ${c.id === audibleCat ? "font-bold" : ""}`}
+   527→   527→                      onClick={() => {
+   528→   528→                        setAudibleCat(c.id);
+   529→   529→                        setSelAudible(null);
+   530→   530→                        setCatMenuOpen(false);
+   531→   531→                      }}
+   532→   532→                    >
+   533→   533→                      {c.id === audibleCat ? "✓ " : ""}{c.label}
+   534→   534→                    </button>
+   535→   535→                  ))}
+   536→   536→                </div>
+   537→   537→              )}
+   538→   538→            </div>
+   539→   539→          </div>
+   540→   540→
+   541→   541→          {/* category tabs */}
+   542→   542→          <div className="flex items-end gap-[2px] pl-1">
+   543→   543→            {AUDIBLE_CATEGORIES.map((c) => (
+   544→   544→              <button
+   545→   545→                key={c.id}
+   546→   546→                onClick={() => {
+   547→   547→                  setAudibleCat(c.id);
+   548→   548→                  setSelAudible(null);
+   549→   549→                }}
+   550→   550→                className={`px-2.5 h-[21px] text-[11px] rounded-t-[4px] border border-b-0 transition-colors ${
+   551→   551→                  c.id === audibleCat
+   552→   552→                    ? "bg-white text-[#2244cc] font-bold border-[#b9b6a8]"
+   553→   553→                    : "bg-[#e6e3d5] text-[#666] border-[#cfccbc] hover:bg-[#efeee1]"
+   554→   554→                }`}
+   555→   555→              >
+   556→   556→                {c.label}
+   557→   557→              </button>
+   558→   558→            ))}
+   559→   559→          </div>
+   560→   560→
+   561→   561→          {/* strip */}
+   562→   562→          <div className="ym-scroll-thin ym-scroll flex gap-1 overflow-x-auto bg-white border border-[#b9b6a8] p-1">
+   563→   563→            {(AUDIBLE_CATEGORIES.find((c) => c.id === audibleCat)?.items ?? []).map((a) => (
+   564→   564→              <button
+   565→   565→                key={a.name}
+   566→   566→                title={`${a.name} — "${a.caption}"`}
+   567→   567→                className="w-[64px] h-[62px] shrink-0 overflow-hidden flex flex-col items-center justify-center hover:bg-[#f3edfc] active:bg-[#e9def8] rounded-[2px]"
+   568→   568→                onMouseEnter={(e) => (e.currentTarget.querySelector("video") as HTMLVideoElement | null)?.play().catch(() => {})}
+   569→   569→                onMouseLeave={(e) => {
+   570→   570→                  const v = e.currentTarget.querySelector("video") as HTMLVideoElement | null;
+   571→   571→                  if (v) {
+   572→   572→                    v.pause();
+   573→   573→                    v.currentTime = 0;
+   574→   574→                  }
+   575→   575→                }}
+   576→   576→                onClick={() => {
+   577→   577→                  setSelAudible(a.caption);
+   578→   578→                  push({ from: "me", audible: { name: a.name, caption: a.caption, src: a.src } });
+   579→   579→                }}
+   580→   580→              >
+   581→   581→                <video src={a.src} preload="metadata" muted loop playsInline className="w-[58px] h-[44px] object-cover pointer-events-none" />
+   582→   582→                <span className="text-[9px] text-[#555] truncate w-full text-center leading-[15px]">{a.name}</span>
+   583→   583→              </button>
+   584→   584→            ))}
+   585→   585→          </div>
+   586→   586→        </div>
+   587→   587→      )}
+   588→   588→
+   589→   589→      {/* ---- Format bar (toggled by the T button) ---- */}
+   590→   590→      {formatOpen && (
+   591→   591→      <div className="bg-[#f1f0e3] border-t border-[#e0ddcd] px-2 py-[3px] flex items-center gap-1">
+   592→   592→        <button
+   593→   593→          className={`ym-tool-btn w-[22px] h-[20px] font-bold text-[12px] text-[#333] ${bold ? "active" : ""}`}
+   594→   594→          onMouseDown={(e) => e.preventDefault()}
+   595→   595→          onClick={() => toggle("bold")}
+   596→   596→          title="Bold"
+   597→   597→        >
+   598→   598→          B
+   599→   599→        </button>
+   600→   600→        <button
+   601→   601→          className={`ym-tool-btn w-[22px] h-[20px] italic font-serif text-[12px] text-[#333] ${italic ? "active" : ""}`}
+   602→   602→          onMouseDown={(e) => e.preventDefault()}
+   603→   603→          onClick={() => toggle("italic")}
+   604→   604→          title="Italic"
+   605→   605→        >
+   606→   606→          I
+   607→   607→        </button>
+   608→   608→        <button
+   609→   609→          className={`ym-tool-btn w-[22px] h-[20px] underline text-[12px] text-[#333] ${underline ? "active" : ""}`}
+   610→   610→          onMouseDown={(e) => e.preventDefault()}
+   611→   611→          onClick={() => toggle("underline")}
+   612→   612→          title="Underline"
+   613→   613→        >
+   614→   614→          U
+   615→   615→        </button>
+   616→   616→        <span className="mx-0.5" title="Text colour">
+   617→   617→          <svg width="18" height="18" viewBox="0 0 18 18">
+   618→   618→            <circle cx="9" cy="9" r="7" fill="none" stroke="#888" />
+   619→   619→            <circle cx="6.5" cy="7" r="1.6" fill="#d03030" />
+   620→   620→            <circle cx="11.5" cy="7" r="1.6" fill="#3060d0" />
+   621→   621→            <circle cx="9" cy="11.5" r="1.6" fill="#e0b020" />
+   622→   622→          </svg>
+   623→   623→        </span>
+   624→   624→        <select
+   625→   625→          className="ym-input h-[20px] text-[11px] px-1 flex-1 max-w-[170px]"
+   626→   626→          value={font}
+   627→   627→          onChange={(e) => applyFont(e.target.value)}
+   628→   628→        >
+   629→   629→          {FONTS.map((f) => (
+   630→   630→            <option key={f} value={f} style={{ fontFamily: f }}>
+   631→   631→              {f}
+   632→   632→            </option>
+   633→   633→          ))}
+   634→   634→        </select>
+   635→   635→        <select
+   636→   636→          className="ym-input h-[20px] text-[11px] px-1 w-[48px]"
+   637→   637→          value={fsize}
+   638→   638→          onChange={(e) => applySize(Number(e.target.value))}
+   639→   639→        >
+   640→   640→          {SIZES.map((s) => (
+   641→   641→            <option key={s} value={s}>
+   642→   642→              {s}
+   643→   643→            </option>
+   644→   644→          ))}
+   645→   645→        </select>
+   646→   646→      </div>
+   647→   647→      )}
+   648→   648→
+   649→   649→      {/* ---- Icon row ---- */}
+   650→   650→      <div className="bg-[#f1f0e3] px-2 pb-1.5 flex items-center gap-1 relative">
+   651→   651→        <button
+   652→   652→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${pickerOpen ? "active" : ""}`}
+   653→   653→          title="Emoticons"
+   654→   654→          onClick={() => setPickerOpen((v) => !v)}
+   655→   655→        >
+   656→   656→          <IconSmileySmall />
+   657→   657→        </button>
+   658→   658→        <button
+   659→   659→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${audiblesOpen ? "active" : ""}`}
+   660→   660→          title="Audibles"
+   661→   661→          onClick={() => setAudiblesOpen((v) => !v)}
+   662→   662→        >
+   663→   663→          <IconBubble />
+   664→   664→        </button>
+   665→   665→        <button
+   666→   666→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center font-serif font-bold text-[14px] text-[#444] ${formatOpen ? "active" : ""}`}
+   667→   667→          title="Toggle text formatting"
+   668→   668→          onClick={() => setFormatOpen((v) => !v)}
+   669→   669→        >
+   670→   670→          T
+   671→   671→        </button>
+   672→   672→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="IMVironments">
+   673→   673→          <IconGearFlower />
+   674→   674→        </button>
+   675→   675→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Attach a file">
+   676→   676→          <IconClip />
+   677→   677→        </button>
+   678→   678→        <button
+   679→   679→          className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center"
+   680→   680→          title="Send a BUZZ!!!"
+   681→   681→          onClick={doBuzz}
+   682→   682→        >
+   683→   683→          <IconBuzz />
+   684→   684→        </button>
+   685→   685→        <div className="flex-1" />
+   686→   686→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Invite a contact">
+   687→   687→          <IconInvite />
+   688→   688→        </button>
+   689→   689→
+   690→   690→        {pickerOpen && (
+   691→   691→          <div className="animate-pop absolute left-1 bottom-full mb-1 bg-[#efeee1] border border-[#8663cf] shadow-[3px_3px_10px_rgba(20,5,50,0.35)] p-1 z-40 w-[272px]">
+   692→   692→            <div className="ym-scroll ym-scroll-thin max-h-[204px] w-[270px] overflow-y-auto overflow-x-hidden">
+   693→   693→              <div className="grid grid-cols-9 gap-[3px] w-[258px] justify-items-center items-center">
+   694→   694→              {EMO.map((e) => (
+   695→   695→                <button
+   696→   696→                  key={e.code + e.file}
+   697→   697→                  className="min-w-[20px] min-h-[20px] px-[2px] py-[1px] hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"
+   698→   698→                  title={`${e.name}  ${e.code}`}
+   699→   699→                  onClick={() => insertEmoticon(e.code)}
+   700→   700→                >
+   701→   701→                  <Emoticon file={e.file} />
+   702→   702→                </button>
+   703→   703→              ))}
+   704→   704→              </div>
+   705→   705→            </div>
+   706→   706→          </div>
+   707→   707→        )}
+   708→   708→      </div>
+   709→   709→
+   710→   710→      {/* ---- Input ---- */}
+   711→   711→      <div className="bg-[#f1f0e3] px-1.5 pb-1.5">
+   712→   712→        <div className="ym-chat-pane relative">
+   713→   713→          <div
+   714→   714→            ref={editor}
+   715→   715→            className="ym-editable ym-scroll min-h-[44px] max-h-[80px] overflow-y-auto px-2 py-1.5 pr-[74px] outline-none"
+   716→   716→            style={{ fontFamily: font, fontSize: `${SIZE_PX[fsize] ?? 13}px` }}
+   717→   717→            contentEditable
+   718→   718→            data-placeholder=""
+   719→   719→            onInput={() => setCanSend(!!editor.current?.textContent?.trim())}
+   720→   720→            onKeyDown={(e) => {
+   721→   721→              if (e.key === "Enter" && !e.shiftKey) {
+   722→   722→                e.preventDefault();
+   723→   723→                send();
+   724→   724→              }
+   725→   725→            }}
+   726→   726→          />
+   727→   727→          <button
+   728→   728→            className="ym-send absolute right-1.5 bottom-1.5 h-[26px] w-[64px] text-[12px]"
+   729→   729→            disabled={!canSend}
+   730→   730→            onClick={send}
+   731→   731→          >
+   732→   732→            Send
+   733→   733→          </button>
+   734→   734→        </div>
+   735→   735→      </div>
+   736→   736→
+   737→   737→      {/* ---- News ticker ---- */}
+   738→   738→      <div className="bg-[#e9e7da] border-t border-[#cfccbc] h-[22px] flex items-center overflow-hidden">
+   739→   739→        <span className="shrink-0 px-2 text-[10.5px] font-bold text-[#7b2fbd] tracking-wide border-r border-[#cfccbc] h-full flex items-center">
+   740→   740→          NEWS
+   741→   741→        </span>
+   742→   742→        <div className="flex-1 overflow-hidden whitespace-nowrap">
+   743→   743→          <div className="animate-ticker inline-block text-[11px] text-[#333]">
+   744→   744→            <span className="font-bold">ALP</span> {tickerText}
+   745→   745→            &nbsp;&nbsp;&nbsp;&nbsp;
+   746→   746→            <span className="font-bold">ALP</span> {tickerText}
+   747→   747→          </div>
+   748→   748→        </div>
+   749→   749→      </div>
+   750→   750→    </WindowFrame>
+   751→   751→  );
+   752→   752→}
+   753→   753→
+   754→   754→function MessageVideo({ src }: { src: string }) {
+   755→   755→  const ref = useRef<HTMLVideoElement>(null);
+   756→   756→  const [ended, setEnded] = useState(false);
+   757→   757→
+   758→   758→  /* plays once, with voice, right after being sent (user-gesture window) */
+   759→   759→  useEffect(() => {
+   760→   760→    const v = ref.current;
+   761→   761→    if (!v) return;
+   762→   762→    v.muted = false;
+   763→   763→    const t = window.setTimeout(() => v.play().catch(() => {}), 60);
+   764→   764→    return () => window.clearTimeout(t);
+   765→   765→  }, []);
+   766→   766→
+   767→   767→  return (
+   768→   768→    <button
+   769→   769→      className="relative block cursor-pointer group"
+   770→   770→      title={ended ? "Click to play again" : "Audible"}
+   771→   771→      onClick={() => {
+   772→   772→        const v = ref.current;
+   773→   773→        if (!v) return;
+   774→   774→        if (v.paused || ended) {
+   775→   775→          v.currentTime = 0;
+   776→   776→          setEnded(false);
+   777→   777→          void v.play().catch(() => {});
+   778→   778→        } else {
+   779→   779→          v.pause();
+   780→   780→        }
+   781→   781→      }}
+   782→   782→    >
+   783→   783→      <video
+   784→   784→        ref={ref}
+   785→   785→        src={src}
+   786→   786→        playsInline
+   787→   787→        onEnded={() => setEnded(true)}
+   788→   788→        className="block w-[120px] h-[90px] object-cover"
+   789→   789→      />
+   790→   790→      {ended && (
+   791→   791→        <span className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition-colors">
+   792→   792→          <svg width="26" height="26" viewBox="0 0 26 26">
+   793→   793→            <circle cx="13" cy="13" r="12" fill="rgba(255,255,255,0.9)" />
+   794→   794→            <path d="M10 8 L19 13 L10 18 Z" fill="#5a3ca6" />
+   795→   795→          </svg>
+   796→   796→        </span>
+   797→   797→      )}
+   798→   798→    </button>
+   799→   799→  );
+   800→   800→}
+   801→   801→
+   802→   802→function ToolBtn({
+   803→   803→  icon,
+   804→   804→  label,
+   805→   805→  caret,
+   806→   806→  onClick,
+   807→   807→  active,
+   808→   808→}: {
+   809→   809→  icon: React.ReactNode;
+   810→   810→  label: string;
+   811→   811→  caret?: boolean;
+   812→   812→  onClick?: () => void;
+   813→   813→  active?: boolean;
+   814→   814→}) {
+   815→   815→  return (
+   816→   816→    <button
+   817→   817→      onClick={onClick}
+   818→   818→      className={`flex flex-col items-center px-2.5 py-0.5 rounded hover:bg-[#e9e2f6] active:bg-[#ddd0f2] transition-colors group ${
+   819→   819→        active ? "bg-[#e3d7f6]" : ""
+   820→   820→      }`}
+   821→   821→    >
+   822→   822→      <span className="flex items-center gap-0.5">
+   823→   823→        {icon}
+   824→   824→        {caret && <span className="text-[8px] text-[#777] mt-2">▼</span>}
+   825→   825→      </span>
+   826→   826→      <span className="text-[10.5px] text-[#333] mt-0.5 group-hover:text-[#222]">{label}</span>
+   827→   827→    </button>
+   828→   828→  );
+   829→   829→}
+   830→   830→
