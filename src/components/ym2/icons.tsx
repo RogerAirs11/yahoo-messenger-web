@@ -292,7 +292,8 @@ const RAW: [string, string, string[]][] = [
   ["doh", "doh.gif", ["#-o", "#o"]],
 ];
 
-/* flatten, de-dupe, and sort longest-code-first so :(( wins over :( etc. */
+/* flatten, de-dupe, and sort longest-code-first so :(( wins over :( etc.
+   (EMO is for TEXT MATCHING only — never render it in the picker!) */
 const seen = new Set<string>();
 export const EMO: Emo[] = RAW.flatMap(([name, file, codes]) =>
   codes.map((code) => ({ code, name, file: file.replace(/\.gif$/, "") })),
@@ -300,7 +301,21 @@ export const EMO: Emo[] = RAW.flatMap(([name, file, codes]) =>
   .filter((e) => (seen.has(e.code) ? false : (seen.add(e.code), true)))
   .sort((a, b) => b.code.length - a.code.length);
 
-/* Emoticons always render at their native pixel size — never scaled. */
+/* The PICKER palette: one slot per emoticon (de-duped by GIF — the <3 alias
+   must not create a second love-struck slot), in the OFFICIAL Yahoo Messenger
+   palette order, which RAW is written in: :) :( ;) :D ;;) >:D< :-/ :x :"> :P :* =(( ...
+   Each slot keeps its canonical primary shortcut (codes[0]). */
+const seenFile = new Set<string>();
+export const EMO_PALETTE: Emo[] = RAW.map(([name, file, codes]) => ({
+  code: codes[0],
+  name,
+  file: file.replace(/\.gif$/, ""),
+})).filter((e) => (seenFile.has(e.file) ? false : (seenFile.add(e.file), true)));
+
+/* Emoticons always render at their native pixel size — never scaled.
+   maxWidth/width/height "auto" inline beats Tailwind preflight's
+   img { max-width:100%; height:auto }, which otherwise squashes the wide
+   GIFs (>:D<, dancing, transformer…) inside fixed-width grid tracks. */
 export const Emoticon = ({ file, white = false }: { file: string; white?: boolean }) => (
   <img
     src={EMO_GIF(file)}
@@ -309,6 +324,9 @@ export const Emoticon = ({ file, white = false }: { file: string; white?: boolea
     className="inline-block align-[-4px]"
     style={{
       imageRendering: "pixelated",
+      maxWidth: "none",
+      width: "auto",
+      height: "auto",
       ...(white ? { filter: "grayscale(1) brightness(1.75) contrast(0.82)" } : null),
     }}
   />
@@ -369,11 +387,11 @@ export function emojifyHtml(html: string): string {
     .split(/(<[^>]*>)/g)
     .map((seg) => {
       if (seg.startsWith("<")) return seg;
-      let out = seg.replace(/&lt;3/g, `<img src="${EMO_GIF("love-struck")}" class="inline-block align-[-4px]">`);
+      let out = seg.replace(/&lt;3/g, `<img src="${EMO_GIF("love-struck")}" class="inline-block align-[-4px]" style="max-width:none;width:auto;height:auto">`);
       for (const e of EMO) {
         if (e.code.includes("<") || e.code.includes(">")) continue;
         if (!out.includes(e.code)) continue;
-        out = out.split(e.code).join(`<img src="${EMO_GIF(e.file)}" class="inline-block align-[-4px]" alt="${e.name}">`);
+        out = out.split(e.code).join(`<img src="${EMO_GIF(e.file)}" class="inline-block align-[-4px]" style="max-width:none;width:auto;height:auto" alt="${e.name}">`);
       }
       return out;
     })

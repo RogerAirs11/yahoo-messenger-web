@@ -5,7 +5,7 @@ import WindowFrame, { MenuDef } from "./WindowFrame";
 import {
   BigKiss,
   Emoticon,
-  EMO,
+  EMO_PALETTE,
   GlossyHeart,
   HeartGlyph,
   IconBubble,
@@ -688,11 +688,13 @@ export default function ChatWindow(p: Props) {
         {pickerOpen && (
           <div className="animate-pop absolute left-1 bottom-full mb-1 bg-[#efeee1] border border-[#8663cf] shadow-[3px_3px_10px_rgba(20,5,50,0.35)] p-1 z-40 w-[272px]">
             <div className="ym-scroll ym-scroll-thin max-h-[204px] w-[270px] overflow-y-auto overflow-x-hidden">
-              <div className="grid grid-cols-9 gap-[3px] w-[258px] justify-items-center items-center">
-                {EMO.map((e) => (
+              {/* official Yahoo palette order — one slot per emoticon, each GIF at
+                  its native 1:1 pixel size (wide GIFs grow their own cell) */}
+              <div className="flex flex-wrap items-center content-start gap-[2px] w-[268px]">
+                {EMO_PALETTE.map((e) => (
                   <button
-                    key={e.code + e.file}
-                    className="min-w-[20px] min-h-[20px] px-[2px] py-[1px] hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"
+                    key={e.code}
+                    className="min-w-[24px] min-h-[24px] px-[2px] py-[1px] shrink-0 hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"
                     title={`${e.name}  ${e.code}`}
                     onClick={() => insertEmoticon(e.code)}
                   >
