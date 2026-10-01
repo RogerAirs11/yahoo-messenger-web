@@ -1,0 +1,774 @@
+     1→"use client";
+     2→
+     3→import React, { useEffect, useRef, useState } from "react";
+     4→import WindowFrame, { MenuDef } from "./WindowFrame";
+     5→import {
+     6→  Emoticon,
+     7→  EMO_PALETTE,
+     8→  IconBubble,
+     9→  IconBuzz,
+    10→  IconChevron,
+    11→  IconClip,
+    12→  IconGearFlower,
+    13→  IconImviron,
+    14→  IconInvite,
+    15→  IconKnight,
+    16→  IconMic,
+    17→  IconPhotos,
+    18→  IconSmileySmall,
+    19→  IconVideoCam,
+    20→  StatusDot,
+    21→  WhiteFace,
+    22→  emojify,
+    23→  emojifyHtml,
+    24→} from "./icons";
+    25→import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
+    26→import { playBuzz, playKiss, playMessage, playSent, playWind } from "./sounds";
+    27→import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
+    28→
+    29→interface Props {
+    30→  contact: Contact;
+    31→  seed: ChatMessage[];
+    32→  x: number;
+    33→  y: number;
+    34→  z: number;
+    35→  focused: boolean;
+    36→  maximized?: boolean;
+    37→  buzzSignal?: number;
+    38→  onNotify?: () => void;
+    39→  width: number;
+    40→  height: number;
+    41→  onMove: (x: number, y: number) => void;
+    42→  onResize: (w: number, h: number) => void;
+    43→  onFocus: () => void;
+    44→  onClose: () => void;
+    45→  onMinimize: () => void;
+    46→  onToggleMax: () => void;
+    47→}
+    48→
+    49→const FONTS = ["Arial", "Verdana", "Tahoma", "Comic Sans MS", "Times New Roman", "Courier New", "Georgia"];
+    50→const SIZES = [8, 10, 12, 14, 18, 24, 36];
+    51→/* YM's "10" point option renders at ~13px on screen */
+    52→const SIZE_PX: Record<number, number> = { 8: 11, 10: 13, 12: 15, 14: 17, 18: 22, 24: 28, 36: 40 };
+    53→const DEFAULT_FONT = "Arial";
+    54→const DEFAULT_SIZE = 10;
+    55→/* the emoticon popup shows a fixed paged grid like the original client */
+    56→const EMO_PER_PAGE = 40;
+    57→
+    58→export default function ChatWindow(p: Props) {
+    59→  const [messages, setMessages] = useState<ChatMessage[]>(p.seed);
+    60→  const [canSend, setCanSend] = useState(false);
+    61→  const [pickerOpen, setPickerOpen] = useState(false);
+    62→  const [sidebar, setSidebar] = useState(true);
+    63→  const [formatOpen, setFormatOpen] = useState(false);
+    64→  const [audiblesOpen, setAudiblesOpen] = useState(false);
+    65→  const [audibleCat, setAudibleCat] = useState(AUDIBLE_CATEGORIES[0].id);
+    66→  const [catMenuOpen, setCatMenuOpen] = useState(false);
+    67→  const [selAudible, setSelAudible] = useState<string | null>(null);
+    68→  const [emoPage, setEmoPage] = useState(0);
+    69→  const [imv, setImv] = useState<ImvId>("none");
+    70→  const [imvMenu, setImvMenu] = useState(false);
+    71→  const [gust, setGust] = useState(0);
+    72→  const [kisses, setKisses] = useState<number[]>([]);
+    73→  const [burst, setBurst] = useState(0);
+    74→  const [flurry, setFlurry] = useState(0);
+    75→  const [shake, setShake] = useState(false);
+    76→  const [font, setFont] = useState("Arial");
+    77→  const [fsize, setFsize] = useState(10);
+    78→  const [bold, setBold] = useState(false);
+    79→  const [italic, setItalic] = useState(false);
+    80→  const [underline, setUnderline] = useState(false);
+    81→  const editor = useRef<HTMLDivElement>(null);
+    82→  const pane = useRef<HTMLDivElement>(null);
+    83→  const replyTimer = useRef<number | null>(null);
+    84→
+    85→  useEffect(() => {
+    86→    pane.current?.scrollTo({ top: pane.current.scrollHeight });
+    87→  }, [messages]);
+    88→
+    89→  useEffect(
+    90→    () => () => {
+    91→      if (replyTimer.current) window.clearTimeout(replyTimer.current);
+    92→    },
+    93→    [],
+    94→  );
+    95→
+    96→  const push = (m: ChatMessage) => setMessages((prev) => [...prev, m]);
+    97→
+    98→  const doBuzz = () => {
+    99→    if (imv === "luv") {
+   100→      const id = Date.now();
+   101→      setKisses((k) => [...k, id]);
+   102→      window.setTimeout(() => setKisses((k) => k.filter((x) => x !== id)), 3400);
+   103→      playKiss();
+   104→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   105→      return;
+   106→    }
+   107→    if (imv === "autumn") {
+   108→      setGust((g) => g + 1);
+   109→      playWind();
+   110→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   111→      return;
+   112→    }
+   113→    if (imv === "fireworks") {
+   114→      /* the buzz becomes a grand golden salute over the skyline */
+   115→      setBurst((b) => b + 1);
+   116→      playBuzz();
+   117→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   118→      return;
+   119→    }
+   120→    if (imv === "winter") {
+   121→      setFlurry((f) => f + 1);
+   122→      playWind();
+   123→      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   124→      return;
+   125→    }
+   126→    setMessages((prev) => [...prev, { from: "me", buzz: true }]);
+   127→    setShake(true);
+   128→    playBuzz();
+   129→    window.setTimeout(() => setShake(false), 620);
+   130→  };
+   131→
+   132→  const firstBuzz = useRef(true);
+   133→  useEffect(() => {
+   134→    if (firstBuzz.current) {
+   135→      firstBuzz.current = false;
+   136→      return;
+   137→    }
+   138→    doBuzz();
+   139→    // eslint-disable-next-line react-hooks/exhaustive-deps
+   140→  }, [p.buzzSignal]);
+   141→
+   142→  /* keep B/I/U button state in sync with the caret selection */
+   143→  useEffect(() => {
+   144→    const sync = () => {
+   145→      const el = editor.current;
+   146→      const sel = document.getSelection();
+   147→      if (!el || !sel || !sel.anchorNode || !el.contains(sel.anchorNode)) return;
+   148→      try {
+   149→        setBold(document.queryCommandState("bold"));
+   150→        setItalic(document.queryCommandState("italic"));
+   151→        setUnderline(document.queryCommandState("underline"));
+   152→      } catch {
+   153→        /* noop */
+   154→      }
+   155→    };
+   156→    document.addEventListener("selectionchange", sync);
+   157→    return () => document.removeEventListener("selectionchange", sync);
+   158→  }, []);
+   159→
+   160→  const applyFont = (f: string) => {
+   161→    setFont(f);
+   162→    const el = editor.current;
+   163→    if (!el) return;
+   164→    el.style.fontFamily = f;
+   165→    el.focus();
+   166→    document.execCommand("fontName", false, f);
+   167→  };
+   168→
+   169→  const applySize = (s: number) => {
+   170→    setFsize(s);
+   171→    const el = editor.current;
+   172→    if (!el) return;
+   173→    el.style.fontSize = `${SIZE_PX[s] ?? 13}px`;
+   174→    el.focus();
+   175→    const legacy = SIZES.indexOf(s);
+   176→    if (legacy > 0) document.execCommand("fontSize", false, String(legacy));
+   177→  };
+   178→
+   179→  const toggle = (cmd: string) => {
+   180→    editor.current?.focus();
+   181→    document.execCommand(cmd, false);
+   182→    try {
+   183→      setBold(document.queryCommandState("bold"));
+   184→      setItalic(document.queryCommandState("italic"));
+   185→      setUnderline(document.queryCommandState("underline"));
+   186→    } catch {
+   187→      /* noop */
+   188→    }
+   189→  };
+   190→
+   191→  const send = () => {
+   192→    const el = editor.current;
+   193→    if (!el || !el.textContent?.trim()) return;
+   194→    const inner = emojifyHtml(el.innerHTML);
+   195→    /* default settings render exactly like incoming messages (Arial @13px) */
+   196→    const custom = font !== DEFAULT_FONT || fsize !== DEFAULT_SIZE;
+   197→    push({
+   198→      from: "me",
+   199→      html: custom ? `<span style="font-family:${font};font-size:${SIZE_PX[fsize] ?? 13}px">${inner}</span>` : inner,
+   200→    });
+   201→    playSent();
+   202→    el.innerHTML = "";
+   203→    el.style.fontFamily = font;
+   204→    el.style.fontSize = `${SIZE_PX[fsize] ?? 13}px`;
+   205→    setCanSend(false);
+   206→    el.focus();
+   207→    if (replyTimer.current) window.clearTimeout(replyTimer.current);
+   208→    replyTimer.current = window.setTimeout(() => {
+   209→      const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+   210→      setMessages((prev) => [...prev, { from: "them", text: reply }]);
+   211→      playMessage();
+   212→      p.onNotify?.();
+   213→    }, 1100 + Math.random() * 1600);
+   214→  };
+   215→
+   216→  const insertEmoticon = (code: string) => {
+   217→    editor.current?.focus();
+   218→    document.execCommand("insertText", false, code + " ");
+   219→    setPickerOpen(false);
+   220→    setCanSend(true);
+   221→  };
+   222→
+   223→  const menus: MenuDef[] = [
+   224→    {
+   225→      label: "Conversation",
+   226→      items: [
+   227→        { label: "Send", onClick: send },
+   228→        { label: "Send a BUZZ!!!", onClick: doBuzz },
+   229→        { sep: true },
+   230→        { label: "Invite to Conference...", onClick: () => {} },
+   231→        { sep: true },
+   232→        { label: "Close", onClick: p.onClose },
+   233→      ],
+   234→    },
+   235→    {
+   236→      label: "Edit",
+   237→      items: [
+   238→        { label: "Bold", onClick: () => toggle("bold") },
+   239→        { label: "Italic", onClick: () => toggle("italic") },
+   240→        { label: "Underline", onClick: () => toggle("underline") },
+   241→        { sep: true },
+   242→        { label: "Select All", onClick: () => editor.current?.focus() },
+   243→      ],
+   244→    },
+   245→    {
+   246→      label: "View",
+   247→      items: [
+   248→        { label: "Show Contact Sidebar", checked: sidebar, onClick: () => setSidebar((v) => !v) },
+   249→        { label: "Text Formatting Bar", checked: formatOpen, onClick: () => setFormatOpen((v) => !v) },
+   250→        { label: "News Ticker", checked: true, onClick: () => {} },
+   251→      ],
+   252→    },
+   253→    {
+   254→      label: "Actions",
+   255→      items: [
+   256→        { label: "Video Call", onClick: () => {} },
+   257→        { label: "Voice Call", onClick: () => {} },
+   258→        { sep: true },
+   259→        { label: "Send File...", onClick: () => {} },
+   260→        { label: "Share Photos...", onClick: () => {} },
+   261→      ],
+   262→    },
+   263→    {
+   264→      label: "Help",
+   265→      items: [{ label: "About Yahoo! Messenger", onClick: () => {} }],
+   266→    },
+   267→  ];
+   268→
+   269→  const tickerText = NEWS_TICKER.join("   •   ");
+   270→
+   271→  return (
+   272→    <WindowFrame
+   273→      title={p.contact.name}
+   274→      icon={<StatusDot status={p.contact.status} />}
+   275→      x={p.x}
+   276→      y={p.y}
+   277→      width={p.width}
+   278→      height={p.height}
+   279→      minW={450}
+   280→      minH={420}
+   281→      onResize={p.onResize}
+   282→      z={p.z}
+   283→      focused={p.focused}
+   284→      maximized={p.maximized}
+   285→      shaking={shake}
+   286→      menus={menus}
+   287→      onMove={p.onMove}
+   288→      onFocus={p.onFocus}
+   289→      onClose={p.onClose}
+   290→      onMinimize={p.onMinimize}
+   291→      onToggleMax={p.onToggleMax}
+   292→    >
+   293→      {/* ---- Call toolbar ---- */}
+   294→      <div className="bg-[#f4f3ea] border-b border-[#d8d5c5] px-2 py-1.5 flex items-start">
+   295→        <ToolBtn icon={<IconVideoCam />} label="Video Call" />
+   296→        <ToolBtn icon={<IconMic />} label="Voice Call" caret />
+   297→        <div className="flex-1" />
+   298→        <div className="relative">
+   299→          <div className={imvMenu ? "[&>button]:bg-[#ddd0f2]" : ""}>
+   300→            <ToolBtn icon={<IconImviron />} label="IMVironments" caret onClick={() => setImvMenu((v) => !v)} active={imv !== "none"} />
+   301→          </div>
+   302→          {imvMenu && (
+   303→            <div className="animate-pop absolute right-0 top-full mt-[2px] w-[168px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50">
+   304→              {IMV_LIST.map((o) => (
+   305→                <button
+   306→                  key={o.id}
+   307→                  className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
+   308→                  onClick={() => {
+   309→                    setImv(o.id);
+   310→                    setImvMenu(false);
+   311→                  }}
+   312→                >
+   313→                  <span className="w-[14px] flex justify-center">{o.icon}</span>
+   314→                  {imv === o.id ? "✓ " : ""}
+   315→                  {o.label}
+   316→                </button>
+   317→              ))}
+   318→            </div>
+   319→          )}
+   320→        </div>
+   321→        <ToolBtn icon={<IconKnight />} label="Activities" caret />
+   322→        <ToolBtn icon={<IconPhotos />} label="Photos" />
+   323→      </div>
+   324→
+   325→      {/* ---- Status strip ---- */}
+   326→      <div className="bg-[#f1f0e3] px-3 py-1 flex items-center gap-1.5 text-[11px] text-[#777] border-b border-[#e0ddcd]">
+   327→        <StatusDot status={p.contact.status} />
+   328→        <span>
+   329→          {p.contact.status === "available" ? "Available" : p.contact.statusText ?? "Away"}
+   330→          {p.contact.customMsg ? ` — ${p.contact.customMsg}` : ""}
+   331→        </span>
+   332→      </div>
+   333→
+   334→      {/* ---- Messages + sidebar ---- */}
+   335→      <div className="flex-1 min-h-0 flex bg-[#f1f0e3] p-1.5 gap-1.5">
+   336→        <div
+   337→          className="relative flex-1 min-h-0 border border-[#a9a595]"
+   338→          style={{
+   339→            background: IMV_BG[imv],
+   340→            boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.08)",
+   341→          }}
+   342→        >
+   343→          {/* IMVironment ambience — lives BEHIND the message text */}
+   344→          <ImvScene imv={imv} kisses={kisses} gust={gust} burst={burst} flurry={flurry} />
+   345→
+   346→          {/* message text, above the ambience */}
+   347→          <div
+   348→            ref={pane}
+   349→            className="ym-scroll absolute inset-0 overflow-y-auto px-2.5 py-2 leading-[1.6]"
+   350→            style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: SIZE_PX[DEFAULT_SIZE] }}
+   351→          >
+   352→            {messages.map((m, i) =>
+   353→              m.buzz ? (
+   354→                <div key={i} className="animate-msg text-[#d01818] font-bold">
+   355→                  BUZZ!!!
+   356→                </div>
+   357→              ) : m.audible ? (
+   358→                <div key={i} className="animate-msg my-1.5 flex items-start gap-2">
+   359→                  <span className="font-bold pt-1" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   360→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   361→                  </span>
+   362→                  <MessageVideo src={m.audible.src} />
+   363→                  <span className="pt-1 text-[#333] italic">&quot;{m.audible.caption}&quot;</span>
+   364→                </div>
+   365→              ) : (
+   366→                <div key={i} className="animate-msg break-words">
+   367→                  <span className="font-bold" style={{ color: m.from === "me" ? "#7b2fbd" : "#2244cc" }}>
+   368→                    {m.from === "me" ? ME.handle : p.contact.handle}:
+   369→                  </span>{" "}
+   370→                  {m.html ? (
+   371→                    <span dangerouslySetInnerHTML={{ __html: m.html }} />
+   372→                  ) : (
+   373→                    <span>{emojify(m.text ?? "")}</span>
+   374→                  )}
+   375→                </div>
+   376→              ),
+   377→            )}
+   378→          </div>
+   379→        </div>
+   380→
+   381→        {sidebar && (
+   382→          <div className="w-[108px] shrink-0 flex flex-col relative">
+   383→            {/* friend's picture (top) — fills its panel exactly */}
+   384→            <div className="h-[96px] shrink-0 bg-[#cfc6de]">
+   385→              {p.contact.avatar ? (
+   386→                <img src={p.contact.avatar} alt={p.contact.name} className="w-full h-full object-cover" />
+   387→              ) : (
+   388→                <div className="w-full h-full bg-[#c3b8d8] flex items-center justify-center">
+   389→                  <WhiteFace size={70} />
+   390→                </div>
+   391→              )}
+   392→            </div>
+   393→            {/* my picture (bottom of the sidebar, full width) */}
+   394→            <div className="flex-1 bg-[#e2dfd2] flex items-end">
+   395→              {ME.avatar ? (
+   396→                <img src={ME.avatar} alt={ME.name} className="w-full h-[104px] object-cover" />
+   397→              ) : (
+   398→                <div className="w-full h-[104px] bg-[#d6d2c4] flex items-center justify-center">
+   399→                  <WhiteFace size={72} />
+   400→                </div>
+   401→              )}
+   402→            </div>
+   403→            {/* collapse control, dead-centre on the seam */}
+   404→            <button
+   405→              className="absolute left-1/2 -translate-x-1/2 top-[96px] -translate-y-1/2 w-[22px] h-[16px] rounded-full bg-white/95 shadow-[0_1px_3px_rgba(40,20,80,0.35)] border border-[#c2bad6] flex items-center justify-center text-[#7a6a9a] hover:bg-[#f3edfc] hover:scale-105 active:scale-95 transition-transform z-10"
+   406→              onClick={() => setSidebar(false)}
+   407→              title="Hide sidebar"
+   408→            >
+   409→              <IconChevron dir="right" />
+   410→            </button>
+   411→          </div>
+   412→        )}
+   413→        {!sidebar && (
+   414→          <button
+   415→            className="w-[16px] bg-[#e4e1d4] border-l border-[#cfccbc] text-[#666] hover:bg-[#f3edfc] flex items-center justify-center"
+   416→            onClick={() => setSidebar(true)}
+   417→            title="Show sidebar"
+   418→          >
+   419→            <IconChevron dir="down" />
+   420→          </button>
+   421→        )}
+   422→      </div>
+   423→
+   424→      {/* ---- Audibles panel with category tabs ---- */}
+   425→      {audiblesOpen && (
+   426→        <div className="bg-[#f1f0e3] border-t border-[#d8d5c5] px-2 pt-1 pb-2">
+   427→          <div className="flex items-center gap-2 mb-1">
+   428→            <span className="text-[11.5px] text-[#555] truncate">{selAudible ?? "Select an Audible below"}</span>
+   429→            <div className="ml-auto relative shrink-0">
+   430→              <button
+   431→                className="xp-btn h-[20px] px-2.5 text-[11px] text-[#333] flex items-center gap-1"
+   432→                onClick={() => setCatMenuOpen((v) => !v)}
+   433→              >
+   434→                More Audibles
+   435→                <svg width="8" height="8" viewBox="0 0 10 10"><path d="M1.5 3 L5 7 L8.5 3" fill="none" stroke="#555" strokeWidth="1.6" strokeLinecap="round" /></svg>
+   436→              </button>
+   437→              {catMenuOpen && (
+   438→                <div className="animate-pop absolute right-0 top-full mt-[2px] w-[150px] bg-[#f6f5ec] border border-[#7a57c6] shadow-[3px_3px_8px_rgba(20,5,50,0.4)] py-0.5 z-50 ym-scroll ym-scroll-thin max-h-[240px] overflow-y-auto">
+   439→                  {AUDIBLE_CATEGORIES.map((c) => (
+   440→                    <button
+   441→                      key={c.id}
+   442→                      className={`ym-dropdown-item w-full text-left px-3 py-[3px] text-[11.5px] ${c.id === audibleCat ? "font-bold" : ""}`}
+   443→                      onClick={() => {
+   444→                        setAudibleCat(c.id);
+   445→                        setSelAudible(null);
+   446→                        setCatMenuOpen(false);
+   447→                      }}
+   448→                    >
+   449→                      {c.id === audibleCat ? "✓ " : ""}
+   450→                      {c.label}
+   451→                    </button>
+   452→                  ))}
+   453→                </div>
+   454→              )}
+   455→            </div>
+   456→          </div>
+   457→
+   458→          {/* category tabs */}
+   459→          <div className="flex items-end gap-[2px] pl-1 overflow-x-hidden">
+   460→            {AUDIBLE_CATEGORIES.map((c) => (
+   461→              <button
+   462→                key={c.id}
+   463→                onClick={() => {
+   464→                  setAudibleCat(c.id);
+   465→                  setSelAudible(null);
+   466→                }}
+   467→                className={`px-2.5 h-[21px] text-[11px] rounded-t-[4px] border border-b-0 transition-colors shrink-0 whitespace-nowrap ${
+   468→                  c.id === audibleCat
+   469→                    ? "bg-white text-[#2244cc] font-bold border-[#b9b6a8]"
+   470→                    : "bg-[#e6e3d5] text-[#666] border-[#cfccbc] hover:bg-[#efeee1]"
+   471→                }`}
+   472→              >
+   473→                {c.label}
+   474→              </button>
+   475→            ))}
+   476→          </div>
+   477→
+   478→          {/* strip */}
+   479→          <div className="ym-scroll ym-scroll-thin flex gap-1 overflow-x-auto bg-white border border-[#b9b6a8] p-1">
+   480→            {(AUDIBLE_CATEGORIES.find((c) => c.id === audibleCat)?.items ?? []).map((a) => (
+   481→              <button
+   482→                key={a.name}
+   483→                title={`${a.name} — "${a.caption}"`}
+   484→                className="w-[64px] h-[62px] shrink-0 overflow-hidden flex flex-col items-center justify-center hover:bg-[#f3edfc] active:bg-[#e9def8] rounded-[2px]"
+   485→                onMouseEnter={(e) => (e.currentTarget.querySelector("video") as HTMLVideoElement | null)?.play().catch(() => {})}
+   486→                onMouseLeave={(e) => {
+   487→                  const v = e.currentTarget.querySelector("video") as HTMLVideoElement | null;
+   488→                  if (v) {
+   489→                    v.pause();
+   490→                    v.currentTime = 0;
+   491→                  }
+   492→                }}
+   493→                onClick={() => {
+   494→                  setSelAudible(a.caption);
+   495→                  push({ from: "me", audible: { name: a.name, caption: a.caption, src: a.src } });
+   496→                }}
+   497→              >
+   498→                <video src={a.src} preload="metadata" muted loop playsInline className="w-[58px] h-[44px] object-cover pointer-events-none" />
+   499→                <span className="text-[9px] text-[#555] truncate w-full text-center leading-[15px]">{a.name}</span>
+   500→              </button>
+   501→            ))}
+   502→          </div>
+   503→        </div>
+   504→      )}
+   505→
+   506→      {/* ---- Format bar (toggled by the T button) ---- */}
+   507→      {formatOpen && (
+   508→        <div className="bg-[#f1f0e3] border-t border-[#e0ddcd] px-2 py-[3px] flex items-center gap-1">
+   509→          <button
+   510→            className={`ym-tool-btn w-[22px] h-[20px] font-bold text-[12px] text-[#333] ${bold ? "active" : ""}`}
+   511→            onMouseDown={(e) => e.preventDefault()}
+   512→            onClick={() => toggle("bold")}
+   513→            title="Bold"
+   514→          >
+   515→            B
+   516→          </button>
+   517→          <button
+   518→            className={`ym-tool-btn w-[22px] h-[20px] italic font-serif text-[12px] text-[#333] ${italic ? "active" : ""}`}
+   519→            onMouseDown={(e) => e.preventDefault()}
+   520→            onClick={() => toggle("italic")}
+   521→            title="Italic"
+   522→          >
+   523→            I
+   524→          </button>
+   525→          <button
+   526→            className={`ym-tool-btn w-[22px] h-[20px] underline text-[12px] text-[#333] ${underline ? "active" : ""}`}
+   527→            onMouseDown={(e) => e.preventDefault()}
+   528→            onClick={() => toggle("underline")}
+   529→            title="Underline"
+   530→          >
+   531→            U
+   532→          </button>
+   533→          <span className="mx-0.5" title="Text colour">
+   534→            <svg width="18" height="18" viewBox="0 0 18 18">
+   535→              <circle cx="9" cy="9" r="7" fill="none" stroke="#888" />
+   536→              <circle cx="6.5" cy="7" r="1.6" fill="#d03030" />
+   537→              <circle cx="11.5" cy="7" r="1.6" fill="#3060d0" />
+   538→              <circle cx="9" cy="11.5" r="1.6" fill="#e0b020" />
+   539→            </svg>
+   540→          </span>
+   541→          <select
+   542→            className="ym-input h-[20px] text-[11px] px-1 flex-1 max-w-[170px]"
+   543→            value={font}
+   544→            onChange={(e) => applyFont(e.target.value)}
+   545→          >
+   546→            {FONTS.map((f) => (
+   547→              <option key={f} value={f} style={{ fontFamily: f }}>
+   548→                {f}
+   549→              </option>
+   550→            ))}
+   551→          </select>
+   552→          <select
+   553→            className="ym-input h-[20px] text-[11px] px-1 w-[48px]"
+   554→            value={fsize}
+   555→            onChange={(e) => applySize(Number(e.target.value))}
+   556→          >
+   557→            {SIZES.map((s) => (
+   558→              <option key={s} value={s}>
+   559→                {s}
+   560→              </option>
+   561→            ))}
+   562→          </select>
+   563→        </div>
+   564→      )}
+   565→
+   566→      {/* ---- Icon row ---- */}
+   567→      <div className="bg-[#f1f0e3] px-2 pb-1.5 flex items-center gap-1 relative">
+   568→        <button
+   569→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${pickerOpen ? "active" : ""}`}
+   570→          title="Emoticons"
+   571→          onClick={() => setPickerOpen((v) => !v)}
+   572→        >
+   573→          <IconSmileySmall />
+   574→        </button>
+   575→        <button
+   576→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center ${audiblesOpen ? "active" : ""}`}
+   577→          title="Audibles"
+   578→          onClick={() => setAudiblesOpen((v) => !v)}
+   579→        >
+   580→          <IconBubble />
+   581→        </button>
+   582→        <button
+   583→          className={`ym-tool-btn w-[26px] h-[24px] flex items-center justify-center font-serif font-bold text-[14px] text-[#444] ${formatOpen ? "active" : ""}`}
+   584→          title="Toggle text formatting"
+   585→          onClick={() => setFormatOpen((v) => !v)}
+   586→        >
+   587→          T
+   588→        </button>
+   589→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="IMVironments" onClick={() => setImvMenu((v) => !v)}>
+   590→          <IconGearFlower />
+   591→        </button>
+   592→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Attach a file">
+   593→          <IconClip />
+   594→        </button>
+   595→        <button
+   596→          className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center"
+   597→          title="Send a BUZZ!!!"
+   598→          onClick={doBuzz}
+   599→        >
+   600→          <IconBuzz />
+   601→        </button>
+   602→        <div className="flex-1" />
+   603→        <button className="ym-tool-btn w-[26px] h-[24px] flex items-center justify-center" title="Invite a contact">
+   604→          <IconInvite />
+   605→        </button>
+   606→
+   607→        {pickerOpen && (
+   608→          <div className="animate-pop absolute left-1 bottom-full mb-1 bg-[#efeee1] border border-[#8663cf] shadow-[3px_3px_10px_rgba(20,5,50,0.35)] p-1 z-40 w-[272px]">
+   609→            {/* pager header, like the original paged palette */}
+   610→            <div className="flex items-center justify-between px-0.5 pb-0.5 mb-[2px] border-b border-[#d5cfbe]">
+   611→              <span className="text-[10.5px] font-bold text-[#6a5a9a]">Emoticons</span>
+   612→              <div className="flex items-center gap-1">
+   613→                <button
+   614→                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+   615→                  title="Previous page"
+   616→                  disabled={emoPage === 0}
+   617→                  onClick={() => setEmoPage((pg) => Math.max(0, pg - 1))}
+   618→                >
+   619→                  ◀
+   620→                </button>
+   621→                <span className="text-[10px] text-[#777] tabular-nums">
+   622→                  {emoPage + 1} / {Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE)}
+   623→                </span>
+   624→                <button
+   625→                  className="ym-tool-btn w-[19px] h-[16px] flex items-center justify-center text-[9px] text-[#555] disabled:opacity-40"
+   626→                  title="Next page"
+   627→                  disabled={emoPage >= Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1}
+   628→                  onClick={() => setEmoPage((pg) => Math.min(Math.ceil(EMO_PALETTE.length / EMO_PER_PAGE) - 1, pg + 1))}
+   629→                >
+   630→                  ▶
+   631→                </button>
+   632→              </div>
+   633→            </div>
+   634→            <div className="w-[270px]">
+   635→              {/* official Yahoo palette order — one slot per emoticon, each GIF at
+   636→                  its native 1:1 pixel size (wide GIFs grow their own cell) */}
+   637→              <div className="flex flex-wrap items-center content-start gap-[2px] w-[268px]">
+   638→                {EMO_PALETTE.slice(emoPage * EMO_PER_PAGE, emoPage * EMO_PER_PAGE + EMO_PER_PAGE).map((e) => (
+   639→                  <button
+   640→                    key={e.code}
+   641→                    className="min-w-[24px] min-h-[24px] px-[2px] py-[1px] shrink-0 hover:bg-white hover:outline hover:outline-1 hover:outline-[#b39ae0] rounded-[2px] flex items-center justify-center"
+   642→                    title={`${e.name}  ${e.code}`}
+   643→                    onClick={() => insertEmoticon(e.code)}
+   644→                  >
+   645→                    <Emoticon file={e.file} />
+   646→                  </button>
+   647→                ))}
+   648→              </div>
+   649→            </div>
+   650→          </div>
+   651→        )}
+   652→      </div>
+   653→
+   654→      {/* ---- Input ---- */}
+   655→      <div className="bg-[#f1f0e3] px-1.5 pb-1.5">
+   656→        <div className="ym-chat-pane relative">
+   657→          <div
+   658→            ref={editor}
+   659→            className="ym-editable ym-scroll min-h-[44px] max-h-[80px] overflow-y-auto px-2 py-1.5 pr-[74px] outline-none"
+   660→            style={{ fontFamily: font, fontSize: `${SIZE_PX[fsize] ?? 13}px` }}
+   661→            contentEditable
+   662→            data-placeholder=""
+   663→            onInput={() => setCanSend(!!editor.current?.textContent?.trim())}
+   664→            onKeyDown={(e) => {
+   665→              if (e.key === "Enter" && !e.shiftKey) {
+   666→                e.preventDefault();
+   667→                send();
+   668→              }
+   669→            }}
+   670→          />
+   671→          <button
+   672→            className="ym-send absolute right-1.5 bottom-1.5 h-[26px] w-[64px] text-[12px]"
+   673→            disabled={!canSend}
+   674→            onClick={send}
+   675→          >
+   676→            Send
+   677→          </button>
+   678→        </div>
+   679→      </div>
+   680→
+   681→      {/* ---- News ticker ---- */}
+   682→      <div className="bg-[#e9e7da] border-t border-[#cfccbc] h-[22px] flex items-center overflow-hidden">
+   683→        <span className="shrink-0 px-2 text-[10.5px] font-bold text-[#7b2fbd] tracking-wide border-r border-[#cfccbc] h-full flex items-center">
+   684→          NEWS
+   685→        </span>
+   686→        <div className="flex-1 overflow-hidden whitespace-nowrap">
+   687→          <div className="animate-ticker inline-block text-[11px] text-[#333]">
+   688→            <span className="font-bold">ALP</span> {tickerText}
+   689→            &nbsp;&nbsp;&nbsp;&nbsp;
+   690→            <span className="font-bold">ALP</span> {tickerText}
+   691→          </div>
+   692→        </div>
+   693→      </div>
+   694→    </WindowFrame>
+   695→  );
+   696→}
+   697→
+   698→function MessageVideo({ src }: { src: string }) {
+   699→  const ref = useRef<HTMLVideoElement>(null);
+   700→  const [ended, setEnded] = useState(false);
+   701→
+   702→  /* plays once, with voice, right after being sent (user-gesture window) */
+   703→  useEffect(() => {
+   704→    const v = ref.current;
+   705→    if (!v) return;
+   706→    v.muted = false;
+   707→    const t = window.setTimeout(() => v.play().catch(() => {}), 60);
+   708→    return () => window.clearTimeout(t);
+   709→  }, []);
+   710→
+   711→  return (
+   712→    <button
+   713→      className="relative block cursor-pointer group"
+   714→      title={ended ? "Click to play again" : "Audible"}
+   715→      onClick={() => {
+   716→        const v = ref.current;
+   717→        if (!v) return;
+   718→        if (v.paused || ended) {
+   719→          v.currentTime = 0;
+   720→          setEnded(false);
+   721→          void v.play().catch(() => {});
+   722→        } else {
+   723→          v.pause();
+   724→        }
+   725→      }}
+   726→    >
+   727→      <video
+   728→        ref={ref}
+   729→        src={src}
+   730→        playsInline
+   731→        onEnded={() => setEnded(true)}
+   732→        className="block w-[120px] h-[90px] object-cover"
+   733→      />
+   734→      {ended && (
+   735→        <span className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition-colors">
+   736→          <svg width="26" height="26" viewBox="0 0 26 26">
+   737→            <circle cx="13" cy="13" r="12" fill="rgba(255,255,255,0.9)" />
+   738→            <path d="M10 8 L19 13 L10 18 Z" fill="#5a3ca6" />
+   739→          </svg>
+   740→        </span>
+   741→      )}
+   742→    </button>
+   743→  );
+   744→}
+   745→
+   746→function ToolBtn({
+   747→  icon,
+   748→  label,
+   749→  caret,
+   750→  onClick,
+   751→  active,
+   752→}: {
+   753→  icon: React.ReactNode;
+   754→  label: string;
+   755→  caret?: boolean;
+   756→  onClick?: () => void;
+   757→  active?: boolean;
+   758→}) {
+   759→  return (
+   760→    <button
+   761→      onClick={onClick}
+   762→      className={`flex flex-col items-center px-2.5 py-0.5 rounded hover:bg-[#e9e2f6] active:bg-[#ddd0f2] transition-colors group ${
+   763→        active ? "bg-[#e3d7f6]" : ""
+   764→      }`}
+   765→    >
+   766→      <span className="flex items-center gap-0.5">
+   767→        {icon}
+   768→        {caret && <span className="text-[8px] text-[#777] mt-2">▼</span>}
+   769→      </span>
+   770→      <span className="text-[10.5px] text-[#333] mt-0.5 group-hover:text-[#222]">{label}</span>
+   771→    </button>
+   772→  );
+   773→}
+   774→

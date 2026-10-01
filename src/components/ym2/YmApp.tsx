@@ -42,6 +42,7 @@ export default function YmApp() {
     h: 624,
   }));
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- snap the SSR-safe height to the real viewport after mount
     setSignin((w) => ({ ...w, h: SIGNIN_H() }));
   }, []);
   const [morphing, setMorphing] = useState(false);
@@ -177,7 +178,7 @@ export default function YmApp() {
         }}
       >
         <img
-          src="/assets/wallpaper/bliss-1920.jpg"
+          src="/assets/wallpaper/bliss-real.jpg"
           alt=""
           draggable={false}
           className="absolute inset-0 w-full h-full object-cover"

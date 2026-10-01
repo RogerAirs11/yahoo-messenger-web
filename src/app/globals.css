@@ -664,3 +664,361 @@ body {
 .imv-sparkle {
   animation: imv-sparkle 4.2s ease-in-out infinite;
 }
+
+/* ==================================================================
+   IMVironments v2 — layered scene animation system
+   (aquarium / beach / doodle / fireworks / hearts / autumn / winter)
+   ================================================================== */
+
+/* ---- Aquarium ---- */
+/* surface shimmer sliding sideways */
+@keyframes imv-surface {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-300px); }
+}
+.imv-surface {
+  animation: imv-surface 9s linear infinite;
+}
+/* fish tail wiggle — origin set inline per species (view-box units) */
+@keyframes imv-tail {
+  0%, 100% { transform: rotate(14deg); }
+  50% { transform: rotate(-14deg); }
+}
+.imv-tail {
+  animation: imv-tail 0.8s ease-in-out infinite;
+}
+/* jellyfish bell pulse + upward drift */
+@keyframes imv-jelly {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.12, 0.86); }
+}
+.imv-jelly {
+  transform-origin: 50% 40%;
+  animation: imv-jelly 2.6s ease-in-out infinite;
+}
+@keyframes imv-jellydrift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-130px); }
+}
+.imv-jellydrift {
+  animation: imv-jellydrift 17s ease-in-out infinite alternate;
+}
+@keyframes imv-tent {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+}
+.imv-tent {
+  animation: imv-tent 1.7s ease-in-out infinite;
+}
+/* sonar shockwave rings */
+@keyframes imv-ringx {
+  0% { transform: translate(-50%, -50%) scale(0.05); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.imv-ring {
+  width: 340px;
+  height: 240px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,0.85);
+  box-shadow: 0 0 14px rgba(255,255,255,0.5), inset 0 0 14px rgba(255,255,255,0.3);
+  animation: imv-ringx 1.15s cubic-bezier(0.16, 0.7, 0.35, 1) forwards;
+}
+/* eruption bubbles rushing to the surface */
+@keyframes imv-ebubble {
+  0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+  8% { opacity: 1; }
+  100% { transform: translateY(-58vh) translateX(10px) scale(1.15); opacity: 0; }
+}
+.imv-ebubble {
+  bottom: 6%;
+  animation: imv-ebubble 1.25s cubic-bezier(0.3, 0.6, 0.6, 1) forwards;
+}
+/* startled fish darting across */
+@keyframes imv-dashx {
+  0% { transform: translateX(0); opacity: 0; }
+  6% { opacity: 1; }
+  100% { transform: translateX(72vw); opacity: 0; }
+}
+.imv-dash {
+  animation: imv-dashx 1.05s cubic-bezier(0.5, 0.2, 0.9, 0.6) forwards;
+}
+
+/* ---- Beach ---- */
+@keyframes imv-sunrays {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.imv-sunrays {
+  animation: imv-sunrays 46s linear infinite;
+  transform-origin: center;
+}
+@keyframes imv-cloudx {
+  0% { left: -18%; }
+  100% { left: 112%; }
+}
+.imv-cloud {
+  animation: imv-cloudx 52s linear infinite;
+}
+@keyframes imv-gullx {
+  0% { transform: translateX(-10%); }
+  100% { transform: translateX(112%); }
+}
+.imv-gull {
+  animation: imv-gullx 26s linear infinite;
+}
+@keyframes imv-gullbob {
+  0%, 100% { transform: translateY(-4px); }
+  50% { transform: translateY(4px); }
+}
+.imv-gullbob {
+  animation: imv-gullbob 2.6s ease-in-out infinite;
+}
+/* foam rows rolling toward the shore */
+@keyframes imv-surf {
+  0% { transform: translateX(-6%); }
+  50% { transform: translateX(6%); }
+  100% { transform: translateX(-6%); }
+}
+.imv-surfrise {
+  animation: imv-surf ease-in-out infinite;
+}
+/* palm fronds sway */
+@keyframes imv-fronds {
+  0%, 100% { transform: rotate(-2.2deg); }
+  50% { transform: rotate(2.6deg); }
+}
+.imv-fronds {
+  animation: imv-fronds 5.4s ease-in-out infinite;
+}
+@keyframes imv-frond {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3.4deg); }
+}
+.imv-frond {
+  animation: imv-frond 4.2s ease-in-out infinite;
+}
+/* the big wave surging up the pane */
+@keyframes imv-bigwave {
+  0% { transform: translateY(104%); opacity: 0.2; }
+  12% { opacity: 1; }
+  58% { transform: translateY(-4%); }
+  78% { transform: translateY(2%); opacity: 0.95; }
+  100% { transform: translateY(104%); opacity: 0.2; }
+}
+.imv-bigwave {
+  height: 120%;
+  border-radius: 46% 54% 0 0 / 120px 90px 0 0;
+  background:
+    radial-gradient(60% 30% at 50% 0%, rgba(255,255,255,0.95), rgba(255,255,255,0) 70%),
+    linear-gradient(180deg, rgba(180,225,248,0.96) 0%, rgba(110,180,225,0.9) 30%, rgba(70,150,205,0.88) 100%);
+  animation: imv-bigwave 2.1s cubic-bezier(0.35, 0.75, 0.4, 1) forwards;
+}
+@keyframes imv-sprayx {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(14px, -120px) scale(1); opacity: 0; }
+}
+.imv-spray {
+  bottom: 34%;
+  animation: imv-sprayx 1.05s ease-out forwards;
+}
+
+/* ---- Doodle ---- */
+@keyframes imv-boingx {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(-16deg); opacity: 0; }
+  38% { transform: translate(-50%, -50%) scale(1.14) rotate(5deg); opacity: 1; }
+  54% { transform: translate(-50%, -50%) scale(0.94) rotate(-3deg); }
+  66% { transform: translate(-50%, -50%) scale(1.02) rotate(1deg); }
+  80% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
+}
+.imv-boing {
+  animation: imv-boingx 1.6s cubic-bezier(0.3, 0.9, 0.4, 1.2) forwards;
+  filter: drop-shadow(0 2px 3px rgba(120, 60, 20, 0.25));
+}
+
+/* ---- Fireworks ---- */
+/* container: pop open, hold, dissolve */
+@keyframes imv-burstpop2 {
+  0% { transform: scale(0.25); opacity: 0; }
+  7% { opacity: 1; }
+  15% { transform: scale(1.1); }
+  24% { transform: scale(1); }
+  62% { opacity: 0.9; }
+  100% { transform: scale(1.05); opacity: 0; }
+}
+.imv-burst {
+  animation: imv-burstpop2 8.8s ease-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 235, 170, 0.65));
+}
+/* individual sparks flying radially outward */
+@keyframes imv-fwspark {
+  0% { transform: translate(0, 0); opacity: 1; }
+  70% { opacity: 0.85; }
+  100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+}
+.imv-fwspark {
+  animation: imv-fwspark 8.8s cubic-bezier(0.15, 0.65, 0.4, 1) infinite;
+}
+/* one-shot salute burst */
+.imv-burst-once {
+  animation: imv-burstpop2 1.7s ease-out forwards;
+  filter: drop-shadow(0 0 8px rgba(255, 235, 170, 0.75));
+}
+.imv-burst-once .imv-fwspark {
+  animation-duration: 1.7s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+/* quick white flash over the whole pane */
+@keyframes imv-flashx {
+  0% { opacity: 0; }
+  8% { opacity: 0.34; }
+  100% { opacity: 0; }
+}
+.imv-flash {
+  background: radial-gradient(80% 60% at 50% 32%, rgba(255,250,220,0.9), transparent 75%);
+  animation: imv-flashx 0.9s ease-out forwards;
+}
+/* golden shockwave */
+@keyframes imv-ringgold {
+  0% { transform: translate(-50%, -50%) scale(0.04); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.imv-ring-gold {
+  width: 380px;
+  height: 260px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 220, 130, 0.9);
+  box-shadow: 0 0 18px rgba(255, 220, 130, 0.6);
+  animation: imv-ringgold 1.2s cubic-bezier(0.16, 0.7, 0.35, 1) forwards;
+}
+/* rockets ascending */
+@keyframes imv-rocketx {
+  0% { transform: translateY(0); opacity: 0; }
+  6% { opacity: 1; }
+  82% { opacity: 1; }
+  92%, 100% { transform: translateY(-46vh); opacity: 0; }
+}
+.imv-rocket {
+  animation: imv-rocketx 8.8s cubic-bezier(0.5, 0.15, 0.7, 0.9) infinite;
+}
+/* skyline windows flicker */
+@keyframes imv-windows {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.imv-windows {
+  animation: imv-windows 3.4s ease-in-out infinite;
+}
+
+/* ---- Hearts ---- */
+@keyframes imv-petalfall {
+  0% { transform: translateY(-8%); opacity: 0; }
+  8% { opacity: 0.9; }
+  100% { transform: translateY(112%); opacity: 0; }
+}
+.imv-petal {
+  top: 0;
+  animation: imv-petalfall linear infinite;
+}
+@keyframes imv-petalspin {
+  0%, 100% { transform: rotate(-32deg) translateX(-4px); }
+  50% { transform: rotate(38deg) translateX(5px); }
+}
+.imv-petalspin {
+  animation: imv-petalspin ease-in-out infinite;
+}
+@keyframes imv-heartburstx {
+  0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.1); opacity: 0; }
+}
+.imv-heartburst {
+  animation: imv-heartburstx 1.5s cubic-bezier(0.2, 0.75, 0.35, 1) forwards;
+}
+
+/* ---- Autumn ---- */
+@keyframes imv-branch {
+  0%, 100% { transform: rotate(0.6deg); }
+  50% { transform: rotate(-0.9deg); }
+}
+.imv-branch {
+  transform-box: view-box;
+  transform-origin: 180px 0px;
+  animation: imv-branch 6.2s ease-in-out infinite;
+}
+
+/* ---- Winter ---- */
+@keyframes imv-aurorax {
+  0%, 100% { transform: skewX(-7deg) translateX(-2%); opacity: 0.55; }
+  50% { transform: skewX(6deg) translateX(3%); opacity: 0.95; }
+}
+.imv-aurora {
+  animation: imv-aurorax 11s ease-in-out infinite;
+}
+
+/* ---- IMVironment picker icons get a hint of life ---- */
+.imv-menu-preview {
+  transition: transform 0.15s ease;
+}
+.imv-menu-preview:hover {
+  transform: scale(1.12);
+}
+
+/* ==================================================================
+   Sign-in face — the chrome marble is alive: it bobs on its shadow,
+   blinks, glances around, spins when you sign in.
+   ================================================================== */
+@keyframes face-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.2px); }
+}
+.face-bob {
+  transform-box: view-box;
+  transform-origin: 142px 93px;
+  animation: face-bob 3.6s ease-in-out infinite;
+}
+/* ground shadow breathes opposite the bob */
+@keyframes face-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.9); opacity: 0.72; }
+}
+.face-shadow {
+  transform-box: view-box;
+  transform-origin: 142px 121px;
+  animation: face-shadow 3.6s ease-in-out infinite;
+}
+/* blink — quick squash of each eye (origin set inline per eye, view-box units) */
+@keyframes face-blink {
+  0%, 91%, 97%, 100% { transform: scaleY(1); }
+  93.5% { transform: scaleY(0.08); }
+}
+.face-eye {
+  animation: face-blink 5.6s ease-in-out infinite;
+}
+/* idle glance — the eyes wander, then settle */
+@keyframes face-glance {
+  0%, 18% { transform: translateX(0); }
+  26%, 40% { transform: translateX(-2.1px); }
+  48%, 66% { transform: translateX(2.2px); }
+  74%, 100% { transform: translateX(0); }
+}
+.face-glance {
+  animation: face-glance 7.4s ease-in-out infinite;
+}
+/* excited spin on sign-in */
+@keyframes face-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  30% { transform: rotate(140deg) scale(1.12); }
+  62% { transform: rotate(320deg) scale(0.94); }
+  85% { transform: rotate(375deg) scale(1.04); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.face-spin {
+  transform-box: view-box;
+  transform-origin: 142px 93px;
+  animation: face-spin 1.05s cubic-bezier(0.34, 0.9, 0.3, 1) 1;
+}

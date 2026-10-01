@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WindowFrame, { MenuDef } from "./WindowFrame";
 import { SignInLogo, YahooSmiley } from "./icons";
 import { ME } from "./data";
@@ -50,7 +50,30 @@ export default function SignInWindow(p: Props) {
   const [auto, setAuto] = useState(true);
   const [invisible, setInvisible] = useState(false);
   const [signing, setSigning] = useState(false);
+  const [gaze, setGaze] = useState({ ex: 0, ey: 0 });
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef(0);
   const timer = useRef<number | null>(null);
+
+  /* the marble's eyes follow the cursor around the window */
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const el = bodyRef.current;
+      if (!el) return;
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const ex = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 1.4)));
+        const ey = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 1.4)));
+        setGaze({ ex, ey });
+      });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   const menus: MenuDef[] = [
     {
@@ -104,8 +127,8 @@ export default function SignInWindow(p: Props) {
       onClose={p.onClose}
       onMinimize={p.onMinimize}
     >
-      <div className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-4 pb-3 overflow-y-auto ym-scroll">
-        {/* ---- the real YM9 branding: purple serif Y! + chrome smiley marble ---- */}
+      <div ref={bodyRef} className="bg-[#f1f0e3] flex-1 min-h-0 flex flex-col items-center px-6 pt-4 pb-3 overflow-y-auto ym-scroll">
+        {/* ---- the YM9 branding, alive: Y! + a 3D chrome smiley that watches you ---- */}
         <div className={`relative ${signing ? "animate-wake" : ""}`}>
           {signing && (
             <div
@@ -117,7 +140,7 @@ export default function SignInWindow(p: Props) {
             />
           )}
           <div className="relative">
-            <SignInLogo width={180} signing={signing} />
+            <SignInLogo width={180} signing={signing} ex={gaze.ex} ey={gaze.ey} />
           </div>
         </div>
 

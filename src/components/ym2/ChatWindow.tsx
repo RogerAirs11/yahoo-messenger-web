@@ -23,7 +23,7 @@ import {
   emojifyHtml,
 } from "./icons";
 import { AUDIBLE_CATEGORIES, AUTO_REPLIES, ChatMessage, Contact, ME, NEWS_TICKER } from "./data";
-import { playBuzz, playKiss, playMessage, playSent, playWind } from "./sounds";
+import { playImvBuzz, playMessage, playSent } from "./sounds";
 import { ImvScene, IMV_BG, IMV_LIST, ImvId } from "./Imvironments";
 
 interface Props {
@@ -68,10 +68,7 @@ export default function ChatWindow(p: Props) {
   const [emoPage, setEmoPage] = useState(0);
   const [imv, setImv] = useState<ImvId>("none");
   const [imvMenu, setImvMenu] = useState(false);
-  const [gust, setGust] = useState(0);
-  const [kisses, setKisses] = useState<number[]>([]);
-  const [burst, setBurst] = useState(0);
-  const [flurry, setFlurry] = useState(0);
+  const [imvBuzz, setImvBuzz] = useState(0);
   const [shake, setShake] = useState(false);
   const [font, setFont] = useState("Arial");
   const [fsize, setFsize] = useState(10);
@@ -96,37 +93,14 @@ export default function ChatWindow(p: Props) {
   const push = (m: ChatMessage) => setMessages((prev) => [...prev, m]);
 
   const doBuzz = () => {
-    if (imv === "luv") {
-      const id = Date.now();
-      setKisses((k) => [...k, id]);
-      window.setTimeout(() => setKisses((k) => k.filter((x) => x !== id)), 3400);
-      playKiss();
-      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
-      return;
-    }
-    if (imv === "autumn") {
-      setGust((g) => g + 1);
-      playWind();
-      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
-      return;
-    }
-    if (imv === "fireworks") {
-      /* the buzz becomes a grand golden salute over the skyline */
-      setBurst((b) => b + 1);
-      playBuzz();
-      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
-      return;
-    }
-    if (imv === "winter") {
-      setFlurry((f) => f + 1);
-      playWind();
-      setMessages((prev) => [...prev, { from: "me", buzz: true }]);
-      return;
-    }
+    /* like the original client: the window ALWAYS shakes + BUZZ!!! fires,
+       and the active IMVironment answers with its own artistic flourish
+       and its own realistic sound */
     setMessages((prev) => [...prev, { from: "me", buzz: true }]);
     setShake(true);
-    playBuzz();
     window.setTimeout(() => setShake(false), 620);
+    playImvBuzz(imv);
+    if (imv !== "none") setImvBuzz((b) => b + 1);
   };
 
   const firstBuzz = useRef(true);
@@ -135,8 +109,8 @@ export default function ChatWindow(p: Props) {
       firstBuzz.current = false;
       return;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- a BUZZ is an imperative signal: it must fire the shake/sound/reaction now
     doBuzz();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.buzzSignal]);
 
   /* keep B/I/U button state in sync with the caret selection */
@@ -307,6 +281,7 @@ export default function ChatWindow(p: Props) {
                   className="ym-dropdown-item w-full text-left px-3 py-[4px] text-[11.5px] flex items-center gap-2"
                   onClick={() => {
                     setImv(o.id);
+                    setImvBuzz(0); // a fresh scene starts calm, even after a buzz
                     setImvMenu(false);
                   }}
                 >
@@ -341,7 +316,7 @@ export default function ChatWindow(p: Props) {
           }}
         >
           {/* IMVironment ambience — lives BEHIND the message text */}
-          <ImvScene imv={imv} kisses={kisses} gust={gust} burst={burst} flurry={flurry} />
+          <ImvScene imv={imv} buzz={imvBuzz} />
 
           {/* message text, above the ambience */}
           <div

@@ -601,23 +601,41 @@ export const WhiteFace = ({ size = 96 }: { size?: number }) => (
   </svg>
 );
 
-/* ---------- Sign-in sleeper: big Y! mark with the round buddy nestled at its
-   lower right (like the Voice coin in the original), grey asleep → yellow awake ---------- */
-/* ---------- Faithful YM9 sign-in logo: purple serif Y! + chrome smiley marble.
-   This is the real branding from the 2008 sign-in window — no cartoon face. ---------- */
-export const SignInLogo = ({ width = 186, signing = false }: { width?: number; signing?: boolean }) => (
+/* ---------- Sign-in: the faithful YM9 branding, ALIVE. The purple serif Y!
+   with the chrome smiley marble — but the marble is a real character now:
+   it bobs, blinks, glances around, follows your cursor across the window,
+   sweeps a sheen, and does an excited spin while signing in. ---------- */
+export const SignInLogo = ({
+  width = 186,
+  signing = false,
+  ex = 0,
+  ey = 0,
+}: {
+  width?: number;
+  signing?: boolean;
+  ex?: number; // cursor tracking, -1..1
+  ey?: number;
+}) => (
   <svg width={width} height={width * (124 / 200)} viewBox="0 0 200 124" className="block overflow-visible">
     <defs>
-      <radialGradient id="lgMarble" cx="0.34" cy="0.26" r="1.05">
+      {/* deep chrome sphere */}
+      <radialGradient id="lgMarble" cx="0.32" cy="0.24" r="1.08">
         <stop offset="0" stopColor="#ffffff" />
-        <stop offset="0.28" stopColor="#eceff1" />
-        <stop offset="0.55" stopColor="#c6ccd2" />
-        <stop offset="0.8" stopColor="#9aa1a8" />
-        <stop offset="1" stopColor="#707880" />
+        <stop offset="0.2" stopColor="#f4f6f8" />
+        <stop offset="0.42" stopColor="#d3d9de" />
+        <stop offset="0.62" stopColor="#adb4bb" />
+        <stop offset="0.82" stopColor="#8b939b" />
+        <stop offset="1" stopColor="#666e76" />
       </radialGradient>
-      <radialGradient id="lgMarbleShade" cx="0.5" cy="1.12" r="0.95">
+      {/* ground occlusion */}
+      <radialGradient id="lgMarbleShade" cx="0.5" cy="1.14" r="0.95">
         <stop offset="0.5" stopColor="rgba(40,50,60,0)" />
-        <stop offset="1" stopColor="rgba(40,50,60,0.32)" />
+        <stop offset="1" stopColor="rgba(40,50,60,0.34)" />
+      </radialGradient>
+      {/* purple room light bouncing up from the UI */}
+      <radialGradient id="lgMarbleAmbient" cx="0.5" cy="1.05" r="0.75">
+        <stop offset="0.35" stopColor="rgba(150,110,230,0)" />
+        <stop offset="1" stopColor="rgba(150,110,230,0.38)" />
       </radialGradient>
       <linearGradient id="lgY" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stopColor="#8a3fd6" />
@@ -628,9 +646,8 @@ export const SignInLogo = ({ width = 186, signing = false }: { width?: number; s
       </clipPath>
     </defs>
 
-    {/* ground shadow */}
-    <ellipse cx="142" cy="121" rx="27" ry="4.2" fill="rgba(60,40,90,0.18)" />
-
+    {/* ground shadow — squashes in sync with the bob */}
+    <ellipse className="face-shadow" cx="142" cy="121" rx="27" ry="4.2" fill="rgba(60,40,90,0.2)" />
     {/* the purple serif Y! — bang fully visible, marble kisses its tip */}
     <text x="50" y="94" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="112" fill="url(#lgY)" stroke="#5c1a96" strokeWidth="1.4">
       Y
@@ -641,24 +658,41 @@ export const SignInLogo = ({ width = 186, signing = false }: { width?: number; s
       </text>
     </g>
 
-    {/* chrome smiley marble, overlapping the lower-right of the bang */}
-    <g>
-      <circle cx="142" cy="93" r="30" fill="url(#lgMarble)" />
-      {/* embossed dot-eyes + smile — tone-on-tone, like the metal badge */}
-      <circle cx="130" cy="85" r="2.7" fill="#878e94" />
-      <circle cx="154" cy="85" r="2.7" fill="#878e94" />
-      <circle cx="130" cy="86.1" r="2.7" fill="#c8ced3" opacity="0.7" transform="translate(0 1.1)" />
-      <circle cx="154" cy="86.1" r="2.7" fill="#c8ced3" opacity="0.7" transform="translate(0 1.1)" />
-      <path d="M130 100 q12 10.5 24 0" fill="none" stroke="#878e94" strokeWidth="2.6" strokeLinecap="round" />
-      <path d="M130 101.4 q12 10.5 24 0" fill="none" stroke="#c8ced3" strokeWidth="1.6" strokeLinecap="round" opacity="0.75" />
-      <circle cx="142" cy="93" r="30" fill="url(#lgMarbleShade)" />
-      {/* specular highlights */}
-      <ellipse cx="129" cy="76" rx="11.5" ry="7" fill="#fff" opacity="0.78" transform="rotate(-24 129 76)" />
-      <ellipse cx="126.4" cy="73.6" rx="4.4" ry="2.5" fill="#fff" opacity="0.95" transform="rotate(-24 126.4 73.6)" />
-      <path d="M167 71 a30 30 0 0 1 5 18.5" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.2" strokeLinecap="round" />
-      {/* slow sheen sweep, clipped to the marble */}
-      <g clipPath="url(#lgMarbleClip)">
-        <rect className="marble-sheen" x="96" y="46" width="15" height="94" fill="#fff" opacity="0.26" />
+    {/* the living chrome smiley marble */}
+    <g className="face-bob">
+      <g className={signing ? "face-spin" : undefined}>
+        <circle cx="142" cy="93" r="30" fill="url(#lgMarble)" />
+        {/* environment: purple bounce light + ground shade */}
+        <circle cx="142" cy="93" r="30" fill="url(#lgMarbleShade)" />
+        <circle cx="142" cy="93" r="30" fill="url(#lgMarbleAmbient)" />
+
+        {/* the face: outer g follows the cursor, inner g glances on its own */}
+        <g style={{ transform: `translate(${(ex * 3.4).toFixed(2)}px, ${(ey * 2.4).toFixed(2)}px)` }}>
+          <g className="face-glance">
+            {/* eyes (each blinks independently-ish) */}
+            <g className="face-eye" style={{ transformBox: "view-box", transformOrigin: "130px 85px", animationDelay: "0s" }}>
+              <circle cx="130" cy="85" r="2.9" fill="#565d64" />
+              <circle cx="130.8" cy="84.2" r="0.8" fill="#f2f5f7" />
+            </g>
+            <g className="face-eye" style={{ transformBox: "view-box", transformOrigin: "154px 85px", animationDelay: "0.08s" }}>
+              <circle cx="154" cy="85" r="2.9" fill="#565d64" />
+              <circle cx="154.8" cy="84.2" r="0.8" fill="#f2f5f7" />
+            </g>
+            {/* engraved smile — dark cut + light edge below */}
+            <path d="M129 99 q13 11 26 0" fill="none" stroke="#5d646b" strokeWidth="2.7" strokeLinecap="round" />
+            <path d="M129 100.6 q13 11 26 0" fill="none" stroke="#d6dbdf" strokeWidth="1.4" strokeLinecap="round" opacity="0.8" />
+          </g>
+        </g>
+
+        {/* specular highlights */}
+        <ellipse cx="129" cy="76" rx="11.5" ry="7" fill="#fff" opacity="0.78" transform="rotate(-24 129 76)" />
+        <ellipse cx="126.4" cy="73.6" rx="4.4" ry="2.5" fill="#fff" opacity="0.95" transform="rotate(-24 126.4 73.6)" />
+        <path d="M167 71 a30 30 0 0 1 5 18.5" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.2" strokeLinecap="round" />
+
+        {/* slow sheen sweep, clipped to the marble */}
+        <g clipPath="url(#lgMarbleClip)">
+          <rect className="marble-sheen" x="96" y="46" width="15" height="94" fill="#fff" opacity="0.26" />
+        </g>
       </g>
     </g>
   </svg>

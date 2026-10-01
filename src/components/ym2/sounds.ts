@@ -279,3 +279,30 @@ export function playWind() {
     /* noop */
   }
 }
+
+/* ==================================================================
+   IMVironment BUZZ sounds — layered realistic SFX synthesized
+   offline (scripts/make_imv_sounds.py) and served from
+   /assets/sounds/imv. Each IMVironment answers the BUZZ with its
+   own acoustic scene, exactly like a real IMVironment flourish.
+   ================================================================== */
+
+const IMV_WAV: Record<string, string> = {
+  aquarium: "aquarium_buzz.wav", // sonar ping + bubbles
+  fireworks: "fireworks_buzz.wav", // mortar + whistle + boom + crackle
+  hearts: "hearts_buzz.wav", // harp gliss + smack + heartbeat
+  winter: "winter_buzz.wav", // arctic wind + sleigh bells
+  autumn: "autumn_buzz.wav", // gust + leaf rustle
+  beach: "beach_buzz.wav", // breaking wave + seagulls
+  doodle: "doodle_buzz.wav", // boing + pencil scribble
+};
+
+/** Play the IMVironment-specific buzz sound (falls back to a synth). */
+export function playImvBuzz(imv: string) {
+  const f = IMV_WAV[imv];
+  if (!f) {
+    playBuzz();
+    return;
+  }
+  playWav(`imv/${f}`, synthBuzz, 0.95);
+}
