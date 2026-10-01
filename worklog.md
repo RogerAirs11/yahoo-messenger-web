@@ -94,3 +94,24 @@ Stage Summary:
 - Picker now renders the authentic Yahoo palette order, one slot per emoticon, every GIF at native 1:1 pixels in both picker and message pane
 - Audio provenance (user asked): buzz/message/login/alert/ring WAVs are the GENUINE originals from the YM install Media folder, archived by wink.messengergeek.com (2009 pack), served from public/assets/sounds; sent-tick/kiss/wind are Web Audio synth recreations (no original WAV exists for those)
 - Pre-existing dev-only SSR hydration-attribute warning (live clock) still present; benign, not user-visible
+
+---
+Task ID: 5
+Agent: Super Z (main)
+Task: Completeness pass — real XP wallpaper, real IMVironments, faithful sign-in logo, picker paging, hydration fixes
+
+Work Log:
+- Pulled origin/main (up to date); re-examined login + IM reference screenshots
+- WALLPAPER: sourced the REAL Bliss photograph (Charles O'Rear, Sonoma Valley) 3840x2160 from a GitHub theme repo (archive.org + wikimedia were rate-limited/unreachable from sandbox), optimized to 1920x1080 q87 (481KB) at public/assets/wallpaper/bliss-1920.jpg; YmApp now renders it as <img object-cover> over a gradient underlay; removed CSS-drawn clouds/hill
+- IMVIRONMENTS: original Yahoo IMV artwork is gone from the live web (searched archive/miraheze/fandom) -> recreated 6 classics artistically in new src/components/ym2/Imvironments.tsx: Aquarium (light rays, 3 fish w/ flip+bob, rising bubbles, swaying seaweed, sand+starfish), Fireworks (dusk sky, twinkling stars, 5 staggered radial bursts, city skyline silhouette w/ lit windows, BUZZ = grand golden salute), Winter (snow drifts, pines, snowman w/ scarf, falling snow, BUZZ = whirling flurry), Notepad (legal-pad rules, red margin, punched holes, coffee ring, dog-ear), upgraded Luv (sparkles) + Autumn; IMV_LIST/IMV_BG/ImvScene architecture; buzz reactions per scene (kiss/gust/burst/flurry) + sounds
+- SIGN-IN: replaced creepy animated face with faithful YM9 branding — purple serif Y! (bang fully visible, marble kisses its tip) + chrome marble with embossed dot-eyes/smile, sheen sweep, glow while signing; layout now matches ref: logo -> ID/Password -> 3 checkboxes -> glossy Sign In -> Idioma select (16 languages from ref) -> both blue links centered at bottom; removed SignInFace + dead CSS (breathe/zzz/wake-lift/blink/face-shadow)
+- EMOTICON PICKER: now paged like the original client (40/page, pager header "1 / 3" with prev/next)
+- HYDRATION: real root causes fixed — YmApp typeof-window initial height (deterministic 624 + useEffect snap), WindowFrame px-string styles, Taskbar clock suppressHydrationWarning; "1 Issue" dev badge gone
+- Wired bottom-row IMVironments toolbar button to the real IMV menu
+- Browser-verified: login layout fits, buddy list on Bliss, Aquarium/Fireworks/Winter/Notepad/Luv scenes + BUZZ reactions, picker pages (page 2 starts exactly at #41 nail biting), zero page errors, dev.log clean
+- Committed + pushed 41bf6da
+
+Stage Summary:
+- App now has real XP wallpaper, 6 artistically-recreated classic IMVironments with per-scene BUZZ reactions, faithful YM9 sign-in branding, paged emoticon palette, and zero hydration warnings
+- Bliss 4K original kept at public/assets/wallpaper/bliss.jpg (4MB) for future use
+- Remaining known stubs (era-appropriate): video/voice calls, Activities, Photos panel, Add a Contact, Preferences
