@@ -1,37 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "Yahoo! Messenger — Classic",
+  description: "A faithful web recreation of Yahoo! Messenger 9 (2008): buddy list, IMs, emoticons, Audibles and the legendary BUZZ!!",
+  keywords: ["Yahoo Messenger", "YM 9", "nostalgia", "instant messaging", "2000s"],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7.4' fill='%236D3FA8'/%3E%3Ctext x='8' y='11.8' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-style='italic' font-size='10' fill='white'%3EY!%3C/text%3E%3C/svg%3E",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "Yahoo! Messenger — Classic",
+    description: "The purple legend, reborn in your browser. BUZZ!!!",
+    siteName: "Yahoo! Messenger Classic",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
   },
 };
 
@@ -42,11 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-      >
+      <body className="antialiased" style={{ overflow: "hidden" }}>
         {children}
-        <Toaster />
       </body>
     </html>
   );
