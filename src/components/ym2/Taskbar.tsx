@@ -87,7 +87,7 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
             style={{
               background: "linear-gradient(180deg, #2f71d8 0%, #1e56c8 60%, #1a4cb8 100%)",
               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
-              borderBottom: "2px solid #e88c00",
+              borderBottom: "2px solid #f59200",
             }}
           >
             <span className="w-[42px] h-[42px] rounded-[4px] bg-white p-[2px] inline-flex shadow">
@@ -99,17 +99,19 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
           </div>
 
           <div className="flex" style={{ boxShadow: "0 -2px 14px rgba(0,10,60,0.5)" }}>
-            {/* left column — pinned + programs */}
+            {/* left column — pinned + programs + All Programs, like the real Luna menu */}
             <div className="w-[196px] bg-white py-1.5 px-1 flex flex-col text-[#1a1a1a]">
               <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); }}>
-                <img src={ICO("ie", 48)} alt="" className="w-[26px] h-[26px]" draggable={false} />
+                <img src={ICO("ie", 48)} alt="" className="w-[30px] h-[30px]" draggable={false} />
                 <span className="leading-tight">
                   <span className="block text-[12px] font-bold">Internet</span>
                   <span className="block text-[10.5px] text-[#555]">Internet Explorer</span>
                 </span>
               </button>
               <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onShowContacts(); }}>
-                <YahooSmiley size={26} />
+                <span className="w-[30px] flex justify-center">
+                  <YahooSmiley size={28} />
+                </span>
                 <span className="leading-tight">
                   <span className="block text-[12px] font-bold">E-mail</span>
                   <span className="block text-[10.5px] text-[#555]">Yahoo! Messenger</span>
@@ -117,14 +119,22 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
               </button>
               <div className="h-[1px] bg-[#c8d4e8] my-1 mx-2" />
               <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onShowContacts(); }}>
-                <YahooSmiley size={22} />
+                <span className="w-[24px] flex justify-center">
+                  <YahooSmiley size={20} />
+                </span>
                 <span className="text-[12px]">Yahoo! Messenger</span>
               </button>
               <div className="flex-1" />
               <div className="h-[1px] bg-[#c8d4e8] my-1 mx-2" />
-              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); onOpenMyComputer(); }}>
-                <img src={ICO("my-computer", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
-                <span className="text-[12px] font-bold">My Computer</span>
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); }}>
+                <span className="w-[24px] flex justify-center">
+                  {/* All Programs: the green ▶ bullet from the real menu */}
+                  <svg width="13" height="13" viewBox="0 0 13 13">
+                    <path d="M3 1.5 L10.5 6.5 L3 11.5 z" fill="#57a03c" stroke="#3c7a26" strokeWidth="0.8" />
+                  </svg>
+                </span>
+                <span className="text-[12px] font-bold">All Programs</span>
+                <span className="ml-auto text-[10px] text-[#777]">▸</span>
               </button>
             </div>
 
@@ -135,13 +145,27 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
             >
               {([
                 ["my-docs", "My Documents"],
+                [null, "My Recent Documents"],
                 ["my-pictures", "My Pictures"],
                 ["my-music", "My Music"],
                 ["my-computer", "My Computer"],
-              ] as const).map(([ic, label]) => (
-                <button key={ic} className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); if (ic === "my-computer") onOpenMyComputer(); }}>
-                  <img src={ICO(ic, 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
-                  <span className="text-[12px] font-bold">{label}</span>
+              ] as const).map(([ic, label], idx) => (
+                <button key={label} className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => { setStartOpen(false); if (ic === "my-computer") onOpenMyComputer(); }}>
+                  {ic ? (
+                    <img src={ICO(ic, 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
+                  ) : (
+                    <span className="w-[22px] flex justify-center">
+                      {/* folder-with-arrow like the real My Recent Documents */}
+                      <svg width="18" height="16" viewBox="0 0 18 16">
+                        <path d="M1.5 3 h5 l1.5 2 h8.5 v9 h-15 z" fill="#f6d388" stroke="#b98a2e" strokeWidth="0.9" />
+                        <path d="M13 6.5 v4 M11 8.5 l2 2 l2 -2" fill="none" stroke="#4a72cc" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  )}
+                  <span className="text-[12px] font-bold flex items-center gap-1">
+                    {label}
+                    {idx === 1 && <span className="text-[9px] text-[#4a72cc]">▸</span>}
+                  </span>
                 </button>
               ))}
               <div className="h-[1px] bg-[#a8c4e8] my-1 mx-2" />
@@ -158,23 +182,42 @@ export default function Taskbar({ items, flashing = {}, onTaskClick, onShowConta
                 <img src={ICO("search", 48)} alt="" className="w-[22px] h-[22px]" draggable={false} />
                 <span className="text-[12px]">Search</span>
               </button>
+              <button className="flex items-center gap-2 px-2 py-[5px] rounded hover:bg-[#2f71d8] hover:text-white text-left" onClick={() => setStartOpen(false)}>
+                <span className="w-[22px] flex justify-center">
+                  {/* Run...: the real menu uses a window-with-arrow glyph */}
+                  <svg width="17" height="15" viewBox="0 0 17 15">
+                    <rect x="1" y="2" width="13" height="10" rx="1" fill="#eef3fc" stroke="#4a72cc" strokeWidth="1" />
+                    <rect x="1" y="2" width="13" height="2.6" fill="#7ba4e8" />
+                    <path d="M10 9.5 l4.5 3 M14.5 12.5 l-0.6 -2.4 M14.5 12.5 l-2.4 -0.6" stroke="#4a72cc" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+                  </svg>
+                </span>
+                <span className="text-[12px]">Run...</span>
+              </button>
             </div>
           </div>
 
-          {/* footer strip: log off + turn off */}
+          {/* footer strip: log off + turn off, with the authentic key / power glyphs */}
           <div
-            className="flex items-center justify-end gap-4 px-4 py-[7px] rounded-b-[8px]"
+            className="flex items-center justify-end gap-5 px-4 py-[7px] rounded-b-[8px]"
             style={{
               background: "linear-gradient(180deg, #2f71d8 0%, #1e56c8 60%, #1a4cb8 100%)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)",
+              boxShadow: "inset 0 2px 4px rgba(0, 10, 60, 0.28), inset 0 1px 0 rgba(255,255,255,0.2)",
             }}
           >
             <button className="flex items-center gap-1.5 text-white text-[12px] hover:underline" onClick={() => { setStartOpen(false); onLogOff(); }}>
-              <img src={ICO("user", 48)} alt="" className="w-[18px] h-[18px]" draggable={false} />
+              {/* yellow key — the real Log Off glyph */}
+              <svg width="17" height="17" viewBox="0 0 17 17">
+                <circle cx="5.2" cy="5.2" r="3.4" fill="none" stroke="#f2c53d" strokeWidth="2.1" />
+                <path d="M7.6 7.6 L13.4 13.4 M11 11 l1.8 -1.8 M12.6 12.6 l1.6 -1.6" stroke="#f2c53d" strokeWidth="2" strokeLinecap="round" />
+              </svg>
               Log Off
             </button>
             <button className="flex items-center gap-1.5 text-white text-[12px] hover:underline" onClick={() => { setStartOpen(false); onTurnOff(); }}>
-              <img src={ICO("turnoff", 48)} alt="" className="w-[18px] h-[18px]" draggable={false} />
+              {/* red power — the real Turn Off Computer glyph */}
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <circle cx="8" cy="8.4" r="5.6" fill="none" stroke="#e03c1c" strokeWidth="2" />
+                <path d="M8 1.6 v5.4" stroke="#e03c1c" strokeWidth="2.2" strokeLinecap="round" />
+              </svg>
               Turn Off Computer
             </button>
           </div>

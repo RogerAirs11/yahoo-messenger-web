@@ -80,10 +80,10 @@ export default function YmApp() {
   /* ---------- XP boot → welcome → desktop ---------- */
   const bootDone = useCallback(() => setStage("welcome"), []);
   const enterDesktop = useCallback(() => {
-    /* the genuine XP startup sound, played from the welcome-tile user gesture */
+    /* the genuine XP startup sound, played from the welcome-tile user gesture;
+       the "welcome" phase of the logon screen plays out before the desktop fades in */
     playXpStartup();
-    /* let the sound breathe, then fade to the desktop */
-    window.setTimeout(() => setStage("signin"), 1500);
+    window.setTimeout(() => setStage("signin"), 2050);
   }, []);
   const turnOff = useCallback(() => {
     /* XpBoot plays the shutdown sound; loop back to a fresh boot */
@@ -283,7 +283,9 @@ export default function YmApp() {
         </div>
       )}
 
-      {/* My Computer window (simple, XP-styled) */}
+      {/* My Computer window — real XP explorer chrome: Luna titlebar,
+          menu bar, address bar with Go, light task pane with blue group
+          headers, status bar */}
       {desktopStage && mypc && !mypc.minimized && (
         <div
           className="absolute flex flex-col rounded-t-[8px] overflow-hidden"
@@ -304,30 +306,62 @@ export default function YmApp() {
             <button className="xp-cap-btn" onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))}>
               <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5 h6" stroke="#fff" strokeWidth="1.6" /></svg>
             </button>
+            <button className="xp-cap-btn">
+              <svg width="10" height="10" viewBox="0 0 10 10"><rect x="2" y="2" width="6" height="6" fill="none" stroke="#fff" strokeWidth="1.3" /><path d="M3.8 2 V0.9 H9.1 V6.2 H8" fill="none" stroke="#fff" strokeWidth="1" /></svg>
+            </button>
             <button className="xp-cap-btn close" onClick={() => setMypc(null)}>
               <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2.2 2.2 l5.6 5.6 M7.8 2.2 l-5.6 5.6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
             </button>
           </div>
+          {/* menu bar */}
+          <div className="h-[21px] flex items-center px-1.5 gap-0.5 text-[11.5px] text-[#333] bg-[#ece9d8] border-b border-[#d4d0c0]">
+            {["File", "Edit", "View", "Favorites", "Tools", "Help"].map((m) => (
+              <span key={m} className="px-1.5 py-[1px] rounded hover:bg-[#316ac5] hover:text-white cursor-default">{m}</span>
+            ))}
+          </div>
+          {/* address bar */}
+          <div className="h-[27px] flex items-center gap-1.5 px-1.5 bg-[#ece9d8] border-b border-[#d4d0c0]">
+            <span className="text-[11px] text-[#777] pl-0.5">Address</span>
+            <span className="flex-1 h-[20px] bg-white border border-[#7f9db9] rounded-[2px] flex items-center gap-1 px-1 text-[11.5px] text-[#333]">
+              <img src={ICO("my-computer", 48)} alt="" className="w-[13px] h-[13px]" />
+              My Computer
+            </span>
+            <button className="flex items-center gap-1 text-[11.5px] text-[#2a5a0e] px-1.5 h-[20px] rounded hover:bg-[#e6f0d8]" title="Go">
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6 h6 M5.4 2.6 L9 6 L5.4 9.4" fill="none" stroke="#3d9028" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              Go
+            </button>
+          </div>
           <div className="flex flex-1 min-h-0">
-            {/* task pane */}
-            <div className="w-[180px] bg-[#6f8dd9] p-3 text-white overflow-y-auto">
-              <div className="bg-white/20 rounded p-2 mb-2">
-                <div className="text-[11.5px] font-bold mb-1.5">System Tasks</div>
-                <div className="text-[11px] text-white/90 space-y-1.5">
-                  <div>View system information</div>
-                  <div>Add or remove programs</div>
-                  <div>Change a setting</div>
+            {/* task pane — the real XP look: pale blue gradient with rounded
+                blue group headers over white bodies */}
+            <div
+              className="w-[186px] p-2.5 overflow-y-auto"
+              style={{ background: "linear-gradient(180deg, #7ba2e8 0%, #8fabdd 10%, #eef2fb 42%, #e9eef9 100%)" }}
+            >
+              {[
+                {
+                  head: "System Tasks",
+                  items: ["View system information", "Add or remove programs", "Change a setting"],
+                },
+                {
+                  head: "Other Places",
+                  items: ["My Network Places", "My Documents", "Shared Documents", "Control Panel"],
+                },
+              ].map((g) => (
+                <div key={g.head} className="rounded-[5px] overflow-hidden mb-2.5" style={{ boxShadow: "0 1px 3px rgba(30,60,130,0.25)" }}>
+                  <div className="px-2.5 py-[3px] text-white text-[11.5px] font-bold" style={{ background: "linear-gradient(180deg, #7ba4e8 0%, #5b84d8 55%, #4a72cc 100%)" }}>
+                    {g.head}
+                  </div>
+                  <div className="bg-white/90 px-2.5 py-2 text-[11px] text-[#2c57a4] space-y-[7px]">
+                    {g.items.map((it) => (
+                      <div key={it} className="flex items-start gap-1.5 hover:text-[#e88c00] cursor-pointer leading-tight">
+                        <span className="text-[#4a72cc] mt-[1px]">›</span>
+                        <span>{it}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="bg-white/20 rounded p-2">
-                <div className="text-[11.5px] font-bold mb-1.5">Other Places</div>
-                <div className="text-[11px] text-white/90 space-y-1.5">
-                  <div>My Network Places</div>
-                  <div>My Documents</div>
-                  <div>Shared Documents</div>
-                  <div>Control Panel</div>
-                </div>
-              </div>
+              ))}
             </div>
             {/* drives */}
             <div className="flex-1 bg-white p-4 overflow-y-auto">
@@ -359,6 +393,14 @@ export default function YmApp() {
                 </div>
               </div>
             </div>
+          </div>
+          {/* status bar */}
+          <div className="h-[20px] flex items-center px-2 text-[11px] text-[#444] bg-[#ece9d8] border-t border-[#d4d0c0] gap-0">
+            <span className="flex-1">5 objects</span>
+            <span className="w-[130px] border-l border-[#d4d0c0] pl-2 h-full flex items-center">My Computer</span>
+            <span className="w-[26px] border-l border-[#d4d0c0] h-full flex items-center justify-center">
+              <img src={ICO("my-computer", 48)} alt="" className="w-[12px] h-[12px]" />
+            </span>
           </div>
         </div>
       )}

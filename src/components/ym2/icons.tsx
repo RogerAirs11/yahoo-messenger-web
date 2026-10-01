@@ -700,7 +700,7 @@ export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: numbe
           <ellipse cx="129.8" cy="87.2" rx="1.1" ry="1.4" fill="#fff" opacity="0.85" />
         </g>
 
-        {/* clean open Yahoo grin — springs open with a soft overshoot */}
+        {/* clean open Yahoo grin, teeth only — springs open with a soft overshoot */}
         <g
           style={{
             opacity: awake ? 1 : 0,
@@ -712,9 +712,15 @@ export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: numbe
               : "opacity 0.2s ease, transform 0.2s ease",
           }}
         >
-          <path d="M104 97 Q118 121 132 97 Z" fill="#7a2a10" />
-          <path d="M106.5 97.5 Q118 102 129.5 97.5 L129 100 Q118 104.5 107 100 Z" fill="#fff" />
-          <ellipse cx="118" cy="110" rx="6.6" ry="4" fill="#ef8598" />
+          {/* dark open mouth */}
+          <path d="M104 97 Q118 120 132 97 Z" fill="#7a2a10" />
+          {/* one bright row of teeth across the smile */}
+          <path d="M106 97.4 Q118 103.6 130 97.4 L129.2 102.8 Q118 108 106.8 102.8 Z" fill="#fffdf4" />
+          {/* subtle tooth separations fanning from the lip line */}
+          <path d="M113 99.4 L112.6 105.2" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+          <path d="M118 100.6 L118 106.4" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+          <path d="M123 99.4 L123.4 105.2" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+          {/* lip line */}
           <path d="M103 97 Q118 102 133 97" fill="none" stroke="#7a4a00" strokeWidth="2.2" strokeLinecap="round" />
         </g>
         <ellipse cx="99" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.7s ease 1.7s" }} />

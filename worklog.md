@@ -193,3 +193,29 @@ Stage Summary:
 - Every IMVironment BUZZ now answers with REAL field-recorded/foley sounds (BBC archive) + ambient beds + a cinematic shockwave layer over the per-scene flourishes
 - Asset provenance: XP sounds+icons from bartekl1/windows-ui-assets; IMV ambience/buzz from sound-effects.bbcrewind.co.uk (BBC RemArc licence, personal/educational use)
 - scripts/fetch_xp_assets.py, xp_extract_icons.py, fetch_bbc_sounds.py are the asset pipeline sources of truth
+
+---
+Task ID: 9
+Agent: Super Z (main)
+Task: User feedback — Autumn IMV redone (realistic/artistic/accurate to real Yahoo IMVironments, slow falling leaves idle, STRONG wind on BUZZ, less distraction/contrast); login smiley: no tongue, teeth-only grin; Windows XP accuracy pass (logos/layouts/icons "exactly as it was").
+
+Work Log:
+- Pulled origin/main (up to date at a461327, working tree clean — no sandbox reroll)
+- Researched real Yahoo IMVironment design language (image-search API down 400s, wayback CDX blocked from sandbox; relied on reference screenshots + era knowledge): real IMVs keep the pane LIGHT and text-readable, art hugs top band + corners, animation gentle
+- LOGIN GRIN: removed the pink tongue ellipse from SignInFace awake state; grin is now a dark open mouth + one bright teeth row (#fffdf4) with 3 subtle tooth-separation strokes; nothing pink
+- AUTUMN v7 (rewrite in Imvironments.tsx): IMV_BG regraded to light watercolor cream (#fdf9ee->#f0dcb4, nothing dark); deleted the big dark oak + saturated canopy + dark litter band + migrating birds (contrast/distraction drivers); new top branch (muted two-tone leaves, gentle sway) hugging the top edge; faint sepia treeline (opacity .16, blur 2); watermark leaf motif 10% opacity; light ground wash with 10 muted edge-tucked leaves + softened mushrooms/acorn
+- AUTUMN IDLE = SLOW falling leaves: 2 depth layers (6 back leaves blurred/sat-reduced 19-27s, 11 front 14-24s) on imv-fall + new gentler imv-sway3 (±12px, ±26-30deg, 4-7s), opacities .42/.62
+- AUTUMN BUZZ = STRONG WIND: replaced dark BuzzCinema dip with soft warm light-sweep (imv-warmflash, keeps pane bright); 5 wide blurred wind bands racing L->R (imv-windband, pane-relative, staggered 0.09s); 4 fine dust streaks; 20 leaves seized by the gust on full-pane sweep (imv-windleaf wrapper is pane-width so % tracks any pane size + imv-windspin 760deg tumble, rolling-front stagger); 10 litter leaves lift off and get carried away (imv-liftoff); branch gets imv-branch-shake (keyed by buzz so it retriggers); kept REAL autumn_buzz/autumn_ambient BBC sounds
+- XP BOOT fixed to match real boot screen: flag LEFT of wordmark (was stacked), "Microsoft(R)" + bold-italic "Windows" + orange superscript "xp", removed "Professional" (not on real boot), 216px track w/ 15px blocks, footer copyright/Microsoft unchanged
+- XP WELCOME rebuilt to real logonui.exe two-phase flow: VERTICAL glowing divider between halves (was horizontal); initial state = logo left + "To begin, click your user name" TOP-right + user tile (NO "welcome" text yet); clicking tile slides right pane + divider away, big italic "welcome" fades in under the logo, genuine startup sound plays, desktop fades in at 2050ms; Turn off computer moved to bottom-RIGHT corner; bg regraded to brighter Luna (light beam center #3f78d8 -> deep #17398c corners), lighter bands
+- TASKBAR: xp-start brighter glossy green (inset top glow + dark bottom), xp-tray now matches taskbar gradient with proper left ridge (was off-blue)
+- START MENU (Luna): left column now Internet/E-mail pinned + YM MRU + All Programs with green triangle; right column adds My Recent Documents (folder-arrow glyph) and Run... (window-arrow glyph) in real order; footer glyphs made authentic (yellow key for Log Off, red power circle for Turn Off); header orange rule #f59200
+- MY COMPUTER window: added real explorer chrome — menu bar (File/Edit/View/Favorites/Tools/Help), Address bar w/ My Computer + green Go, task pane rebuilt as pale-blue gradient w/ rounded blue group headers (System Tasks/Other Places) over white link bodies, status bar (5 objects | My Computer | icon), decorative maximize caption button
+- CSS: +keyframes imv-sway3/imv-warmflash-k/imv-windband-k/imv-windleaf-k/imv-windspin-k/imv-branch-shake-k/imv-liftoff-k; xp-welcome/xp-welcome-band/xp-tray/xp-start regraded
+- VERIFIED via agent-browser (screenshots scripts/v7_*.png): boot logo layout, welcome initial + welcome-phase mid-fade over Bliss, sleeping face, awake face teeth-only grin (friendly, no pink), Autumn idle (light/readable/slow leaves), Autumn BUZZ mid-gust (rolling leaf front + shaken branch, pane stays bright), Luna start menu (All Programs/Recent Docs/Run/key+power), My Computer chrome, emoticon picker 1/3 unregressed; 0 page errors, 0 console errors; tsc clean for src
+- Committed + pushed (this commit)
+
+Stage Summary:
+- Autumn now behaves like the real Yahoo IMVironment: pale readable watercolor pane, calm slow leaf-fall, and a BUZZ that whips a genuine strong wind (bands + full-pane leaf sweep + litter liftoff + branch shake) with its real field-recorded sound
+- Login smiley wakes into a clean teeth-only Yahoo grin
+- XP shell is dramatically closer to the genuine article end-to-end: boot logo geometry, two-phase logonui welcome with vertical divider, glossier start button, Luna-accurate tray, authentic start-menu structure + footer glyphs, full explorer chrome on My Computer

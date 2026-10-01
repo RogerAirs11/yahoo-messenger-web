@@ -40,28 +40,24 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
       onClick={onDone}
       title="Click to skip"
     >
-      {/* logo */}
-      <div className="flex flex-col items-center" style={{ marginTop: "-6vh" }}>
-        <div className="mb-2">
-          <XpFlag size={92} />
-        </div>
-        <div className="flex items-start gap-1.5" style={{ fontFamily: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" }}>
-          <div className="flex flex-col items-end leading-none">
-            <span className="text-white text-[13px] tracking-wide mr-[86px] mb-0.5">Microsoft</span>
-            <span className="text-white text-[44px] font-bold tracking-tight" style={{ textShadow: "0 2px 6px rgba(120,160,255,0.35)" }}>
-              Windows<span className="align-top text-[22px] font-bold ml-1" style={{ color: "#f65314" }}>xp</span>
-            </span>
+      {/* logo — flag LEFT of the wordmark, exactly like the real boot screen */}
+      <div className="flex items-center" style={{ marginTop: "-6vh", gap: 18 }}>
+        <XpFlag size={94} />
+        <div className="leading-none" style={{ fontFamily: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" }}>
+          <div className="text-white/90 text-[14px] tracking-wide mb-1.5">Microsoft®</div>
+          <div
+            className="text-white text-[48px] font-bold italic tracking-tight"
+            style={{ textShadow: "0 2px 8px rgba(120,160,255,0.35)" }}
+          >
+            Windows<span className="align-top text-[25px] font-bold ml-1" style={{ color: "#f65314" }}>xp</span>
           </div>
-        </div>
-        <div className="text-white/75 text-[12px] mt-0.5 tracking-wide" style={{ fontFamily: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" }}>
-          Professional
         </div>
       </div>
 
       {/* the classic progress bar: recessed track, 3 blue blocks sliding */}
-      <div className="mt-14">
+      <div className="mt-16">
         <div
-          className="w-[204px] h-[16px] rounded-[8px] overflow-hidden relative"
+          className="w-[216px] h-[16px] rounded-[8px] overflow-hidden relative"
           style={{
             background: "linear-gradient(180deg, #101010, #1c1c1c)",
             boxShadow: "inset 0 1px 3px rgba(0,0,0,0.9), inset 0 -1px 1px rgba(255,255,255,0.08), 0 0 0 1px #2a2a2a",
@@ -71,10 +67,10 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-[16px] rounded-[3px]"
+                className="w-[15px] rounded-[4px]"
                 style={{
-                  background: "linear-gradient(180deg, #7ea8f0 0%, #3c79e0 45%, #2359bd 100%)",
-                  boxShadow: "0 0 6px rgba(90,140,255,0.55)",
+                  background: "linear-gradient(180deg, #8ab2f5 0%, #4a80e8 45%, #2a5fc4 100%)",
+                  boxShadow: "0 0 7px rgba(90,140,255,0.6)",
                 }}
               />
             ))}
@@ -116,48 +112,88 @@ export function WelcomeScreen({ onEnter, onTurnOff }: { onEnter: () => void; onT
       className="absolute inset-0 z-[10000] select-none xp-welcome"
       style={{
         opacity: off ? 1 : leaving ? 0 : 1,
-        transition: "opacity 0.7s ease",
+        transition: off ? "opacity 1.2s ease 0.3s" : "opacity 0.7s ease 1.1s",
         pointerEvents: off ? "none" : "auto",
       }}
     >
       {/* top band */}
-      <div className="absolute top-0 left-0 right-0 h-[76px] xp-welcome-band" />
+      <div className="absolute top-0 left-0 right-0 h-[72px] xp-welcome-band" />
 
-      {/* left half — brand above the line, big welcome below it */}
-      <div className="absolute left-0 bottom-[70px] top-[76px] w-1/2 flex flex-col items-center justify-center gap-10">
-        <div className="flex items-center gap-3">
-          <XpFlag size={52} />
+      {/* bottom band */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[64px] xp-welcome-band"
+        style={{ boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.14), 0 -2px 8px rgba(0,10,50,0.4)" }}
+      />
+
+      {/* VERTICAL divider between the halves, like the real logon screen —
+          it swings away once a user is picked */}
+      <div
+        className="absolute top-[74px] bottom-[66px] left-1/2 w-[2px] -ml-[1px]"
+        style={{
+          background: "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.8) 86%, transparent 100%)",
+          boxShadow: "0 0 7px rgba(190,215,255,0.55)",
+          opacity: leaving ? 0 : 1,
+          transform: leaving ? "translateX(-160px)" : "none",
+          transition: "opacity 0.5s ease, transform 0.7s ease",
+        }}
+      />
+
+      {/* left half — the XP brand; after picking a user the big italic
+          "welcome" fades in beneath it, exactly like the real logonui flow */}
+      <div className="absolute left-0 top-[72px] bottom-[64px] w-1/2 flex flex-col items-center justify-center gap-9">
+        <div className="flex items-center gap-4">
+          <XpFlag size={62} />
           <div className="leading-none" style={{ fontFamily: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" }}>
-            <div className="text-white/90 text-[12px] mb-1">Microsoft®</div>
-            <div className="text-white text-[30px] font-bold tracking-tight" style={{ textShadow: "0 1px 4px rgba(0,10,60,0.6)" }}>
-              Windows<span className="align-top text-[16px] ml-0.5" style={{ color: "#ffb03a" }}>xp</span>
+            <div className="text-white/90 text-[13px] tracking-wide mb-1.5">Microsoft®</div>
+            <div
+              className="text-white text-[33px] font-bold italic tracking-tight"
+              style={{ textShadow: "0 2px 6px rgba(0,10,60,0.6)" }}
+            >
+              Windows<span className="align-top text-[18px] font-bold ml-1" style={{ color: "#ffb03a" }}>xp</span>
             </div>
           </div>
         </div>
         <div
-          className="text-white"
           style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
-            fontStyle: "italic",
-            fontSize: 72,
-            fontWeight: 500,
-            textShadow: "0 2px 12px rgba(0,10,60,0.7)",
-            letterSpacing: "0.01em",
+            maxHeight: leaving ? 110 : 0,
+            opacity: leaving ? 1 : 0,
+            transition: "max-height 0.75s cubic-bezier(0.3, 0.7, 0.3, 1) 0.12s, opacity 0.6s ease 0.18s",
           }}
         >
-          welcome
+          <div
+            className="text-white"
+            style={{
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontStyle: "italic",
+              fontSize: 76,
+              fontWeight: 500,
+              textShadow: "0 2px 12px rgba(0,10,60,0.7)",
+              letterSpacing: "0.01em",
+            }}
+          >
+            welcome
+          </div>
         </div>
       </div>
 
-      {/* right half — instructions above the line, user tile below it */}
-      <div className="absolute right-0 bottom-[70px] top-[76px] w-1/2 flex flex-col justify-center">
-        <div className="text-white/90 text-[13.5px] mb-5 pl-[8%]">To begin, click your user name</div>
+      {/* right half — instruction at the TOP, user list below it; the whole
+          pane slides away when a user is picked, like the real thing */}
+      <div
+        className="absolute right-0 top-[72px] bottom-[64px] w-1/2 flex flex-col pt-[9%]"
+        style={{
+          opacity: leaving ? 0 : 1,
+          transform: leaving ? "translateX(-70px)" : "none",
+          transition: "opacity 0.45s ease, transform 0.55s ease",
+          pointerEvents: leaving ? "none" : "auto",
+        }}
+      >
+        <div className="text-white/95 text-[13.5px] mb-7 pl-[10%]">To begin, click your user name</div>
         <button
-          className="xp-welcome-tile flex items-center gap-3.5 p-2.5 rounded w-[300px] text-left"
+          className="xp-welcome-tile flex items-center gap-3.5 p-2.5 rounded w-[300px] text-left ml-[8%]"
           onClick={enter}
         >
-          <span className="w-[56px] h-[56px] rounded-[6px] bg-white p-[2px] shadow-md inline-flex shrink-0">
-            <img src={ME.avatar} alt="" className="w-full h-full rounded-[4px] object-cover" />
+          <span className="w-[54px] h-[54px] rounded-[5px] bg-white p-[3px] shadow-md inline-flex shrink-0">
+            <img src={ME.avatar} alt="" className="w-full h-full rounded-[3px] object-cover" />
           </span>
           <span className="text-white text-[19px] font-semibold" style={{ textShadow: "0 1px 3px rgba(0,10,60,0.6)" }}>
             {ME.name}
@@ -165,14 +201,8 @@ export function WelcomeScreen({ onEnter, onTurnOff }: { onEnter: () => void; onT
         </button>
       </div>
 
-      {/* the dividing line across the middle, like the real welcome */}
-      <div
-        className="absolute left-0 right-0 h-[2px]"
-        style={{ top: "50%", background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 10%, rgba(255,255,255,0.8) 90%, transparent 100%)" }}
-      />
-
-      {/* bottom band */}
-      <div className="absolute bottom-0 left-0 right-0 h-[70px] flex items-center px-10 xp-welcome-band">
+      {/* Turn off computer — bottom band, RIGHT corner like the real welcome */}
+      <div className="absolute bottom-0 right-0 h-[64px] flex items-center pr-[4.5%] z-10">
         <button
           className="flex items-center gap-2 text-white/90 hover:text-white text-[13px] px-3 py-1.5 rounded hover:bg-white/10"
           onClick={turnOff}

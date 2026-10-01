@@ -74,7 +74,7 @@ export const IMV_LIST: { id: ImvId; label: string; icon: React.ReactNode | null 
 export const IMV_BG: Record<ImvId, string> = {
   none: "#ffffff",
   hearts: "linear-gradient(165deg, #ffe9f1 0%, #ffd9e7 30%, #ffc7da 58%, #ffb3cb 100%)",
-  autumn: "linear-gradient(180deg, #fdf6e4 0%, #fae7bd 32%, #f6d59c 62%, #efc489 100%)",
+  autumn: "linear-gradient(180deg, #fdf9ee 0%, #faf1da 38%, #f5e7c6 70%, #f0dcb4 100%)",
   aquarium: "linear-gradient(180deg, #8fd0ee 0%, #5fb0e2 20%, #3f93cf 44%, #2e7ab8 70%, #23619b 100%)",
   beach: "linear-gradient(180deg, #4fa8e0 0%, #7ec2ef 26%, #b5e0f7 46%, #ffeccb 62%, #f7e0b2 82%, #eed7a9 100%)",
   doodle: "#fdfcf6",
@@ -1454,142 +1454,174 @@ function Hearts({ buzz }: { buzz: number }) {
 }
 
 /* ==================================================================
-   AUTUMN — a golden afternoon in the park: hazy sun, a distant
-   treeline, a great oak with a swaying canopy of fall colour, a
-   branch overhead, migrating birds, tumbling leaves and a leaf
-   litter floor with mushrooms and an acorn.
-   BUZZ: a whirlwind — wind streaks rip through, the whole leaf
-   litter erupts and leaves whip across in arcing flurries.
+   AUTUMN — in the spirit of the original Yahoo IMVironments: a LIGHT,
+   low-contrast watercolor pane that keeps chat text perfectly
+   readable. Art hugs the top edge and the corners (a sweeping fall
+   branch, a faint sepia treeline, a few quiet leaves at the edges)
+   while the middle stays paper-pale.
+   Idle: leaves drift SLOWLY down like a calm Indian-summer day.
+   BUZZ: a strong gust — soft warm light-sweep, wide wind bands race
+   across, and every leaf is seized, spun and carried out of the pane;
+   the branch shakes and the litter lifts off.
    ================================================================== */
 function Autumn({ buzz }: { buzz: number }) {
+  /* soft watercolor palette — muted like the original IMVironment art */
+  const LEAF_HUES = [26, 36, 14, 44, 20];
   return (
     <>
-      {/* hazy sun + warm haze */}
-      <div className="absolute right-[10%] top-[8%]">
-        <div className="w-[44px] h-[44px] rounded-full" style={{ background: "radial-gradient(circle at 40% 36%, #fffbe8, #ffe9a8 55%, rgba(255,214,120,0.35))", boxShadow: "0 0 30px 14px rgba(255,220,130,0.4)" }} />
-      </div>
-      <div className="absolute inset-0" style={{ background: "radial-gradient(120% 90% at 50% 0%, rgba(255,214,140,0.34), transparent 60%)" }} />
+      {/* faint golden-hour glow, top-right — barely there, keeps the pane light */}
+      <div
+        className="absolute right-[5%] top-[3%] w-[130px] h-[130px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(255,238,186,0.5), rgba(255,226,152,0.15) 55%, transparent 76%)", filter: "blur(7px)" }}
+      />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(115% 80% at 50% 6%, rgba(255,240,200,0.32), transparent 60%)" }} />
 
-      {/* distant treeline — soft, muted, blurred */}
-      <svg className="absolute left-0 right-0 w-full" style={{ top: "52%", height: 54, opacity: 0.3, filter: "blur(1.2px)" }} viewBox="0 0 400 54" preserveAspectRatio="none">
-        <path d="M0 54 L0 34 Q10 18 22 34 Q30 12 44 32 Q56 8 68 30 Q80 16 92 34 Q104 10 118 32 Q130 14 142 34 Q154 8 168 30 Q180 16 192 34 Q204 12 218 32 Q230 8 244 30 Q256 16 268 34 Q280 10 294 32 Q306 14 318 34 Q330 8 344 30 Q356 16 368 34 Q380 12 400 32 L400 54 z" fill="#b07840" />
+      {/* distant treeline — a breath of sepia at the horizon, hardly a distraction */}
+      <svg className="absolute left-0 right-0 w-full" style={{ top: "56%", height: 44, opacity: 0.16, filter: "blur(2px)" }} viewBox="0 0 400 54" preserveAspectRatio="none">
+        <path d="M0 54 L0 34 Q10 18 22 34 Q30 12 44 32 Q56 8 68 30 Q80 16 92 34 Q104 10 118 32 Q130 14 142 34 Q154 8 168 30 Q180 16 192 34 Q204 12 218 32 Q230 8 244 30 Q256 16 268 34 Q280 10 294 32 Q306 14 318 34 Q330 8 344 30 Q356 16 368 34 Q380 12 400 32 L400 54 z" fill="#c9a06a" />
       </svg>
 
-      {/* the great oak — trunk + swaying canopy */}
-      <div className="absolute bottom-[16%] left-[1%]">
-        <svg width="120" height="170" viewBox="0 0 120 170" style={{ overflow: "visible" }}>
-          <path d="M58 170 C54 128 50 104 40 82" fill="none" stroke="#7a5230" strokeWidth="13" strokeLinecap="round" />
-          <path d="M58 170 C54 128 50 104 40 82" fill="none" stroke="#93683e" strokeWidth="6" strokeLinecap="round" />
-          <path d="M52 132 l-14 -10 M49 110 l-12 -8 M47 94 l10 -8" stroke="#6a4526" strokeWidth="2.6" strokeLinecap="round" />
-          <path d="M40 82 L28 66 M40 82 L54 64" stroke="#7a5230" strokeWidth="5" strokeLinecap="round" />
-          <g className="imv-canopy" style={{ transformBox: "view-box", transformOrigin: "44px 52px" }}>
-            <circle cx="30" cy="48" r="26" fill="#d98a3c" />
-            <circle cx="62" cy="38" r="30" fill="#e8a848" />
-            <circle cx="88" cy="56" r="22" fill="#c96a38" />
-            <circle cx="52" cy="66" r="24" fill="#e0913f" />
-            <circle cx="44" cy="34" r="18" fill="#f0bc58" opacity="0.9" />
-            {[[20, 40], [58, 26], [92, 48], [40, 72], [74, 62]].map(([x, y], i) => (
-              <g key={i} transform={`translate(${x} ${y}) rotate(${i * 63})`}>
-                <LeafGlyph size={13} hue={[24, 38, 14, 30][i % 4]} />
-              </g>
-            ))}
-          </g>
-        </svg>
-      </div>
-
-      {/* branch overhead */}
-      <svg className="absolute top-0 right-0 imv-branch" width="180" height="90" viewBox="0 0 180 90">
-        <path d="M180 6 Q120 14 96 34 Q84 44 78 58" fill="none" stroke="#7a5230" strokeWidth="5" strokeLinecap="round" />
-        <path d="M120 16 Q104 12 92 16 M96 34 Q86 30 76 32" fill="none" stroke="#7a5230" strokeWidth="3" strokeLinecap="round" />
-        {[
-          [92, 14], [104, 15], [84, 30], [95, 33], [76, 52], [86, 42],
-        ].map(([x, y], i) => (
-          <g key={i} transform={`translate(${x} ${y}) rotate(${i * 47})`}>
-            <LeafGlyph size={12 + (i % 2) * 4} hue={[18, 32, 44][i % 3]} />
-          </g>
-        ))}
-      </svg>
-
-      {/* migrating birds */}
-      <div className="imv-birds absolute top-[16%] left-0 w-full">
-        <svg width="66" height="18" viewBox="0 0 66 18">
-          {[[4, 10], [18, 4], [32, 9], [46, 3], [58, 8]].map(([x, y], i) => (
-            <path key={i} d={`M${x} ${y + 3} q3 -4 6 0 q3 -4 6 0`} fill="none" stroke="#7a6248" strokeWidth="1.3" strokeLinecap="round" />
+      {/* the top branch — art hugs the top edge like the real IMVironments,
+          gentle sway; shakes hard when the BUZZ wind arrives */}
+      <div key={`branch${buzz}`} className={buzz > 0 ? "imv-branch-shake absolute top-0 right-0" : "absolute top-0 right-0 imv-branch"}>
+        <svg width="230" height="110" viewBox="0 0 230 110" style={{ overflow: "visible" }}>
+          <path d="M230 8 Q168 16 132 40 Q112 54 100 76" fill="none" stroke="#a8825a" strokeWidth="4.6" strokeLinecap="round" opacity="0.85" />
+          <path d="M168 18 Q152 14 140 20 M132 40 Q120 36 110 40 M146 28 Q136 24 126 28" fill="none" stroke="#a8825a" strokeWidth="2.4" strokeLinecap="round" opacity="0.8" />
+          {[
+            [136, 20, 14, 26], [148, 27, 12, 44], [108, 40, 15, 14], [120, 34, 11, 36],
+            [98, 58, 13, 30], [110, 62, 11, 48], [86, 74, 12, 20], [128, 12, 10, 40],
+          ].map(([x, y, s, h], i) => (
+            <g key={i} transform={`translate(${x} ${y}) rotate(${i * 41 - 20})`} opacity="0.88">
+              <LeafGlyph size={s} hue={LEAF_HUES[i % LEAF_HUES.length]} />
+            </g>
           ))}
         </svg>
       </div>
 
-      {/* tumbling leaves */}
-      {Array.from({ length: 18 }).map((_, i) => (
+      {/* watermark leaf — like the faint printed motif on the original IMV paper */}
+      <div className="absolute right-[4%] bottom-[16%] opacity-[0.1] pointer-events-none">
+        <LeafGlyph size={130} hue={30} />
+      </div>
+
+      {/* soft ground wash + a few quiet fallen leaves tucked near the edges */}
+      <div className="absolute bottom-0 left-0 right-0 h-[11%]" style={{ background: "linear-gradient(180deg, rgba(238,209,150,0.22), rgba(222,182,110,0.3))" }} />
+      {(() => {
+        const rnd = seeded(41);
+        return Array.from({ length: 10 }).map((_, i) => (
+          <span
+            key={`lit${i}`}
+            className="absolute"
+            style={{
+              left: `${i < 5 ? rnd() * 22 : 72 + rnd() * 22}%`,
+              bottom: `${rnd() * 7}%`,
+              opacity: 0.4,
+              filter: "saturate(0.8)",
+              transform: `rotate(${rnd() * 360}deg)`,
+            }}
+          >
+            <LeafGlyph size={9 + rnd() * 6} hue={LEAF_HUES[i % LEAF_HUES.length]} />
+          </span>
+        ));
+      })()}
+      {/* mushrooms + acorn, muted */}
+      <svg className="absolute bottom-[2%] left-[15%] opacity-70" width="22" height="18" viewBox="0 0 24 20">
+        <path d="M9 11 Q9 18 10 20 h5 q1 -4 1 -9 z" fill="#efe0c8" stroke="#c9ad88" strokeWidth="0.8" />
+        <path d="M2 11 Q2 2 12 2 Q22 2 22 11 z" fill="#c97a52" stroke="#a05a38" strokeWidth="0.8" />
+        <circle cx="8" cy="7" r="1.4" fill="#efe0c8" />
+        <circle cx="15" cy="5.6" r="1.2" fill="#efe0c8" />
+      </svg>
+      <svg className="absolute bottom-[3%] right-[18%] opacity-70" width="15" height="17" viewBox="0 0 16 18">
+        <ellipse cx="8" cy="12" rx="5.4" ry="6" fill="#a8865a" stroke="#7a6238" strokeWidth="0.8" />
+        <path d="M3 8 Q8 1 13 8 z" fill="#7a5c34" />
+        <path d="M8 2 l1.4 -2" stroke="#7a5c34" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+
+      {/* ---- idle: leaves SLOWLY falling, calm drift, two depth layers ---- */}
+      {/* back layer: small, soft, farther away */}
+      {Array.from({ length: 6 }).map((_, i) => (
         <span
-          key={i}
+          key={`bf${i}`}
           className="imv-fall absolute"
           style={{
-            left: `${(i * 31 + 4) % 96}%`,
-            animationDelay: `${-(i * 1.9) % 12}s`,
-            animationDuration: `${8 + (i % 5) * 1.6}s`,
+            left: `${(i * 37 + 9) % 94}%`,
+            opacity: 0.42,
+            filter: "blur(1px) saturate(0.75)",
+            animationDelay: `${-(i * 4.7) % 20}s`,
+            animationDuration: `${19 + (i % 3) * 4}s`,
           }}
         >
-          <span className="imv-sway2 block" style={{ animationDuration: `${2.6 + (i % 4) * 0.9}s`, opacity: 0.9 }}>
-            <LeafGlyph size={11 + (i % 3) * 4} hue={[18, 32, 44, 10][i % 4]} />
+          <span className="imv-sway3 block" style={{ animationDuration: `${5 + (i % 3) * 1.4}s` }}>
+            <LeafGlyph size={8 + (i % 2) * 3} hue={LEAF_HUES[i % LEAF_HUES.length]} />
+          </span>
+        </span>
+      ))}
+      {/* front layer: the calm, readable drift */}
+      {Array.from({ length: 11 }).map((_, i) => (
+        <span
+          key={`f${i}`}
+          className="imv-fall absolute"
+          style={{
+            left: `${(i * 31 + 6) % 95}%`,
+            opacity: 0.62,
+            filter: "saturate(0.85)",
+            animationDelay: `${-(i * 3.4) % 17}s`,
+            animationDuration: `${14 + (i % 5) * 2.2}s`,
+          }}
+        >
+          <span className="imv-sway3 block" style={{ animationDuration: `${4.2 + (i % 4) * 1.1}s` }}>
+            <LeafGlyph size={10 + (i % 3) * 3} hue={LEAF_HUES[(i + 2) % LEAF_HUES.length]} />
           </span>
         </span>
       ))}
 
-      {/* leaf litter floor */}
-      <div className="absolute bottom-0 left-0 right-0 h-[13%]" style={{ background: "linear-gradient(180deg, rgba(214,160,88,0.34), rgba(190,130,70,0.42))" }} />
-      {(() => {
-        const rnd = seeded(23);
-        return Array.from({ length: 16 }).map((_, i) => (
-          <span key={`lit${i}`} className="absolute" style={{ left: `${rnd() * 94}%`, bottom: `${rnd() * 9}%`, opacity: 0.85, transform: `rotate(${rnd() * 360}deg)` }}>
-            <LeafGlyph size={10 + rnd() * 7} hue={[16, 28, 40, 8, 34][i % 5]} />
-          </span>
-        ));
-      })()}
-      {/* mushrooms + acorn */}
-      <svg className="absolute bottom-[2%] left-[24%]" width="24" height="20" viewBox="0 0 24 20">
-        <path d="M9 11 Q9 18 10 20 h5 q1 -4 1 -9 z" fill="#f2e4cc" stroke="#c9a888" strokeWidth="0.8" />
-        <path d="M2 11 Q2 2 12 2 Q22 2 22 11 z" fill="#c95a3a" stroke="#9a3f24" strokeWidth="0.8" />
-        <circle cx="8" cy="7" r="1.4" fill="#f2e4cc" />
-        <circle cx="15" cy="5.6" r="1.2" fill="#f2e4cc" />
-      </svg>
-      <svg className="absolute bottom-[4%] right-[26%]" width="16" height="18" viewBox="0 0 16 18">
-        <ellipse cx="8" cy="12" rx="5.4" ry="6" fill="#a87840" stroke="#7a5222" strokeWidth="0.8" />
-        <path d="M3 8 Q8 1 13 8 z" fill="#6a4526" />
-        <path d="M8 2 l1.4 -2" stroke="#6a4526" strokeWidth="1.2" strokeLinecap="round" />
-      </svg>
-
-      {/* ---- BUZZ: the whirlwind ---- */}
+      {/* ---- BUZZ: a STRONG wind — wind bands race across and every leaf
+           is seized, spun and carried clean out of the pane ---- */}
       {buzz > 0 && (
         <div key={buzz} className="absolute inset-0">
-          <BuzzCinema seed={buzz} />
-          <div className="imv-streak" style={{ top: "24%" }} />
-          <div className="imv-streak" style={{ top: "58%", animationDelay: "0.12s" }} />
-          {/* the leaf litter erupts */}
-          {Array.from({ length: 14 }).map((_, i) => (
-            <span
-              key={`er${i}`}
-              className="imv-leafburst absolute"
-              style={{
-                left: `${8 + (i * 31) % 84}%`,
-                bottom: "4%",
-                animationDelay: `${(i % 7) * 0.05}s`,
-              }}
-            >
-              <LeafGlyph size={11 + (i % 3) * 5} hue={[20, 36, 12, 46][i % 4]} />
-            </span>
+          {/* a soft warm light-sweep instead of the dark cinema dip —
+              autumn stays bright and low-contrast */}
+          <div className="absolute inset-0 imv-warmflash" />
+          {/* wide wind bands rolling left → right */}
+          {[12, 30, 48, 64, 80].map((top, i) => (
+            <div
+              key={`wb${i}`}
+              className="imv-windband absolute"
+              style={{ top: `${top}%`, animationDelay: `${i * 0.09}s`, animationDuration: `${0.85 + (i % 3) * 0.18}s` }}
+            />
           ))}
+          {/* fine dust streaks inside the gust */}
+          {[22, 44, 58, 74].map((top, i) => (
+            <div key={`ds${i}`} className="imv-streak" style={{ top: `${top}%`, animationDelay: `${0.1 + i * 0.07}s` }} />
+          ))}
+          {/* leaves seized by the gust — full-pane sweep with a big tumble,
+              staggered so it reads as a rolling gust front */}
           {Array.from({ length: 20 }).map((_, i) => (
             <span
-              key={i}
-              className="imv-gustleaf absolute"
+              key={`wl${i}`}
+              className="imv-windleaf absolute left-0 w-full"
               style={{
-                top: `${(i * 19 + 4) % 92}%`,
-                animationDelay: `${(i % 7) * 0.06}s`,
-                animationDuration: `${0.95 + (i % 5) * 0.14}s`,
+                top: `${7 + ((i * 37 + 11) % 80)}%`,
+                animationDelay: `${(i % 8) * 0.06}s`,
+                animationDuration: `${1 + (i % 5) * 0.17}s`,
               }}
             >
-              <LeafGlyph size={10 + (i % 3) * 5} hue={[20, 36, 12, 46][i % 4]} />
+              <span className="imv-windspin block w-max" style={{ animationDuration: `${0.85 + (i % 4) * 0.13}s` }}>
+                <LeafGlyph size={11 + (i % 3) * 4} hue={LEAF_HUES[i % LEAF_HUES.length]} />
+              </span>
+            </span>
+          ))}
+          {/* the leaf litter lifts off the ground and gets carried away */}
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span
+              key={`lo${i}`}
+              className="imv-liftoff absolute"
+              style={{
+                left: `${6 + (i * 37) % 86}%`,
+                bottom: "3%",
+                animationDelay: `${0.08 + (i % 6) * 0.07}s`,
+              }}
+            >
+              <LeafGlyph size={10 + (i % 3) * 4} hue={LEAF_HUES[(i + 1) % LEAF_HUES.length]} />
             </span>
           ))}
         </div>
