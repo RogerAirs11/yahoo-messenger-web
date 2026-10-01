@@ -25,3 +25,23 @@ Stage Summary:
 - IMPORTANT for next turns: run `git pull origin main` BEFORE any work; commit+push after every turn
 - GH_TOKEN available from user (classic ghp_... token); repo remote already configured with it
 - Known minor items: IMVironments button is alert-only stub, video/voice calls are alert stubs (era-appropriate), "Sign in automatically" checkbox non-functional by design
+
+---
+Task ID: 2
+Agent: Super Z (main)
+Task: Investigate and fix runtime ChunkLoadError ("Failed to load chunk /_next/static/chunks/src_4d43f458._.js")
+
+Work Log:
+- Pulled origin/main first (up to date); verified sandbox NOT rolled back (server pid alive, all YM components/assets present)
+- dev.log analysis: zero compile errors, all GET / 200 -> root cause was NOT a code bug
+- Found cross-origin warning: preview domain (preview-chat-*.space-z.ai) requesting /_next/* without allowedDevOrigins — Turbopack chunk requests from preview domain are the failure point; also output:"standalone" still in next.config (user-flagged hang culprit)
+- Fixed next.config.ts: removed output:"standalone", added allowedDevOrigins ["*.space-z.ai","localhost"]
+- Fixed data.tsx: Chin-Huat Chang avatar men-75.jpg (404, file never existed) -> men-33.jpg (existing, unused)
+- Next.js gracefully auto-restarted on config change (dev.log: "Restarting the server..." -> Ready in 972ms), clearing all stale Turbopack chunk state
+- Verified with agent-browser: login renders, sign-in flow works, buddy list renders with real avatars, zero page errors, zero console chunk errors
+- Committed + pushed 9fdebf3 to RogerAirs11/yahoo-messenger-web
+
+Stage Summary:
+- ChunkLoadError resolved: stale Turbopack chunk state + missing allowedDevOrigins; server now auto-restarted with fresh chunk graph and preview domain whitelisted
+- User may need one hard refresh (Ctrl+Shift+R) on the preview tab to pick up fresh HTML
+- GitHub remains source of truth at commit 9fdebf3
