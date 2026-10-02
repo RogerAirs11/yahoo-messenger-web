@@ -1,0 +1,878 @@
+     1→import React from "react";
+     2→
+     3→/* ---------- Window controls ---------- */
+     4→export const IconMin = () => (
+     5→  <svg width="9" height="9" viewBox="0 0 9 9">
+     6→    <rect x="1" y="6.5" width="7" height="2" fill="#fff" />
+     7→  </svg>
+     8→);
+     9→export const IconMax = () => (
+    10→  <svg width="9" height="9" viewBox="0 0 9 9">
+    11→    <rect x="0.75" y="0.75" width="7.5" height="7.5" fill="none" stroke="#fff" strokeWidth="1.5" />
+    12→  </svg>
+    13→);
+    14→export const IconClose = () => (
+    15→  <svg width="9" height="9" viewBox="0 0 9 9">
+    16→    <path d="M1 1 L8 8 M8 1 L1 8" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    17→  </svg>
+    18→);
+    19→
+    20→/* ---------- Status dots ---------- */
+    21→export type { StatusKind } from "./data";
+    22→
+    23→const yellowDot = (pulse: boolean) => (
+    24→  <span
+    25→    className={`inline-block w-[13px] h-[13px] rounded-full shrink-0 ${pulse ? "status-pulse" : ""}`}
+    26→    style={{
+    27→      background: "radial-gradient(circle at 35% 30%, #fff6b0, #ffd92e 45%, #f0ad00 90%)",
+    28→      border: "1px solid #c98f00",
+    29→    }}
+    30→  />
+    31→);
+    32→const greyDot = () => (
+    33→  <span
+    34→    className="inline-block w-[13px] h-[13px] rounded-full shrink-0"
+    35→    style={{ background: "radial-gradient(circle at 35% 30%, #eee, #b9b9b9 60%, #9a9a9a)", border: "1px solid #7d7d7d" }}
+    36→  />
+    37→);
+    38→const redDot = (minus: boolean) => (
+    39→  <span
+    40→    className="inline-block w-[13px] h-[13px] rounded-full shrink-0 relative"
+    41→    style={{ background: "radial-gradient(circle at 35% 30%, #ffb0a8, #e8524a 50%, #c9332b 90%)", border: "1px solid #a0241d" }}
+    42→  >
+    43→    {minus && <span className="absolute left-[2px] right-[2px] top-[5px] h-[2px] bg-white rounded" />}
+    44→  </span>
+    45→);
+    46→
+    47→export const StatusDot = ({ status, pulse = false }: { status: string; pulse?: boolean }) => {
+    48→  switch (status) {
+    49→    case "available":
+    50→    case "brb":
+    51→    case "phone":
+    52→    case "lunch":
+    53→      return yellowDot(pulse);
+    54→    case "busy":
+    55→      return redDot(false);
+    56→    case "steppedout":
+    57→      return redDot(true);
+    58→    default:
+    59→      return greyDot();
+    60→  }
+    61→};
+    62→
+    63→/* ---------- IMVironment glyphs ---------- */
+    64→export const HeartGlyph = ({ size = 14 }: { size?: number }) => (
+    65→  <svg width={size} height={size} viewBox="0 0 20 20">
+    66→    <path
+    67→      d="M10 17 C4 12 2 8.5 2 6 C2 3.5 4 2 6 2 C7.8 2 9.2 3 10 4.4 C10.8 3 12.2 2 14 2 C16 2 18 3.5 18 6 C18 8.5 16 12 10 17 Z"
+    68→      fill="#e8386a"
+    69→      stroke="#a81848"
+    70→      strokeWidth="0.8"
+    71→    />
+    72→    <ellipse cx="6.6" cy="5.6" rx="1.8" ry="1.2" fill="#fff" opacity="0.5" transform="rotate(-20 6.6 5.6)" />
+    73→  </svg>
+    74→);
+    75→
+    76→export const LeafGlyph = ({ size = 14, hue = 24 }: { size?: number; hue?: number }) => (
+    77→  <svg width={size} height={size} viewBox="0 0 20 20">
+    78→    <path
+    79→      d="M3 17 C3 8 9 3 17 3 C17 11 12 17 4 17 Z"
+    80→      fill={`hsl(${hue} 75% 45%)`}
+    81→      stroke={`hsl(${hue} 70% 30%)`}
+    82→      strokeWidth="0.7"
+    83→    />
+    84→    <path d="M4.5 15.5 C8 12 12 8 15.5 4.5" fill="none" stroke={`hsl(${hue} 60% 28%)`} strokeWidth="0.7" />
+    85→  </svg>
+    86→);
+    87→
+    88→/* ---------- Luv IMVironment watermark: big glossy heart ---------- */
+    89→export const GlossyHeart = ({ size = 210 }: { size?: number }) => (
+    90→  <svg width={size} height={size * 0.88} viewBox="0 0 200 176" className="block">
+    91→    <defs>
+    92→      <radialGradient id="glh" cx="0.38" cy="0.3" r="0.95">
+    93→        <stop offset="0" stopColor="#ffd3e0" />
+    94→        <stop offset="0.45" stopColor="#ffabc4" />
+    95→        <stop offset="0.8" stopColor="#f985a8" />
+    96→        <stop offset="1" stopColor="#ef6c93" />
+    97→      </radialGradient>
+    98→    </defs>
+    99→    <path
+   100→      d="M100 168 C36 120 8 84 8 52 C8 26 28 8 52 8 C72 8 90 20 100 38 C110 20 128 8 148 8 C172 8 192 26 192 52 C192 84 164 120 100 168 Z"
+   101→      fill="url(#glh)"
+   102→    />
+   103→    <ellipse cx="66" cy="42" rx="26" ry="15" fill="#fff" opacity="0.45" transform="rotate(-22 66 42)" />
+   104→    <ellipse cx="56" cy="34" rx="9" ry="5" fill="#fff" opacity="0.7" transform="rotate(-22 56 34)" />
+   105→    <path d="M64 84 c-7-9 3-16 8-10 l2 3 2-3 c5-6 15 1 8 10 l-10 11 z" fill="#e0486f" opacity="0.85" />
+   106→    <path d="M126 92 c-6-8 3-14 7-9 l2 2 2-2 c4-5 13 1 7 9 l-9 10 z" fill="#e0486f" opacity="0.8" />
+   107→  </svg>
+   108→);
+   109→
+   110→/* ---------- The classic red lipstick kiss stamp ---------- */
+   111→export const BigKiss = ({ size = 240 }: { size?: number }) => (
+   112→  <svg width={size} height={size * 0.68} viewBox="0 0 220 150" className="block">
+   113→    <defs>
+   114→      <linearGradient id="lipg" x1="0" y1="0" x2="0" y2="1">
+   115→        <stop offset="0" stopColor="#d92645" />
+   116→        <stop offset="0.5" stopColor="#c01834" />
+   117→        <stop offset="1" stopColor="#9e0f28" />
+   118→      </linearGradient>
+   119→      <clipPath id="lipclip">
+   120→        <path d="M12 74 C30 40 68 36 94 54 C102 62 118 62 126 54 C152 36 190 40 208 74 C196 110 160 130 110 130 C60 130 24 110 12 74 Z" />
+   121→      </clipPath>
+   122→    </defs>
+   123→    <g transform="rotate(-4 110 75)">
+   124→      <path
+   125→        d="M12 74 C30 40 68 36 94 54 C102 62 118 62 126 54 C152 36 190 40 208 74 C196 110 160 130 110 130 C60 130 24 110 12 74 Z"
+   126→        fill="url(#lipg)"
+   127→      />
+   128→      <g clipPath="url(#lipclip)" stroke="#7d0a1e" strokeWidth="1.6" opacity="0.5">
+   129→        {Array.from({ length: 17 }).map((_, i) => {
+   130→          const x = 22 + i * 11;
+   131→          const top = 52 + Math.abs(i - 8) * 1.6;
+   132→          const bot = 128 - Math.abs(i - 8) * 2.2;
+   133→          return <line key={i} x1={x} y1={top} x2={x + (i - 8) * 1.4} y2={bot} />;
+   134→        })}
+   135→      </g>
+   136→      <path d="M14 74 C60 82 160 82 206 74" fill="none" stroke="#6d0818" strokeWidth="3" opacity="0.75" strokeLinecap="round" />
+   137→      <path d="M94 54 C102 62 118 62 126 54" fill="none" stroke="#6d0818" strokeWidth="2" opacity="0.5" />
+   138→      <ellipse cx="70" cy="104" rx="22" ry="8" fill="#fff" opacity="0.18" transform="rotate(6 70 104)" />
+   139→      <ellipse cx="150" cy="100" rx="16" ry="6" fill="#fff" opacity="0.14" transform="rotate(-5 150 100)" />
+   140→      <ellipse cx="58" cy="50" rx="12" ry="5" fill="#fff" opacity="0.3" transform="rotate(-18 58 50)" />
+   141→    </g>
+   142→  </svg>
+   143→);
+   144→
+   145→export const KissMark = ({ size = 44 }: { size?: number }) => (
+   146→  <svg width={size} height={size * 0.8} viewBox="0 0 44 36">
+   147→    <g fill="#d81f4f" opacity="0.92">
+   148→      <path d="M4 14 C6 8 12 6 16 8 C18 9 19 11 19 13 C19 11 20 9 22 8 C26 6 32 8 34 14 C35 18 32 21 28 21 L10 21 C6 21 3 18 4 14 Z" />
+   149→      <path d="M8 24 C12 22 16 23 19 25 C22 23 26 22 30 24 C32 25 32 28 30 29 C26 31 22 30 19 28 C16 30 12 31 8 29 C6 28 6 25 8 24 Z" />
+   150→      <ellipse cx="7" cy="12" rx="2.4" ry="3.4" transform="rotate(-24 7 12)" />
+   151→      <ellipse cx="31" cy="12" rx="2.4" ry="3.4" transform="rotate(24 31 12)" />
+   152→    </g>
+   153→    <ellipse cx="14" cy="11" rx="2.6" ry="1.4" fill="#fff" opacity="0.35" transform="rotate(-18 14 11)" />
+   154→  </svg>
+   155→);
+   156→
+   157→/* ---------- Title bar smiley (real Yahoo happy.gif — local) ---------- */
+   158→export const EMO_GIF = (file: string) => `/assets/emoticons/${file}.gif`;
+   159→
+   160→export const YahooSmiley = ({ size = 16 }: { size?: number }) => (
+   161→  <img src={EMO_GIF("happy")} width={size} height={size} alt="" draggable={false} className="inline-block shrink-0" />
+   162→);
+   163→
+   164→/* ---------- Authentic Yahoo! Messenger emoticons — 118 ORIGINAL GIFs,
+   165→   recovered from Yahoo's CDN, mapped to their official shortcuts.
+   166→   Served locally from /public/assets/emoticons. ---------- */
+   167→export interface Emo {
+   168→  code: string;
+   169→  name: string;
+   170→  file: string;
+   171→}
+   172→
+   173→const RAW: [string, string, string[]][] = [
+   174→  ["happy", "happy.gif", [":)", ":-)"]],
+   175→  ["sad", "sad.gif", [":(", ":-("]],
+   176→  ["winking", "winking.gif", [";)", ";-)"]],
+   177→  ["big grin", "big-grin.gif", [":D", ":-D"]],
+   178→  ["batting eyelashes", "batting-eyelashes.gif", [";;)"]],
+   179→  ["big hug", "big-hug.gif", [">:D<"]],
+   180→  ["confused", "confused.gif", [":-/", ":/"]],
+   181→  ["love struck", "love-struck.gif", [":x", ":X"]],
+   182→  ["love", "love-struck.gif", ["<3"]],
+   183→  ["blushing", "blushing.gif", [':">']],
+   184→  ["tongue", "tongue.gif", [":P", ":p"]],
+   185→  ["kiss", "kiss.gif", [":-*", ":*"]],
+   186→  ["broken heart", "broken-heart.gif", ["=(("]],
+   187→  ["surprise", "surprise.gif", [":-O", ":O", ":-o"]],
+   188→  ["angry", "angry.gif", ["X(", "x("]],
+   189→  ["smug", "smug.gif", [":>", ":->"]],
+   190→  ["cool", "cool.gif", ["B-)", "B)"]],
+   191→  ["worried", "worried.gif", [":-S", ":-s"]],
+   192→  ["whew", "whew.gif", ["#:-S"]],
+   193→  ["devil", "devil.gif", [">:)"]],
+   194→  ["crying", "crying.gif", [":-((", ":(("]],
+   195→  ["laughing", "laughing.gif", [":))"]],
+   196→  ["straight face", "straight-face.gif", [":|", ":-|"]],
+   197→  ["raised eyebrows", "raised-eyebrows.gif", ["/:)"]],
+   198→  ["rolling on the floor", "rolling-on-the-floor.gif", ["=))"]],
+   199→  ["angel", "angel.gif", ["O:-)", "O:)"]],
+   200→  ["nerd", "nerd.gif", [":-B", ":-b"]],
+   201→  ["talk to the hand", "talk-to-the-hand.gif", ["=;"]],
+   202→  ["sleepy", "sleepy.gif", ["I-)", "|-)"]],
+   203→  ["rolling eyes", "rolling-eyes.gif", ["8-|", "8|"]],
+   204→  ["loser", "loser.gif", ["L-)", "L)"]],
+   205→  ["sick", "sick.gif", [":-&", ":&"]],
+   206→  ["don't tell anyone", "dont-tell-anyone.gif", [":-$", ":$"]],
+   207→  ["no talking", "no-talking.gif", ["[-("]],
+   208→  ["clown", "clown.gif", [":O)", ":o)"]],
+   209→  ["silly", "silly.gif", ["8-}"]],
+   210→  ["party", "party.gif", ["<:-)"]],
+   211→  ["yawn", "yawn.gif", ["(:|"]],
+   212→  ["drooling", "drooling.gif", ["=P~"]],
+   213→  ["thinking", "thinking.gif", [":-?"]],
+   214→  ["applause", "applause.gif", ["=D>"]],
+   215→  ["nail biting", "nail-biting.gif", [":-SS", ":SS"]],
+   216→  ["hypnotized", "hypnotized.gif", ["@-)"]],
+   217→  ["liar", "liar.gif", [":^o"]],
+   218→  ["waiting", "waiting.gif", [":-w", ":-W"]],
+   219→  ["sigh", "sigh.gif", [":-<"]],
+   220→  ["phbbbbt", "phbbbbt.gif", [">:P"]],
+   221→  ["cowboy", "cowboy.gif", ["<):)"]],
+   222→  ["pig", "pig.gif", [":@)"]],
+   223→  ["cow", "cow.gif", ["3:-O"]],
+   224→  ["monkey", "monkey.gif", [":(|)"]],
+   225→  ["chicken", "chicken.gif", ["~:>"]],
+   226→  ["rose", "rose.gif", ["@};-", "@}--;-", "@};"]],
+   227→  ["good luck", "good-luck.gif", ["%%-"]],
+   228→  ["flag", "flag.gif", ["**=="]],
+   229→  ["pumpkin", "pumpkin.gif", ["(~~)"]],
+   230→  ["coffee", "coffee.gif", ["~O)"]],
+   231→  ["idea", "idea.gif", ["*-:)"]],
+   232→  ["skull", "skull.gif", ["8-X"]],
+   233→  ["bug", "bug.gif", ["=:)"]],
+   234→  ["alien", "alien.gif", [">-)"]],
+   235→  ["frustrated", "frustrated.gif", [":-L"]],
+   236→  ["praying", "praying.gif", ["[-o<"]],
+   237→  ["money eyes", "money-eyes.gif", ["$-)"]],
+   238→  ["whistling", "whistling.gif", [':-"']],
+   239→  ["feeling beat up", "feeling-beat-up.gif", ["b-("]],
+   240→  ["peace sign", "peace-sign.gif", [":)>-"]],
+   241→  ["shame on you", "shame-on-you.gif", ["[-X"]],
+   242→  ["dancing", "dancing.gif", ["\\:D/"]],
+   243→  ["bring it on", "bring-it-on.gif", [">:/", ">:D/"]],
+   244→  ["hee hee", "hee-hee.gif", [";))"]],
+   245→  ["hiro", "hiro.gif", ["o->"]],
+   246→  ["billy", "billy.gif", ["o=>"]],
+   247→  ["april", "april.gif", ["o-+"]],
+   248→  ["chatterbox", "chatterbox.gif", [":-<|"]],
+   249→  ["not worthy", "not-worthy.gif", ["^:)^"]],
+   250→  ["oh go on", "oh-go-on.gif", [":-j"]],
+   251→  ["star", "star.gif", ["(*)"]],
+   252→  ["on the phone", "on-the-phone.gif", [":)]"]],
+   253→  ["call me", "call-me.gif", [":-c"]],
+   254→  ["at wits' end", "at-wits-end.gif", ["~X("]],
+   255→  ["wave", "wave.gif", [":h", ":->h"]],
+   256→  ["time out", "time-out.gif", [":t"]],
+   257→  ["day dreaming", "day-dreaming.gif", ["8->"]],
+   258→  ["i don't know", "i-dont-know.gif", [":??"]],
+   259→  ["not listening", "not-listening.gif", ["%(", "%(-("]],
+   260→  ["puppy dog eyes", "puppy-dog-eyes.gif", [":o3"]],
+   261→  ["i don't want to see", "i-dont-want-to-see.gif", ["X_X"]],
+   262→  ["hurry up!", "hurry-up.gif", [":!!"]],
+   263→  ["rock on!", "rock-on.gif", ["\\m/"]],
+   264→  ["thumbs down", "thumbs-down.gif", [":q"]],
+   265→  ["thumbs up", "thumbs-up.gif", [":bd"]],
+   266→  ["it wasn't me", "it-wasnt-me.gif", ["^#(^"]],
+   267→  ["bee", "bee.gif", [":bz"]],
+   268→  ["cheer", "cheer.gif", ["~^o^~"]],
+   269→  ["dizzy", "dizzy.gif", ["@^@|||"]],
+   270→  ["cook", "cook.gif", ["[]"]],
+   271→  ["eat", "eat.gif", ["^o^||3"]],
+   272→  ["give up", "give-up.gif", [":(||>"]],
+   273→  ["cold", "cold.gif", ["+_+"]],
+   274→  ["hot", "hot.gif", [":::^^:::"]],
+   275→  ["music", "music.gif", ["o|^_^|o"]],
+   276→  ["vomit", "vomit.gif", [":puke!", ":puke"]],
+   277→  ["sing", "sing.gif", ["o|\\~"]],
+   278→  ["catch", "catch.gif", ["o|:)"]],
+   279→  ["fight", "fight.gif", [":(fight)"]],
+   280→  ["down on luck", "down-on-luck.gif", ["%*{"]],
+   281→  ["unlucky", "unlucky.gif", ["%||:{"]],
+   282→  ["gift", "gift.gif", ["&[]"]],
+   283→  ["tv", "tv.gif", [":(tv)"]],
+   284→  ["studying", "studying.gif", ["?@_@?"]],
+   285→  ["spooky", "spooky.gif", [":>~~"]],
+   286→  ["search me", "search-me.gif", ["@@"]],
+   287→  ["game", "game.gif", [":(game)"]],
+   288→  ["high five", "high-five.gif", [":)/\\:)"]],
+   289→  ["exercise", "exercise.gif", ["[]==[]"]],
+   290→  ["pirate", "pirate.gif", [":ar!"]],
+   291→  ["transformer", "transformer.gif", ["[..]"]],
+   292→  ["doh", "doh.gif", ["#-o", "#o"]],
+   293→];
+   294→
+   295→/* flatten, de-dupe, and sort longest-code-first so :(( wins over :( etc.
+   296→   (EMO is for TEXT MATCHING only — never render it in the picker!) */
+   297→const seen = new Set<string>();
+   298→export const EMO: Emo[] = RAW.flatMap(([name, file, codes]) =>
+   299→  codes.map((code) => ({ code, name, file: file.replace(/\.gif$/, "") })),
+   300→)
+   301→  .filter((e) => (seen.has(e.code) ? false : (seen.add(e.code), true)))
+   302→  .sort((a, b) => b.code.length - a.code.length);
+   303→
+   304→/* The PICKER palette: one slot per emoticon (de-duped by GIF — the <3 alias
+   305→   must not create a second love-struck slot), in the OFFICIAL Yahoo Messenger
+   306→   palette order, which RAW is written in: :) :( ;) :D ;;) >:D< :-/ :x :"> :P :* =(( ...
+   307→   Each slot keeps its canonical primary shortcut (codes[0]). */
+   308→const seenFile = new Set<string>();
+   309→export const EMO_PALETTE: Emo[] = RAW.map(([name, file, codes]) => ({
+   310→  code: codes[0],
+   311→  name,
+   312→  file: file.replace(/\.gif$/, ""),
+   313→})).filter((e) => (seenFile.has(e.file) ? false : (seenFile.add(e.file), true)));
+   314→
+   315→/* Emoticons always render at their native pixel size — never scaled.
+   316→   maxWidth/width/height "auto" inline beats Tailwind preflight's
+   317→   img { max-width:100%; height:auto }, which otherwise squashes the wide
+   318→   GIFs (>:D<, dancing, transformer…) inside fixed-width grid tracks. */
+   319→export const Emoticon = ({ file, white = false }: { file: string; white?: boolean }) => (
+   320→  <img
+   321→    src={EMO_GIF(file)}
+   322→    alt={file}
+   323→    draggable={false}
+   324→    className="inline-block align-[-4px]"
+   325→    style={{
+   326→      imageRendering: "pixelated",
+   327→      maxWidth: "none",
+   328→      width: "auto",
+   329→      height: "auto",
+   330→      ...(white ? { filter: "grayscale(1) brightness(1.75) contrast(0.82)" } : null),
+   331→    }}
+   332→  />
+   333→);
+   334→
+   335→/* ---------- Curvy translucent decoration for accent areas ---------- */
+   336→export const Swirls = ({ tint = "light", className = "" }: { tint?: "light" | "purple"; className?: string }) => {
+   337→  const stroke = tint === "light" ? "rgba(122, 87, 198, 0.18)" : "rgba(255, 255, 255, 0.16)";
+   338→  const stroke2 = tint === "light" ? "rgba(90, 120, 220, 0.14)" : "rgba(190, 220, 255, 0.13)";
+   339→  return (
+   340→    <svg className={`absolute inset-0 w-full h-full pointer-events-none ${className}`} viewBox="0 0 400 100" preserveAspectRatio="none">
+   341→      <path d="M-20 78 C60 40 120 96 200 62 C280 28 330 84 420 46" fill="none" stroke={stroke} strokeWidth="2.4" />
+   342→      <path d="M-20 92 C70 60 140 110 230 74 C310 42 360 92 420 60" fill="none" stroke={stroke2} strokeWidth="1.6" />
+   343→      <path d="M250 -12 C300 30 350 6 420 34" fill="none" stroke={stroke} strokeWidth="2" />
+   344→      <circle cx="352" cy="30" r="26" fill="none" stroke={stroke2} strokeWidth="1.4" />
+   345→      <circle cx="352" cy="30" r="15" fill="none" stroke={stroke} strokeWidth="1" />
+   346→    </svg>
+   347→  );
+   348→};
+   349→
+   350→/* ---------- Buzz button icon ---------- */
+   351→export const IconBuzz = () => (
+   352→  <svg width="18" height="18" viewBox="0 0 18 18">
+   353→    <path d="M9 1 L10.6 6.4 L16 5 L12 9 L16 13 L10.6 11.6 L9 17 L7.4 11.6 L2 13 L6 9 L2 5 L7.4 6.4 Z" fill="#e8a020" stroke="#8a5a00" strokeWidth="0.7" />
+   354→    <path d="M9.8 4.5 L7.6 9.4 h2 l-1 4 L12 8.2 h-2 z" fill="#fff" opacity="0.9" />
+   355→  </svg>
+   356→);
+   357→
+   358→export function emojify(text: string): React.ReactNode[] {
+   359→  const nodes: React.ReactNode[] = [];
+   360→  let rest = text;
+   361→  let key = 0;
+   362→  while (rest.length) {
+   363→    let earliest = -1;
+   364→    let matched: Emo | null = null;
+   365→    for (const e of EMO) {
+   366→      const i = rest.indexOf(e.code);
+   367→      if (i !== -1 && (earliest === -1 || i < earliest || (i === earliest && matched && e.code.length > matched.code.length))) {
+   368→        earliest = i;
+   369→        matched = e;
+   370→      }
+   371→    }
+   372→    if (!matched || earliest === -1) {
+   373→      nodes.push(rest);
+   374→      break;
+   375→    }
+   376→    if (earliest > 0) nodes.push(rest.slice(0, earliest));
+   377→    nodes.push(<Emoticon key={key++} file={matched.file} />);
+   378→    rest = rest.slice(earliest + matched.code.length);
+   379→  }
+   380→  return nodes;
+   381→}
+   382→
+   383→/* Replace emoticon codes inside a rich-HTML string without touching tags.
+   384→   EMO is sorted longest-first, so :(( is replaced before :( can bite it. */
+   385→export function emojifyHtml(html: string): string {
+   386→  return html
+   387→    .split(/(<[^>]*>)/g)
+   388→    .map((seg) => {
+   389→      if (seg.startsWith("<")) return seg;
+   390→      let out = seg.replace(/&lt;3/g, `<img src="${EMO_GIF("love-struck")}" class="inline-block align-[-4px]" style="max-width:none;width:auto;height:auto">`);
+   391→      for (const e of EMO) {
+   392→        if (e.code.includes("<") || e.code.includes(">")) continue;
+   393→        if (!out.includes(e.code)) continue;
+   394→        out = out.split(e.code).join(`<img src="${EMO_GIF(e.file)}" class="inline-block align-[-4px]" style="max-width:none;width:auto;height:auto" alt="${e.name}">`);
+   395→      }
+   396→      return out;
+   397→    })
+   398→    .join("");
+   399→}
+   400→
+   401→/* ---------- Toolbar: calls & extras ---------- */
+   402→export const IconVideoCam = () => (
+   403→  <svg width="26" height="26" viewBox="0 0 26 26">
+   404→    <defs>
+   405→      <linearGradient id="vcg" x1="0" y1="0" x2="0" y2="1">
+   406→        <stop offset="0" stopColor="#8a8a8a" />
+   407→        <stop offset="0.5" stopColor="#4a4a4a" />
+   408→        <stop offset="1" stopColor="#6e6e6e" />
+   409→      </linearGradient>
+   410→    </defs>
+   411→    <circle cx="13" cy="10" r="7.5" fill="url(#vcg)" stroke="#2f2f2f" />
+   412→    <circle cx="13" cy="10" r="4.6" fill="#1c1c1c" />
+   413→    <circle cx="13" cy="10" r="2.6" fill="#3f6fd8" />
+   414→    <circle cx="11.8" cy="8.8" r="1" fill="#bcd2ff" />
+   415→    <path d="M10 17.5 h6 l1.2 4 h-8.4 z" fill="#7a7a7a" stroke="#3a3a3a" strokeWidth="0.6" />
+   416→    <rect x="7" y="21.5" width="12" height="1.8" rx="0.9" fill="#5c5c5c" />
+   417→  </svg>
+   418→);
+   419→
+   420→export const IconMic = () => (
+   421→  <svg width="26" height="26" viewBox="0 0 26 26">
+   422→    <defs>
+   423→      <linearGradient id="mg" x1="0" y1="0" x2="1" y2="0">
+   424→        <stop offset="0" stopColor="#9a9a9a" />
+   425→        <stop offset="0.5" stopColor="#e2e2e2" />
+   426→        <stop offset="1" stopColor="#7c7c7c" />
+   427→      </linearGradient>
+   428→    </defs>
+   429→    <rect x="9.5" y="2.5" width="7" height="12" rx="3.5" fill="url(#mg)" stroke="#4a4a4a" strokeWidth="0.7" />
+   430→    <path d="M7 11 a6 6 0 0 0 12 0" fill="none" stroke="#4a4a4a" strokeWidth="1.6" />
+   431→    <path d="M13 17 v3.5 M9.5 21.5 h7" stroke="#4a4a4a" strokeWidth="1.6" strokeLinecap="round" />
+   432→  </svg>
+   433→);
+   434→
+   435→export const IconImviron = () => (
+   436→  <svg width="26" height="26" viewBox="0 0 26 26">
+   437→    <path
+   438→      d="M13 2 L15 10 L23 8 L17 13 L24 17 L15.5 15.5 L14 24 L11.5 15.5 L3 18 L9 13 L3 8.5 L11 10 Z"
+   439→      fill="#8a8a8a"
+   440→      stroke="#3f3f3f"
+   441→      strokeWidth="0.7"
+   442→    />
+   443→    <circle cx="13" cy="13" r="2.4" fill="#5c5c5c" />
+   444→  </svg>
+   445→);
+   446→
+   447→export const IconKnight = () => (
+   448→  <svg width="26" height="26" viewBox="0 0 26 26">
+   449→    <path
+   450→      d="M8 21.5 h10 v-1.6 c0-.6-.4-1-1-1 h-.6 c.2-3.2-.6-5.4-2.3-7.2 l2.6-4.4 c.4-.8 0-1.7-.9-2 L14.6 3.4 c-.3-.6-1-.8-1.5-.4 l-.8.7 -.7-.9 c-.4-.5-1.2-.4-1.5.2 l-.5 1 c-2.5 1.5-3.8 4-3.8 7 l-1.4 1.7 c-.3.4-.1 1 .4 1.1 l1-.1 c.5-.1 1 .2 1.1.7 z"
+   451→      fill="#8f8f8f"
+   452→      stroke="#404040"
+   453→      strokeWidth="0.8"
+   454→    />
+   455→    <circle cx="11.4" cy="7" r="0.9" fill="#2c2c2c" />
+   456→    <rect x="6.6" y="21.5" width="12.8" height="1.8" rx="0.6" fill="#6a6a6a" />
+   457→  </svg>
+   458→);
+   459→
+   460→export const IconPhotos = () => (
+   461→  <svg width="26" height="26" viewBox="0 0 26 26">
+   462→    <rect x="3" y="4.5" width="20" height="17" rx="1.5" fill="#8f8f8f" stroke="#3f3f3f" strokeWidth="0.8" />
+   463→    <rect x="5" y="6.5" width="16" height="13" fill="#e8e8e8" />
+   464→    <circle cx="10" cy="11" r="2.4" fill="#6a6a6a" />
+   465→    <circle cx="16.4" cy="11.4" r="2" fill="#8a8a8a" />
+   466→    <path d="M6.5 19 c.6-3 2.2-4.4 3.5-4.4 s2.9 1.4 3.5 4.4 z" fill="#6a6a6a" />
+   467→    <path d="M13.6 19 c.5-2.4 1.7-3.6 2.8-3.6 s2.3 1.2 2.8 3.6 z" fill="#8a8a8a" />
+   468→  </svg>
+   469→);
+   470→
+   471→/* ---------- Small toolbar icons (chat) ---------- */
+   472→export const IconSmileySmall = () => (
+   473→  <svg width="18" height="18" viewBox="0 0 18 18">
+   474→    <circle cx="9" cy="9" r="7.4" fill="none" stroke="#5a5a5a" strokeWidth="1.4" />
+   475→    <circle cx="6.4" cy="7.2" r="1" fill="#5a5a5a" />
+   476→    <circle cx="11.6" cy="7.2" r="1" fill="#5a5a5a" />
+   477→    <path d="M5.6 10.6 Q9 13.6 12.4 10.6" stroke="#5a5a5a" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+   478→  </svg>
+   479→);
+   480→export const IconBubble = () => (
+   481→  <svg width="18" height="18" viewBox="0 0 18 18">
+   482→    <path d="M2 3.5 h14 v8 h-8 l-3.5 3 v-3 h-2.5 z" fill="none" stroke="#5a5a5a" strokeWidth="1.4" strokeLinejoin="round" />
+   483→    <path d="M5 6.5 h8 M5 8.8 h5" stroke="#5a5a5a" strokeWidth="1.1" strokeLinecap="round" />
+   484→  </svg>
+   485→);
+   486→export const IconGearFlower = () => (
+   487→  <svg width="18" height="18" viewBox="0 0 18 18">
+   488→    {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+   489→      <ellipse key={a} cx="9" cy="4.2" rx="1.7" ry="2.6" fill="none" stroke="#5a5a5a" strokeWidth="1" transform={`rotate(${a} 9 9)`} />
+   490→    ))}
+   491→    <circle cx="9" cy="9" r="2" fill="#5a5a5a" />
+   492→  </svg>
+   493→);
+   494→export const IconClip = () => (
+   495→  <svg width="18" height="18" viewBox="0 0 18 18">
+   496→    <path
+   497→      d="M6.5 8.5 l5-5 a2.6 2.6 0 0 1 3.7 3.7 l-6.8 6.8 a4 4 0 0 1 -5.7 -5.7 l6.6-6.5"
+   498→      fill="none"
+   499→      stroke="#5a5a5a"
+   500→      strokeWidth="1.4"
+   501→      strokeLinecap="round"
+   502→    />
+   503→  </svg>
+   504→);
+   505→export const IconInvite = () => (
+   506→  <svg width="18" height="18" viewBox="0 0 18 18">
+   507→    <circle cx="7" cy="6" r="3" fill="none" stroke="#5a5a5a" strokeWidth="1.4" />
+   508→    <path d="M2.5 15 c.7-3.6 2.6-5.2 4.5-5.2 s3.8 1.6 4.5 5.2" fill="none" stroke="#5a5a5a" strokeWidth="1.4" strokeLinecap="round" />
+   509→    <path d="M13.5 6.5 h3 M15 5 v3" stroke="#5a5a5a" strokeWidth="1.3" strokeLinecap="round" />
+   510→  </svg>
+   511→);
+   512→
+   513→/* ---------- Profile row icons ---------- */
+   514→export const IconPcPhone = () => (
+   515→  <svg width="20" height="16" viewBox="0 0 20 16">
+   516→    <rect x="1" y="2" width="11" height="8" rx="1" fill="none" stroke="#6a6a6a" strokeWidth="1.3" />
+   517→    <path d="M4.5 12.5 h4 M6.5 10 v2.5" stroke="#6a6a6a" strokeWidth="1.3" />
+   518→    <path d="M14 5.5 c1.2-1 2.8-1 4 0 l-1 1.4 c-.6-.5-1.4-.5-2 0 z" fill="#6a6a6a" />
+   519→    <rect x="15.2" y="7" width="1.6" height="5" rx="0.8" fill="#6a6a6a" />
+   520→  </svg>
+   521→);
+   522→export const IconHandset = () => (
+   523→  <svg width="16" height="16" viewBox="0 0 16 16">
+   524→    <path
+   525→      d="M3.2 2.4 c-.8.8-1 2-.5 3.4 1 2.8 3.7 5.5 6.5 6.5 1.4.5 2.6.3 3.4-.5 l.9-.9 c.4-.4.3-1-.1-1.3 l-2-1.3 c-.4-.3-.9-.2-1.2.1 l-.7.7 c-1.3-.7-2.6-2-3.3-3.3 l.7-.7 c.3-.3.4-.8.1-1.2 l-1.3-2 c-.3-.4-.9-.5-1.3-.1 z"
+   526→      fill="#6a6a6a"
+   527→    />
+   528→  </svg>
+   529→);
+   530→export const IconMail = () => (
+   531→  <svg width="18" height="14" viewBox="0 0 18 14">
+   532→    <rect x="1" y="1.5" width="16" height="11" rx="1" fill="none" stroke="#6a6a6a" strokeWidth="1.3" />
+   533→    <path d="M1.5 2.5 L9 8 L16.5 2.5" fill="none" stroke="#6a6a6a" strokeWidth="1.3" />
+   534→  </svg>
+   535→);
+   536→export const IconSearchList = () => (
+   537→  <svg width="14" height="14" viewBox="0 0 14 14">
+   538→    <path d="M2 2.5 h10 M2 5.5 h10 M2 8.5 h6" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
+   539→    <path d="M10.5 9 l2.5 2.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+   540→  </svg>
+   541→);
+   542→
+   543→/* ---------- Badges ---------- */
+   544→export const BadgeCrown = () => (
+   545→  <svg width="14" height="12" viewBox="0 0 14 12" className="inline-block align-[-1px]">
+   546→    <path d="M1.5 9.5 L1 3.5 l3 2.5 L7 2 l3 4 l3-2.5 -.5 6 z" fill="#b9b9b9" stroke="#6e6e6e" strokeWidth="0.7" />
+   547→    <rect x="1.5" y="9.5" width="11" height="1.6" fill="#8f8f8f" />
+   548→  </svg>
+   549→);
+   550→export const BadgeTrophy = () => (
+   551→  <svg width="13" height="13" viewBox="0 0 13 13" className="inline-block align-[-1px]">
+   552→    <path d="M3.5 1.5 h6 v2.5 a3 3 0 0 1 -6 0 z" fill="#a9a9a9" stroke="#5f5f5f" strokeWidth="0.7" />
+   553→    <path d="M3.5 2 H1.5 a2 2 0 0 0 2.2 2.6 M9.5 2 h2 a2 2 0 0 1 -2.2 2.6" fill="none" stroke="#5f5f5f" strokeWidth="0.8" />
+   554→    <path d="M6.5 7 v2 M4.8 10.8 h3.4 l-.4-1.8 h-2.6 z" fill="#8f8f8f" stroke="#5f5f5f" strokeWidth="0.6" />
+   555→  </svg>
+   556→);
+   557→export const BadgeMusic = () => (
+   558→  <svg width="13" height="13" viewBox="0 0 13 13" className="inline-block align-[-2px]">
+   559→    <path d="M5 10 V3 l6-1.5 V8" fill="none" stroke="#3355cc" strokeWidth="1.4" />
+   560→    <circle cx="3.6" cy="10" r="1.8" fill="#3355cc" />
+   561→    <circle cx="9.6" cy="8" r="1.8" fill="#3355cc" />
+   562→  </svg>
+   563→);
+   564→export const BadgeMobile = () => (
+   565→  <svg width="11" height="14" viewBox="0 0 11 14" className="inline-block align-[-2px]">
+   566→    <rect x="1.5" y="1" width="8" height="12" rx="1.4" fill="none" stroke="#5a35c8" strokeWidth="1.3" />
+   567→    <rect x="3" y="3" width="5" height="5" fill="#5a35c8" opacity="0.5" />
+   568→    <circle cx="5.5" cy="10.8" r="0.9" fill="#5a35c8" />
+   569→  </svg>
+   570→);
+   571→
+   572→/* ---------- Misc ---------- */
+   573→export const IconPlus = () => (
+   574→  <svg width="12" height="12" viewBox="0 0 12 12">
+   575→    <path d="M6 1.5 v9 M1.5 6 h9" stroke="#5a5a5a" strokeWidth="2.2" strokeLinecap="round" />
+   576→  </svg>
+   577→);
+   578→export const IconChevron = ({ dir = "down" }: { dir?: "down" | "up" | "right" }) => (
+   579→  <svg
+   580→    width="10"
+   581→    height="10"
+   582→    viewBox="0 0 10 10"
+   583→    className="inline-block"
+   584→    style={{ transform: dir === "up" ? "rotate(180deg)" : dir === "right" ? "rotate(-90deg)" : undefined }}
+   585→  >
+   586→    <path d="M1.5 3 L5 7 L8.5 3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+   587→  </svg>
+   588→);
+   589→export const IconArrowGo = () => (
+   590→  <svg width="16" height="16" viewBox="0 0 16 16">
+   591→    <path d="M2 8 h9 M8 3.5 L13 8 L8 12.5" fill="none" stroke="#3a3a3a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+   592→  </svg>
+   593→);
+   594→
+   595→/* ---------- The crisp white sidebar face ---------- */
+   596→export const WhiteFace = ({ size = 96 }: { size?: number }) => (
+   597→  <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-[0_1px_2px_rgba(90,70,140,0.25)]">
+   598→    <ellipse cx="36" cy="37" rx="6.5" ry="7.5" fill="#fff" />
+   599→    <ellipse cx="64" cy="37" rx="6.5" ry="7.5" fill="#fff" />
+   600→    <path d="M27 57 A 23 21 0 0 0 73 57 Z" fill="#fff" />
+   601→  </svg>
+   602→);
+   603→
+   604→/* ---------- Sign-in sleeper (the beloved one): big Y! mark with the round
+   605→   buddy nestled at its lower right, grey asleep with floating Zzz → yellow
+   606→   awake with a big Yahoo laugh when you hit Sign In.
+   607→   Wake choreography (gradual, layered — no snapping):
+   608→     0.00s  Zzz dissolve + drifting away, breathing slows
+   609→     0.30s  warm gold glow blooms behind the buddy
+   610→     0.35s  grey → yellow "sunrise" crossfade (1.05s, long ease)
+   611→     0.55s  stretch-rise: anticipation squash → lift → settle (damped spring)
+   612→     0.70s  eyes flutter open (open → half → full, like real eyelids)
+   613→     1.55s  the big Yahoo grin springs open w/ overshoot + blush warms in
+   614→     1.70s  sparkles pop around the face (staggered)
+   615→     2.30s  idle: gentle bob + natural blinks forever
+   616→---------- */
+   617→export const SignInFace = ({ awake, size = 150 }: { awake: boolean; size?: number }) => (
+   618→  <svg width={size} height={size * (132 / 172)} viewBox="0 0 172 132" className="block overflow-visible">
+   619→    <defs>
+   620→      <radialGradient id="faceGrey" cx="0.36" cy="0.28" r="0.95">
+   621→        <stop offset="0" stopColor="#fdfdfd" />
+   622→        <stop offset="0.45" stopColor="#d4d4d4" />
+   623→        <stop offset="0.8" stopColor="#a4a4a4" />
+   624→        <stop offset="1" stopColor="#808080" />
+   625→      </radialGradient>
+   626→      <radialGradient id="faceYellow" cx="0.36" cy="0.28" r="0.95">
+   627→        <stop offset="0" stopColor="#fffbd6" />
+   628→        <stop offset="0.38" stopColor="#ffe14d" />
+   629→        <stop offset="0.78" stopColor="#f6bb00" />
+   630→        <stop offset="1" stopColor="#d99a00" />
+   631→      </radialGradient>
+   632→      <radialGradient id="yOval" cx="0.4" cy="0.3" r="1">
+   633→        <stop offset="0" stopColor="#9a55e0" />
+   634→        <stop offset="0.6" stopColor="#7b2fbd" />
+   635→        <stop offset="1" stopColor="#5f1f9e" />
+   636→      </radialGradient>
+   637→      <radialGradient id="faceShade" cx="0.5" cy="1.05" r="0.9">
+   638→        <stop offset="0.55" stopColor="rgba(0,0,0,0)" />
+   639→        <stop offset="1" stopColor="rgba(0,0,0,0.22)" />
+   640→      </radialGradient>
+   641→      <radialGradient id="wakeGlow" cx="0.5" cy="0.5" r="0.5">
+   642→        <stop offset="0" stopColor="rgba(255,214,90,0.55)" />
+   643→        <stop offset="0.55" stopColor="rgba(255,196,60,0.22)" />
+   644→        <stop offset="1" stopColor="rgba(255,196,60,0)" />
+   645→      </radialGradient>
+   646→    </defs>
+   647→
+   648→    {/* warm glow that blooms as the buddy wakes */}
+   649→    <ellipse
+   650→      className="sif-glow"
+   651→      cx="118" cy="92" rx="52" ry="44"
+   652→      fill="url(#wakeGlow)"
+   653→      style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 1.1s ease 0.3s" : "opacity 0.5s ease" }}
+   654→    />
+   655→
+   656→    {/* ground shadow under the buddy */}
+   657→    <ellipse
+   658→      className="sif-shadow"
+   659→      cx="118" cy="126" rx="30" ry="4.5"
+   660→      fill={awake ? "rgba(170,120,0,0.3)" : "rgba(0,0,0,0.16)"}
+   661→      style={{ transformBox: "fill-box", transformOrigin: "50% 50%", transform: awake ? "scaleX(0.92)" : "scaleX(1)", transition: "transform 0.8s ease 0.55s, fill 0.9s ease 0.35s" }}
+   662→    />
+   663→
+   664→    {/* Y! mark — oval + fully visible bang, just like the original */}
+   665→    <g>
+   666→      <ellipse cx="58" cy="58" rx="42" ry="36" fill="url(#yOval)" transform="rotate(-8 58 58)" />
+   667→      <ellipse cx="44" cy="42" rx="13" ry="7" fill="#fff" opacity="0.18" transform="rotate(-18 44 42)" />
+   668→      <text x="58" y="76" textAnchor="middle" fontFamily="'Bitter', Georgia, serif" fontWeight="800" fontSize="52" fill="#fff">
+   669→        Y
+   670→      </text>
+   671→      <text x="100" y="82" fontFamily="'Bitter', Georgia, serif" fontWeight="800" fontSize="64" fill="#7b2fbd" transform="rotate(7 100 82)">
+   672→        !
+   673→      </text>
+   674→    </g>
+   675→
+   676→    {/* the round buddy, nestled over the lower-right of the mark */}
+   677→    <g className={awake ? "sif-awake" : "sif-breathe"}>
+   678→      <g transform="translate(118 93) scale(1.14) translate(-118 -93)">
+   679→        {/* base sphere */}
+   680→        <circle cx="118" cy="92" r="30" fill="url(#faceGrey)" />
+   681→        <circle cx="118" cy="92" r="30" fill="url(#faceYellow)" style={{ opacity: awake ? 1 : 0, transition: awake ? "opacity 1.05s ease-in-out 0.35s" : "opacity 0.5s ease" }} />
+   682→        {/* 3D shading: bottom inner shadow, rim light, specular */}
+   683→        <circle cx="118" cy="92" r="30" fill="url(#faceShade)" />
+   684→        <path d="M139 108 a27 27 0 0 0 8 -16" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.4" strokeLinecap="round" />
+   685→        <ellipse cx="107" cy="78" rx="11" ry="7" fill="#fff" opacity="0.65" transform="rotate(-18 107 78)" />
+   686→        <ellipse cx="104" cy="75" rx="4" ry="2.4" fill="#fff" opacity="0.8" transform="rotate(-18 104 75)" />
+   687→
+   688→        {/* sleeping features: closed lids + restful mouth (fade as it wakes) */}
+   689→        <g className={awake ? "" : "sif-twitch"} style={{ opacity: awake ? 0 : 1, transition: awake ? "opacity 0.55s ease 0.45s" : "opacity 0.35s ease" }}>
+   690→          <path d="M102.5 90 q4.5 3.5 9.5 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+   691→          <path d="M124 90 q4.5 3.5 9.5 0" stroke="#5c5c5c" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+   692→          <path d="M111 104 q7 -2 14 0" stroke="#6a6a6a" strokeWidth="2" fill="none" strokeLinecap="round" />
+   693→        </g>
+   694→
+   695→        {/* awake eyes: soft round eyes that flutter open, then keep blinking naturally */}
+   696→        <g className={awake ? "sif-eyes-open" : "sif-eyes-closed"}>
+   697→          <ellipse cx="107.5" cy="89" rx="3.4" ry="4.4" fill="#4a2c00" />
+   698→          <ellipse cx="128.5" cy="89" rx="3.4" ry="4.4" fill="#4a2c00" />
+   699→          <ellipse cx="108.8" cy="87.2" rx="1.1" ry="1.4" fill="#fff" opacity="0.85" />
+   700→          <ellipse cx="129.8" cy="87.2" rx="1.1" ry="1.4" fill="#fff" opacity="0.85" />
+   701→        </g>
+   702→
+   703→        {/* clean open Yahoo grin, teeth only — springs open with a soft overshoot */}
+   704→        <g
+   705→          style={{
+   706→            opacity: awake ? 1 : 0,
+   707→            transform: awake ? "scale(1)" : "scale(0.3)",
+   708→            transformOrigin: "50% 0%",
+   709→            transformBox: "fill-box",
+   710→            transition: awake
+   711→              ? "opacity 0.3s ease 1.5s, transform 0.62s cubic-bezier(0.3, 1.45, 0.45, 1) 1.55s"
+   712→              : "opacity 0.2s ease, transform 0.2s ease",
+   713→          }}
+   714→        >
+   715→          {/* dark open mouth */}
+   716→          <path d="M104 97 Q118 120 132 97 Z" fill="#7a2a10" />
+   717→          {/* one bright row of teeth across the smile */}
+   718→          <path d="M106 97.4 Q118 103.6 130 97.4 L129.2 102.8 Q118 108 106.8 102.8 Z" fill="#fffdf4" />
+   719→          {/* subtle tooth separations fanning from the lip line */}
+   720→          <path d="M113 99.4 L112.6 105.2" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+   721→          <path d="M118 100.6 L118 106.4" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+   722→          <path d="M123 99.4 L123.4 105.2" stroke="#d9c2a4" strokeWidth="0.8" strokeLinecap="round" />
+   723→          {/* lip line */}
+   724→          <path d="M103 97 Q118 102 133 97" fill="none" stroke="#7a4a00" strokeWidth="2.2" strokeLinecap="round" />
+   725→        </g>
+   726→        <ellipse cx="99" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.7s ease 1.7s" }} />
+   727→        <ellipse cx="137" cy="97" rx="4.6" ry="2.7" fill="#ff9a3c" style={{ opacity: awake ? 0.5 : 0, transition: "opacity 0.7s ease 1.7s" }} />
+   728→      </g>
+   729→
+   730→      {/* celebratory sparkles — pop in as the grin blooms, each staggered */}
+   731→      {[
+   732→        { x: 88, y: 62, d: "1.72s", s: 1 },
+   733→        { x: 150, y: 70, d: "1.9s", s: 0.8 },
+   734→        { x: 92, y: 118, d: "2.08s", s: 0.75 },
+   735→        { x: 148, y: 114, d: "2.24s", s: 0.9 },
+   736→      ].map((p, i) => (
+   737→        <g
+   738→          key={i}
+   739→          className={awake ? "sif-spark" : ""}
+   740→          style={{ animationDelay: p.d, opacity: awake ? undefined : 0, transformBox: "fill-box", transformOrigin: "50% 50%" }}
+   741→          transform={`translate(${p.x} ${p.y}) scale(${p.s})`}
+   742→        >
+   743→          <path d="M0 -6 L1.5 -1.5 L6 0 L1.5 1.5 L0 6 L-1.5 1.5 L-6 0 L-1.5 -1.5 Z" fill="#ffe47a" stroke="#e8a400" strokeWidth="0.7" />
+   744→        </g>
+   745→      ))}
+   746→    </g>
+   747→
+   748→    {/* floating Zzz — dissolve upward as the buddy stirs */}
+   749→    <g
+   750→      style={{
+   751→        opacity: awake ? 0 : 1,
+   752→        transform: awake ? "translateY(-8px)" : "translateY(0)",
+   753→        transition: awake ? "opacity 0.55s ease 0.15s, transform 0.7s ease 0.1s" : "opacity 0.4s ease",
+   754→      }}
+   755→      fontFamily="'Trebuchet MS', Tahoma, sans-serif"
+   756→      fontWeight="bold"
+   757→      fill="#9a9a9a"
+   758→    >
+   759→      <text className="sif-zzz" x="136" y="56" fontSize="17" transform="rotate(-8 136 56)">z</text>
+   760→      <text className="sif-zzz sif-zzz2" x="146" y="43" fontSize="23" transform="rotate(6 146 43)">z</text>
+   761→      <text className="sif-zzz sif-zzz3" x="157" y="28" fontSize="30" transform="rotate(-5 157 28)">Z</text>
+   762→    </g>
+   763→  </svg>
+   764→);
+   765→
+   766→/* ---------- Sign-in: the faithful YM9 branding, ALIVE. The purple serif Y!
+   767→   with the chrome smiley marble — but the marble is a real character now:
+   768→   it bobs, blinks, glances around, follows your cursor across the window,
+   769→   sweeps a sheen, and does an excited spin while signing in. ---------- */
+   770→export const SignInLogo = ({
+   771→  width = 186,
+   772→  signing = false,
+   773→  ex = 0,
+   774→  ey = 0,
+   775→}: {
+   776→  width?: number;
+   777→  signing?: boolean;
+   778→  ex?: number; // cursor tracking, -1..1
+   779→  ey?: number;
+   780→}) => (
+   781→  <svg width={width} height={width * (124 / 200)} viewBox="0 0 200 124" className="block overflow-visible">
+   782→    <defs>
+   783→      {/* deep chrome sphere */}
+   784→      <radialGradient id="lgMarble" cx="0.32" cy="0.24" r="1.08">
+   785→        <stop offset="0" stopColor="#ffffff" />
+   786→        <stop offset="0.2" stopColor="#f4f6f8" />
+   787→        <stop offset="0.42" stopColor="#d3d9de" />
+   788→        <stop offset="0.62" stopColor="#adb4bb" />
+   789→        <stop offset="0.82" stopColor="#8b939b" />
+   790→        <stop offset="1" stopColor="#666e76" />
+   791→      </radialGradient>
+   792→      {/* ground occlusion */}
+   793→      <radialGradient id="lgMarbleShade" cx="0.5" cy="1.14" r="0.95">
+   794→        <stop offset="0.5" stopColor="rgba(40,50,60,0)" />
+   795→        <stop offset="1" stopColor="rgba(40,50,60,0.34)" />
+   796→      </radialGradient>
+   797→      {/* purple room light bouncing up from the UI */}
+   798→      <radialGradient id="lgMarbleAmbient" cx="0.5" cy="1.05" r="0.75">
+   799→        <stop offset="0.35" stopColor="rgba(150,110,230,0)" />
+   800→        <stop offset="1" stopColor="rgba(150,110,230,0.38)" />
+   801→      </radialGradient>
+   802→      <linearGradient id="lgY" x1="0" y1="0" x2="0" y2="1">
+   803→        <stop offset="0" stopColor="#8a3fd6" />
+   804→        <stop offset="1" stopColor="#6d21ad" />
+   805→      </linearGradient>
+   806→      <clipPath id="lgMarbleClip">
+   807→        <circle cx="142" cy="93" r="30" />
+   808→      </clipPath>
+   809→    </defs>
+   810→
+   811→    {/* ground shadow — squashes in sync with the bob */}
+   812→    <ellipse className="face-shadow" cx="142" cy="121" rx="27" ry="4.2" fill="rgba(60,40,90,0.2)" />
+   813→    {/* the purple serif Y! — bang fully visible, marble kisses its tip */}
+   814→    <text x="50" y="94" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="112" fill="url(#lgY)" stroke="#5c1a96" strokeWidth="1.4">
+   815→      Y
+   816→    </text>
+   817→    <g transform="rotate(8 108 58)">
+   818→      <text x="108" y="90" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="84" fill="url(#lgY)" stroke="#5c1a96" strokeWidth="1.2">
+   819→        !
+   820→      </text>
+   821→    </g>
+   822→
+   823→    {/* the living chrome smiley marble */}
+   824→    <g className="face-bob">
+   825→      <g className={signing ? "face-spin" : undefined}>
+   826→        <circle cx="142" cy="93" r="30" fill="url(#lgMarble)" />
+   827→        {/* environment: purple bounce light + ground shade */}
+   828→        <circle cx="142" cy="93" r="30" fill="url(#lgMarbleShade)" />
+   829→        <circle cx="142" cy="93" r="30" fill="url(#lgMarbleAmbient)" />
+   830→
+   831→        {/* the face: outer g follows the cursor, inner g glances on its own */}
+   832→        <g style={{ transform: `translate(${(ex * 3.4).toFixed(2)}px, ${(ey * 2.4).toFixed(2)}px)` }}>
+   833→          <g className="face-glance">
+   834→            {/* eyes (each blinks independently-ish) */}
+   835→            <g className="face-eye" style={{ transformBox: "view-box", transformOrigin: "130px 85px", animationDelay: "0s" }}>
+   836→              <circle cx="130" cy="85" r="2.9" fill="#565d64" />
+   837→              <circle cx="130.8" cy="84.2" r="0.8" fill="#f2f5f7" />
+   838→            </g>
+   839→            <g className="face-eye" style={{ transformBox: "view-box", transformOrigin: "154px 85px", animationDelay: "0.08s" }}>
+   840→              <circle cx="154" cy="85" r="2.9" fill="#565d64" />
+   841→              <circle cx="154.8" cy="84.2" r="0.8" fill="#f2f5f7" />
+   842→            </g>
+   843→            {/* engraved smile — dark cut + light edge below */}
+   844→            <path d="M129 99 q13 11 26 0" fill="none" stroke="#5d646b" strokeWidth="2.7" strokeLinecap="round" />
+   845→            <path d="M129 100.6 q13 11 26 0" fill="none" stroke="#d6dbdf" strokeWidth="1.4" strokeLinecap="round" opacity="0.8" />
+   846→          </g>
+   847→        </g>
+   848→
+   849→        {/* specular highlights */}
+   850→        <ellipse cx="129" cy="76" rx="11.5" ry="7" fill="#fff" opacity="0.78" transform="rotate(-24 129 76)" />
+   851→        <ellipse cx="126.4" cy="73.6" rx="4.4" ry="2.5" fill="#fff" opacity="0.95" transform="rotate(-24 126.4 73.6)" />
+   852→        <path d="M167 71 a30 30 0 0 1 5 18.5" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.2" strokeLinecap="round" />
+   853→
+   854→        {/* slow sheen sweep, clipped to the marble */}
+   855→        <g clipPath="url(#lgMarbleClip)">
+   856→          <rect className="marble-sheen" x="96" y="46" width="15" height="94" fill="#fff" opacity="0.26" />
+   857→        </g>
+   858→      </g>
+   859→    </g>
+   860→  </svg>
+   861→);
+   862→
+   863→/* ---------- Logos ---------- */
+   864→export const YahooWordmark = ({ size = 22, color = "#7b2fbd" }: { size?: number; color?: string }) => (
+   865→  <span className="font-yahoo" style={{ fontSize: size, color, letterSpacing: "0.2px", lineHeight: 1 }}>
+   866→    Yahoo!
+   867→  </span>
+   868→);
+   869→
+   870→export const WinFlag = () => (
+   871→  <svg width="18" height="18" viewBox="0 0 18 18">
+   872→    <path d="M1.5 3.5 L7.5 2.5 v5.2 L1.5 8.5 z" fill="#f25022" />
+   873→    <path d="M8.7 2.3 L16.5 1.2 v6.3 L8.7 7.8 z" fill="#7fba00" />
+   874→    <path d="M1.5 9.7 L7.5 9 v5.2 L1.5 15 z" fill="#00a4ef" />
+   875→    <path d="M8.7 8.9 L16.5 8.6 v6.2 L8.7 16 z" fill="#ffb900" />
+   876→  </svg>
+   877→);
+   878→

@@ -284,52 +284,139 @@ body {
   height: 0;
 }
 
-/* ---------- Taskbar (XP) ---------- */
+/* ---------- Taskbar (XP) — GENUINE Luna bitmaps + metrics ----------
+   Source: Windows XP theme definition (luna/blue/blue.ini + bitmaps).
+   Taskbar = 30px: TaskbarBackground.bmp tiled, 2px sizing strip on top. */
 .xp-taskbar {
-  background: linear-gradient(180deg, #3f8cf3 0%, #2b6fe2 4%, #2461d8 50%, #1e56c8 96%, #1948b0 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  background-image: url("/assets/xp/luna/taskbarbackground.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
 }
-.xp-start {
-  background: linear-gradient(180deg, #86c96c 0%, #56ad45 10%, #3f9c33 48%, #35892a 62%, #2c7a22 100%);
-  border-radius: 0 9px 9px 0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 2px 3px rgba(255, 255, 255, 0.28), inset 0 -2px 4px rgba(10, 60, 10, 0.35), 2px 0 4px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 40, 0, 0.65);
-  transition: filter 0.12s;
+/* Start button: genuine StartButton.bmp — 3 states of 99x33 rendered 99x30 */
+.xp-start-btn {
+  width: 99px;
+  height: 30px;
+  background-image: url("/assets/xp/luna/startbutton.png");
+  background-size: 99px 90px; /* 3 states squeezed to 30px, like uxtheme */
+  background-position: 0 0;
+  image-rendering: auto;
 }
-.xp-start:hover {
-  filter: brightness(1.12);
+.xp-start-btn:hover {
+  background-position: 0 -30px;
+}
+.xp-start-btn:active,
+.xp-start-btn.pressed {
+  background-position: 0 -60px;
 }
 .xp-task-btn {
-  background: linear-gradient(180deg, #5b9bf0, #3b7ce6 45%, #2f6cd8);
-  border: 1px solid #1c4fae;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  transition: filter 0.1s;
+  background-image: url("/assets/xp/luna/taskbandbutton.png");
+  background-size: 100% 168px; /* 6 states of 26x28, stretch horizontally */
+  background-position: 0 0;
+  border: 0;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 40, 0.7);
+  transition: none;
 }
 .xp-task-btn:hover {
-  filter: brightness(1.1);
+  background-position: 0 -28px;
 }
 .xp-task-btn.active {
-  background: linear-gradient(180deg, #1e56c0, #2a66d6 60%, #3573e2);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 20, 0.45);
+  background-position: 0 -56px; /* pressed = the focused-window look */
+  text-shadow: 1px 1px 1px rgba(0, 0, 40, 0.8);
 }
 @keyframes task-flash {
   0%, 49% {
-    background: linear-gradient(180deg, #ffd9a0, #f7a044 45%, #ee8322);
-    border-color: #c06a10;
+    background-image: url("/assets/xp/luna/taskbandflashbutton.png");
+    background-size: 100% 168px;
+    background-position: 0 0;
     color: #fff;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
   }
   50%, 100% {
-    background: linear-gradient(180deg, #5b9bf0, #3b7ce6 45%, #2f6cd8);
+    background-image: url("/assets/xp/luna/taskbandbutton.png");
+    background-size: 100% 168px;
   }
 }
 .xp-task-btn.flash {
   animation: task-flash 0.95s steps(1) infinite;
 }
 .xp-tray {
-  background: linear-gradient(180deg, #3f8cf3 0%, #2b6fe2 6%, #2461d8 55%, #1e56c8 100%);
-  box-shadow: inset 1px 0 3px rgba(0, 0, 40, 0.4), inset -1px 0 2px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background-image: url("/assets/xp/luna/taskbartray.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: right center;
+}
+
+/* genuine Luna start menu popup: drop shadow like the real one */
+.xp-startmenu {
+  filter: drop-shadow(2px 2px 4px rgba(0, 10, 40, 0.45));
+}
+/* left column rows: ProgList colors from blue.ini (text 55,55,56 / hot 48,112,208) */
+.xp-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 3px 6px 3px 4px;
+  border-radius: 3px;
+  text-align: left;
+  background: transparent;
+}
+.xp-menu-row:hover {
+  background: #3070d0;
+  color: #fff;
+}
+.xp-menu-row:hover .xp-menu-sub {
+  color: #fff;
+}
+.xp-menu-sub {
+  color: rgb(128, 128, 128);
+}
+/* right column rows: PlacesList colors (text 10,36,106 / hot 80,150,248) */
+.xp-menu-row-blue {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 4px 4px 6px;
+  border-radius: 3px;
+  text-align: left;
+  background: transparent;
+  color: rgb(10, 36, 106);
+}
+.xp-menu-row-blue:hover {
+  background: #5096f8;
+  color: #fff;
+}
+/* footer glyph buttons: genuine StartPanelLogoffButtons.bmp halves */
+.xp-logoff-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: transparent;
+}
+.xp-logoff-btn:hover span:first-child {
+  text-decoration: underline;
+}
+.luna-glyph {
+  width: 36px;
+  height: 24px;
+  display: inline-block;
+  background-size: 36px 24px;
+}
+.luna-glyph-logoff {
+  background-image: url("/assets/xp/luna/luna-btn-logoff.png");
+}
+.luna-glyph-logoff:hover,
+.xp-logoff-btn:hover .luna-glyph-logoff {
+  background-image: url("/assets/xp/luna/luna-btn-logoff-hot.png");
+}
+.luna-glyph-turnoff {
+  background-image: url("/assets/xp/luna/luna-btn-turnoff.png");
+}
+.luna-glyph-turnoff:hover,
+.xp-logoff-btn:hover .luna-glyph-turnoff {
+  background-image: url("/assets/xp/luna/luna-btn-turnoff-hot.png");
 }
 
 /* ---------- Animations ---------- */
@@ -1555,15 +1642,62 @@ body {
   animation: balloon-in 0.35s cubic-bezier(0.3, 1.2, 0.5, 1) both;
 }
 
-/* quick-launch separator */
-.xp-ql-sep {
-  width: 3px;
+/* quick-launch gripper: genuine TaskbarGripper.bmp ridge */
+.xp-ql-grip {
+  width: 6px;
   height: 20px;
-  margin: 0 3px;
-  border-left: 1px solid rgba(255, 255, 255, 0.35);
-  border-right: 1px solid rgba(0, 0, 60, 0.35);
+  background-image: url("/assets/xp/luna/taskbargripper.png");
+  background-size: 100% 100%;
 }
 
+/* GENUINE Luna window caption: FrameCaption.bmp 9-sliced (slice 28 35 9 17),
+   25px tall per the theme's CaptionBarHeight */
+.luna-caption {
+  border-style: solid;
+  border-width: 8px 30px 15px 25px;
+  border-image: url("/assets/xp/luna/framecaption-active.png") 28 35 9 17 fill stretch;
+}
+.luna-caption-inactive {
+  border-image-source: url("/assets/xp/luna/framecaption-inactive.png");
+}
+
+/* genuine Luna caption buttons (backgrounds + glyphs composited 1:1) */
+.luna-capbtn {
+  width: 21px;
+  height: 21px;
+  border: 0;
+  padding: 0;
+  background-size: 21px 21px;
+  background-repeat: no-repeat;
+  flex: none;
+}
+.luna-capbtn.min {
+  background-image: url("/assets/xp/luna/luna-cap-min-normal.png");
+}
+.luna-capbtn.min:hover {
+  background-image: url("/assets/xp/luna/luna-cap-min-hot.png");
+}
+.luna-capbtn.min:active {
+  background-image: url("/assets/xp/luna/luna-cap-min-pressed.png");
+}
+.luna-capbtn.max {
+  background-image: url("/assets/xp/luna/luna-cap-max-normal.png");
+}
+.luna-capbtn.max:hover {
+  background-image: url("/assets/xp/luna/luna-cap-max-hot.png");
+}
+.luna-capbtn.max:active {
+  background-image: url("/assets/xp/luna/luna-cap-max-pressed.png");
+}
+.luna-capbtn.close {
+  background-image: url("/assets/xp/luna/luna-cap-close-normal.png");
+}
+.luna-capbtn.close:hover {
+  background-image: url("/assets/xp/luna/luna-cap-close-hot.png");
+}
+.luna-capbtn.close:active {
+  background-image: url("/assets/xp/luna/luna-cap-close-pressed.png");
+}
 /* XP window caption buttons (simple windows like My Computer) */
 .xp-cap-btn {
   width: 17px;

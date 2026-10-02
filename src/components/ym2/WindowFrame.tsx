@@ -109,7 +109,7 @@ export default function WindowFrame({
       className={`ym-window absolute ${shaking ? "animate-buzz" : ""} ${focused ? "" : "opacity-[0.98]"}`}
       style={
         maximized
-          ? { left: "0px", top: "0px", width: "100%", height: "calc(100% - 34px)", zIndex: z }
+          ? { left: "0px", top: "0px", width: "100%", height: "calc(100% - 30px)", zIndex: z }
           : {
               left: `${x}px`,
               top: `${y}px`,

@@ -279,21 +279,21 @@ export default function YmApp() {
         />
       </div>
 
-      {/* Desktop icons — the GENUINE XP shell32/Luna icons at the real
-          48px "Medium Icons" size, in the authentic XP order (My Documents,
-          My Network Places, My Computer, Internet Explorer, Recycle Bin) */}
+      {/* Desktop icons — the GENUINE XP Luna icons at the default 32px
+          "Medium Icons" size, Tahoma 8pt labels; My Computer on top like
+          the classic XP desktop (My Documents hidden) */}
       {desktopStage && (
-        <div className="absolute left-1 top-1 flex flex-col gap-1 z-[1]">
+        <div className="absolute left-0.5 top-0.5 flex flex-col z-[1]">
           {[
+            { id: "pc", label: "My Computer", img: "my-computer" },
             { id: "docs", label: "My Documents", img: "my-docs" },
             { id: "net", label: "My Network Places", img: "network" },
-            { id: "pc", label: "My Computer", img: "my-computer" },
             { id: "ie", label: "Internet Explorer", img: "ie" },
             { id: "bin", label: "Recycle Bin", img: "recycle-empty" },
           ].map((d) => (
             <button
               key={d.id}
-              className="flex flex-col items-center w-[86px] py-0.5 rounded-[2px]"
+              className="flex flex-col items-center justify-start w-[76px] min-h-[74px] pt-[3px] pb-[5px] rounded-[2px]"
               style={{ background: deskSel === d.id ? "rgba(49,106,197,0.4)" : "transparent", outline: deskSel === d.id ? "1px dotted rgba(255,255,255,0.8)" : "none", outlineOffset: "-1px" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -304,8 +304,8 @@ export default function YmApp() {
                 if (d.id === "bin") playXpRecycle();
               }}
             >
-              <img src={ICO(d.img, 48)} alt="" className="w-[48px] h-[48px]" draggable={false} />
-              <span className="text-[11px] leading-[13px] text-white text-center px-[1px]" style={{ textShadow: "1px 1px 1px rgba(0,0,0,0.85), 0 0 3px rgba(0,0,0,0.6)" }}>
+              <img src={ICO(d.img, 32)} alt="" className="w-[32px] h-[32px]" draggable={false} />
+              <span className="mt-[3px] text-[11px] leading-[13px] text-white text-center px-[1px]" style={{ textShadow: "1px 1px 1px rgba(0,0,0,0.9)" }}>
                 {d.label}
               </span>
             </button>
@@ -330,27 +330,30 @@ export default function YmApp() {
             setFocusedId("mypc");
           }}
         >
+          {/* GENUINE Luna caption: FrameCaption.bmp 9-sliced, 25px tall
+              (CaptionBarHeight from the theme), Trebuchet MS bold title,
+              real 21x21 caption buttons */}
           <div
-            className="h-[28px] flex items-center px-2 gap-1.5 cursor-default select-none"
-            style={{ background: "linear-gradient(180deg, #0997ff 0%, #0053ee 12%, #0050ee 40%, #06f 88%, #003dd7 100%)" }}
+            className="luna-caption relative h-[25px] shrink-0 cursor-default select-none"
             onPointerDown={mypcTitleDown}
             onPointerMove={mypcTitleMove}
             onPointerUp={mypcTitleUp}
           >
-            <img src={ICO("my-computer", 48)} alt="" className="w-[16px] h-[16px]" draggable={false} />
-            <span className="text-white text-[12px] font-bold flex-1" style={{ textShadow: "0 1px 2px rgba(0,10,60,0.7)" }}>My Computer</span>
-            <button className="xp-cap-btn" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))}>
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5 h6" stroke="#fff" strokeWidth="1.6" /></svg>
-            </button>
-            <button className="xp-cap-btn" onPointerDown={(e) => e.stopPropagation()}>
-              <svg width="10" height="10" viewBox="0 0 10 10"><rect x="2" y="2" width="6" height="6" fill="none" stroke="#fff" strokeWidth="1.3" /><path d="M3.8 2 V0.9 H9.1 V6.2 H8" fill="none" stroke="#fff" strokeWidth="1" /></svg>
-            </button>
-            <button className="xp-cap-btn close" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc(null)}>
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2.2 2.2 l5.6 5.6 M7.8 2.2 l-5.6 5.6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" /></svg>
-            </button>
+            <div className="absolute inset-0 flex items-center pl-[7px] pr-[4px]">
+              <img src={ICO("my-computer", 16)} alt="" className="w-4 h-4 mr-[5px]" draggable={false} />
+              <span
+                className="text-white font-bold text-[13px] flex-1 truncate"
+                style={{ fontFamily: "'Trebuchet MS',Tahoma,sans-serif", textShadow: "1px 1px 1px rgb(10,24,131)" }}
+              >
+                My Computer
+              </span>
+              <button className="luna-capbtn min" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc((w) => (w ? { ...w, minimized: true } : w))} aria-label="Minimize" />
+              <button className="luna-capbtn max ml-[3px]" onPointerDown={(e) => e.stopPropagation()} aria-label="Maximize" />
+              <button className="luna-capbtn close ml-[3px]" onPointerDown={(e) => e.stopPropagation()} onClick={() => setMypc(null)} aria-label="Close" />
+            </div>
           </div>
           {/* menu bar */}
-          <div className="h-[21px] flex items-center px-1.5 gap-0.5 text-[11.5px] text-[#333] bg-[#ece9d8] border-b border-[#d4d0c0]">
+          <div className="h-[21px] flex items-center px-1.5 gap-0.5 text-[11px] text-[#333] bg-[#ece9d8] border-b border-[#d4d0c0]">
             {["File", "Edit", "View", "Favorites", "Tools", "Help"].map((m) => (
               <span key={m} className="px-1.5 py-[1px] rounded hover:bg-[#316ac5] hover:text-white cursor-default">{m}</span>
             ))}
@@ -358,11 +361,11 @@ export default function YmApp() {
           {/* address bar */}
           <div className="h-[27px] flex items-center gap-1.5 px-1.5 bg-[#ece9d8] border-b border-[#d4d0c0]">
             <span className="text-[11px] text-[#777] pl-0.5">Address</span>
-            <span className="flex-1 h-[20px] bg-white border border-[#7f9db9] rounded-[2px] flex items-center gap-1 px-1 text-[11.5px] text-[#333]">
+            <span className="flex-1 h-[20px] bg-white border border-[#7f9db9] rounded-[2px] flex items-center gap-1 px-1 text-[11px] text-[#333]">
               <img src={ICO("my-computer", 48)} alt="" className="w-[13px] h-[13px]" />
               My Computer
             </span>
-            <button className="flex items-center gap-1 text-[11.5px] text-[#2a5a0e] px-1.5 h-[20px] rounded hover:bg-[#e6f0d8]" title="Go">
+            <button className="flex items-center gap-1 text-[11px] text-[#2a5a0e] px-1.5 h-[20px] rounded hover:bg-[#e6f0d8]" title="Go">
               <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6 h6 M5.4 2.6 L9 6 L5.4 9.4" fill="none" stroke="#3d9028" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
               Go
             </button>
@@ -385,7 +388,13 @@ export default function YmApp() {
                 },
               ].map((g) => (
                 <div key={g.head} className="rounded-[5px] overflow-hidden mb-2.5" style={{ boxShadow: "0 1px 3px rgba(30,60,130,0.25)" }}>
-                  <div className="px-2.5 py-[3px] text-white text-[11.5px] font-bold" style={{ background: "linear-gradient(180deg, #7ba4e8 0%, #5b84d8 55%, #4a72cc 100%)" }}>
+                  <div
+                    className="px-2.5 h-[21px] flex items-center text-white text-[11px] font-bold"
+                    style={{
+                      backgroundImage: "url(/assets/xp/luna/normalgrouphead.png)",
+                      backgroundSize: "100% 100%",
+                    }}
+                  >
                     {g.head}
                   </div>
                   <div className="bg-white/90 px-2.5 py-2 text-[11px] text-[#2c57a4] space-y-[7px]">
@@ -431,7 +440,7 @@ export default function YmApp() {
             </div>
           </div>
           {/* status bar */}
-          <div className="h-[20px] flex items-center px-2 text-[11px] text-[#444] bg-[#ece9d8] border-t border-[#d4d0c0] gap-0">
+          <div className="h-[20px] flex items-center px-2 text-[11px] text-[#444] bg-[#ece9d8] border-t border-[#d4d0c0] gap-0" style={{ backgroundImage: "url(/assets/xp/luna/statusbackground.png)", backgroundSize: "100% 100%" }}>
             <span className="flex-1">5 objects</span>
             <span className="w-[130px] border-l border-[#d4d0c0] pl-2 h-full flex items-center">My Computer</span>
             <span className="w-[26px] border-l border-[#d4d0c0] h-full flex items-center justify-center">
@@ -522,7 +531,7 @@ export default function YmApp() {
 
       {/* XP tray balloon — signed in */}
       {stage === "in" && balloon && (
-        <div className="absolute right-3 bottom-[42px] z-[9500] xp-balloon" style={{ filter: "drop-shadow(0 3px 8px rgba(0,0,30,0.4))" }}>
+        <div className="absolute right-3 bottom-[38px] z-[9500] xp-balloon" style={{ filter: "drop-shadow(0 3px 8px rgba(0,0,30,0.4))" }}>
           <div className="relative bg-[#ffffe1] border border-[#8a8875] rounded-[7px] p-2.5 w-[264px] text-[#1a1a1a]">
             <button
               className="absolute top-1 right-1.5 text-[#666] hover:text-black text-[11px] leading-none"
